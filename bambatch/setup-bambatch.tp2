@@ -163,7 +163,12 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
       PATCH_IF (bc = 8) AND (cp = 0) BEGIN
         READ_ASCII 0x6 nl (1) //Null
         READ_LONG 0xa fd //Raster data offset
+        READ_LONG 0xE size //SizeOfHeader
         READ_LONG 0x12 rw //Width
+        READ_LONG 0x2E ColorsUsed //Number of colors in the image
+        PATCH_IF (ColorsUsed = 0) BEGIN
+          ColorsUsed = 256
+        END
         df = (rw / 4) * 4
         PATCH_IF df < rw BEGIN
           lz = df + 4 //Line size
@@ -175,7 +180,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
         lw = (rw / 2) //Large frame formatted width
         READ_LONG 0x16 rh //Height
         lh = (rh / 2) //Large frame formatted height
-        READ_ASCII 0x36 pt (1024) //Color table
+        READ_ASCII (size+14) pt (ColorsUsed * 4) //Color table
         SPRINT fk ~~
         kl = 0 //Large BMP datasize
         tc = 0 //Transparency count
@@ -287,7 +292,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
       WRITE_SHORT (0xc + fn + 6) lh //Large frame Y coordinate
       WRITE_SHORT (0xc + fn + 8) (fd + jl) //Large frame data offset
       READ_LONG 0x10 pf //Palette offset
-      WRITE_ASCIIE pf ~%pt%~ //Palette
+      WRITE_ASCIIE pf ~%pt%~ #1024 //Palette
       READ_LONG pf p0
       PATCH_IF p0 = 0x9797 BEGIN
         WRITE_LONG pf 0xff00 //Fix cyan transparency to green
@@ -327,7 +332,12 @@ COPY - ~bambatch/spell~ ~bambatch/spell~
     PATCH_IF (bc = 8) AND (cp = 0) BEGIN
       READ_ASCII 0x6 nl (1) //Null
       READ_LONG 0xa fd //Raster data offset
+        READ_LONG 0xE size //SizeOfHeader
       READ_LONG 0x12 qw //Width
+        READ_LONG 0x2E ColorsUsed //Number of colors in the image
+        PATCH_IF (ColorsUsed = 0) BEGIN
+          ColorsUsed = 256
+        END
       df = (qw / 4) * 4
       PATCH_IF df < qw BEGIN
         lz = df + 4 //Line size
@@ -339,7 +349,7 @@ COPY - ~bambatch/spell~ ~bambatch/spell~
       sw = ((qw - 32) / 2) //Formatted width
       READ_LONG 0x16 qh //Height
       sh = ((qh - 32) / 2) //Formatted height
-      READ_ASCII 0x36 pt (1024) //Color table
+      READ_ASCII (size+14) pt (ColorsUsed * 4) //Color table
       SPRINT fj ~~
       jl = 0 //BMP datasize
       tc = 0 //Transparency count
@@ -382,7 +392,7 @@ COPY - ~bambatch/spell~ ~bambatch/spell~
         WRITE_SHORT (fn + 6) sh //Y coordinate
     READ_LONG (fn + 8) fd //Frame data offset
         READ_LONG 0x10 pf //Palette offset
-        WRITE_ASCIIE pf ~%pt%~ //Palette
+    WRITE_ASCIIE pf ~%pt%~ #1024 //Palette
         READ_LONG pf p0
         PATCH_IF p0 = 0x9797 BEGIN
           WRITE_LONG pf 0xff00 //Fix cyan transparency to green
@@ -425,7 +435,12 @@ COPY - ~bambatch/desc~ ~bambatch/desc~
     PATCH_IF (bc = 8) AND (cp = 0) BEGIN
       READ_ASCII 0x6 nl (1) //Null
       READ_LONG 0xa fd //Raster data offset
+      READ_LONG 0xE size //SizeOfHeader
       READ_LONG 0x12 qw //Width
+      READ_LONG 0x2E ColorsUsed //Number of colors in the image
+      PATCH_IF (ColorsUsed = 0) BEGIN
+        ColorsUsed = 256
+      END
       df = (qw / 4) * 4
       PATCH_IF df < qw BEGIN
         lz = df + 4 //Line size
@@ -437,7 +452,7 @@ COPY - ~bambatch/desc~ ~bambatch/desc~
       sw = (qw / 2) //Formatted width
       READ_LONG 0x16 qh //Height
       sh = (qh / 2) //Formatted height
-      READ_ASCII 0x36 pt (1024) //Color table
+      READ_ASCII (size+14) pt (ColorsUsed * 4) //Color table
       SPRINT fj ~~
       jl = 0 //BMP datasize
       tc = 0 //Transparency count
@@ -488,7 +503,7 @@ ACTION_IF qw > 0 BEGIN
     WRITE_SHORT (fn + 6) sh //Y coordinate
     READ_LONG (fn + 8) fd //Frame data offset
     READ_LONG 0x10 pf //Palette offset
-    WRITE_ASCIIE pf ~%pt%~ //Palette
+    WRITE_ASCIIE pf ~%pt%~ #1024 //Palette
     READ_LONG pf p0
     PATCH_IF p0 = 0x9797 BEGIN
       WRITE_LONG pf 0xff00 //Fix cyan transparency to green
@@ -800,8 +815,13 @@ COPY ~bambatch/bam~ ~bambatch/bam~
     ACTION_IF FILE_EXISTS ~bambatch/%tpath%%tpal%.bmp~ BEGIN
       COPY ~bambatch/%tpath%%tpal%.bmp~ ~bambatch/%tpath%%tpal%.bmp~
         READ_ASCII 0x0 sg (2) //Signature
+        READ_LONG 0xE size //SizeOfHeader
+        READ_LONG 0x2E ColorsUsed //Number of colors in the image
+        PATCH_IF (ColorsUsed = 0) BEGIN
+          ColorsUsed = 256
+        END
         PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
-          READ_ASCII 0x36 pt (1024) //Color table
+          READ_ASCII (size+14) pt (ColorsUsed * 4) //Color table
           pq = 1
         END ELSE BEGIN
           PATCH_PRINT ~Palette.bmp is not a valid uncompressed bitmap.~
