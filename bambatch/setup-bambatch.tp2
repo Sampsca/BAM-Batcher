@@ -1,6 +1,6 @@
 BACKUP ~bambatch/backup~
-AUTHOR ~www.shsforums.net/index.php?showforum=535~
-VERSION ~v1~
+AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
+VERSION ~v2~
 
 //! Convert BAMs to BMPs /////////////////////////////////////////////////////
 BEGIN ~Convert BAMs to BMPs~
@@ -784,7 +784,7 @@ COPY ~bambatch/moingif~ ~bambatch/moingif~
     READ_SHORT 0x6 fw //Width
     READ_SHORT 0x8 fh //Height
     INNER_ACTION BEGIN
-      APPEND_OUTER ~bambatch/backup/gif_list.txt~ ~            <img width=%fw% height=%fh% src="moingif/%bm%" alt="%bf%" />~
+      APPEND_OUTER ~bambatch/backup/gif_list.txt~ ~            <img src="moingif/%bm%" alt="%bf%" height="%fh%" width="%fw%">~
     END
   END
 BUT_ONLY
