@@ -1,0 +1,1 @@
+weidu.exe --noautoupdate --nogame "bambatch\setup-bambatch.tp2"
