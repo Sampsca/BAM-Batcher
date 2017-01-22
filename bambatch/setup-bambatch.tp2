@@ -184,7 +184,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
             READ_ASCII (fd + (j1 - 1) * (rw + df) + j2) fl (1) //Last row first
             PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
               tc += 1
-              PATCH_IF (j1 = 1) AND (j2 = (rw - 1)) BEGIN
+              PATCH_IF ((j1 = 1) AND (j2 = (rw - 1))) OR (tc = 255) BEGIN
                 INNER_PATCH z BEGIN
                   WRITE_BYTE 0 (tc - 1)
                   READ_ASCII 0 tp (1) //Read ASCII value of tc
@@ -244,7 +244,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
             READ_ASCII (fd + (k1 - 1) * (qw + df) + k2) fl (1) //Last row first
             PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
               tc += 1
-              PATCH_IF (k1 = 1) AND (k2 = (qw - 1)) BEGIN
+              PATCH_IF ((k1 = 1) AND (k2 = (qw - 1))) OR (tc = 255) BEGIN
                 INNER_PATCH z BEGIN
                   WRITE_BYTE 0 (tc - 1)
                   READ_ASCII 0 tp (1) //Read ASCII value of tc
@@ -348,7 +348,7 @@ COPY - ~bambatch/spell~ ~bambatch/spell~
           READ_ASCII (fd + (k1 - 1) * (qw + df) + k2) fl (1) //Last row first
           PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
             tc += 1
-            PATCH_IF (k1 = 1) AND (k2 = (qw - 1)) BEGIN
+            PATCH_IF ((k1 = 1) AND (k2 = (qw - 1))) OR (tc = 255) BEGIN
               INNER_PATCH z BEGIN
                 WRITE_BYTE 0 (tc - 1)
                 READ_ASCII 0 tp (1) //Read ASCII value of tc
@@ -446,7 +446,7 @@ COPY - ~bambatch/desc~ ~bambatch/desc~
           READ_ASCII (fd + (k1 - 1) * (qw + df) + k2) fl (1) //Last row first
           PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
             tc += 1
-            PATCH_IF (k1 = 1) AND (k2 = (qw - 1)) BEGIN
+            PATCH_IF ((k1 = 1) AND (k2 = (qw - 1))) OR (tc = 255) BEGIN
               INNER_PATCH z BEGIN
                 WRITE_BYTE 0 (tc - 1)
                 READ_ASCII 0 tp (1) //Read ASCII value of tc
