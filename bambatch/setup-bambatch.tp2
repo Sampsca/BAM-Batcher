@@ -774,6 +774,55 @@ COPY ~bambatch/moingif~ ~bambatch/moingif~
   END
 BUT_ONLY
 
+//! Repalette BAMs from a BMP ///////////////////////////////////////////////
+BEGIN ~Repalette BAMs from a BMP~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+OUTER_SPRINT tpath ~~
+
+COPY ~bambatch/bam~ ~bambatch/bam~
+  READ_ASCII 0x0 sg (4) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+    READ_LONG 0x8 dl //Uncompressed data length
+    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+    sz = dl
+  END ELSE BEGIN
+    sz = SOURCE_SIZE
+  END
+  SPRINT tres ~%SOURCE_RES%~
+  TO_LOWER tres
+  INNER_PATCH ~%tres%~ BEGIN
+    READ_ASCII 0 tpal (6)
+  END
+  READ_LONG 0x10 pf //Palette offset
+  INNER_ACTION BEGIN
+    ACTION_IF FILE_EXISTS ~bambatch/%tpath%%tpal%.bmp~ BEGIN
+      COPY ~bambatch/%tpath%%tpal%.bmp~ ~bambatch/%tpath%%tpal%.bmp~
+        READ_ASCII 0x0 sg (2) //Signature
+        PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
+          READ_ASCII 0x36 pt (1024) //Color table
+          pq = 1
+        END ELSE BEGIN
+          PATCH_PRINT ~Palette.bmp is not a valid uncompressed bitmap.~
+          pq = 2
+        END
+      BUT_ONLY
+    END ELSE BEGIN
+      PRINT ~No %tpath%%tpal%.bmp exists.~
+      OUTER_SET pq = 2
+    END
+  END
+  PATCH_IF pq = 1 BEGIN     
+    WRITE_ASCIIE pf ~%pt%~ //Palette
+    dl = SOURCE_SIZE //Data length
+    COMPRESS_REPLACE_FILE 0 sz 9
+    INSERT_BYTES 0x0 0xc
+    WRITE_ASCII 0x0 ~BAMCV1  ~
+    WRITE_LONG 0x8 sz
+  END
+BUT_ONLY
+
 //! Moinesse's BAMs (BAMs only) /////////////////////////////////////////////
 BEGIN ~BAMs only~
 SUBCOMPONENT ~Moinesse's BAMs~
