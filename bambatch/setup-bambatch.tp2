@@ -10,11 +10,11 @@ NO_LOG_RECORD
 COPY - ~bambatch/bam~ ~bambatch/bam~
   READ_ASCII 0x0 sg (4) //Signature
   PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
-    READ_LONG 0x8 dl //Uncompressed data length
-    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
-    sz = dl
+	READ_LONG 0x8 dl //Uncompressed data length
+	DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+	sz = dl
   END ELSE BEGIN
-    sz = SOURCE_SIZE
+	sz = SOURCE_SIZE
   END
   SPRINT bn ~%SOURCE_RES%~
   PATCH_PRINT ~Converting %SOURCE_FILE% to bitmaps ...~
@@ -24,102 +24,121 @@ COPY - ~bambatch/bam~ ~bambatch/bam~
   READ_ASCII (pf + 3) nl (1) //Null
   READ_LONG 0xc fn //Frame entry offset
   FOR (f1 = 0; f1 < fc; f1 += 1) BEGIN //Frame loop
-    SPRINT xl ~~ //End of line
-    READ_SHORT (f1 * 0xc + fn) fw //Frame width
-    df = (fw / 4) * 4
-    PATCH_IF df < fw BEGIN
-      lz = df + 4 //Line size
-      df = lz - fw //Byte difference
-      FOR (g1 = 0; g1 < df; g1 += 1) BEGIN
-        SPRINT xl ~%xl%%nl%~
-      END
-    END ELSE BEGIN
-      lz = fw
-      df = 0
-    END
-    READ_SHORT (f1 * 0xc + fn + 2) fh //Frame height
-    READ_LONG (f1 * 0xc + fn + 8) fd //Frame data offset
-    cp = NOT ((fd & 0b10000000000000000000000000000000) >> 31) //Compression
-    fd = (fd & 0b01111111111111111111111111111111)
-    PATCH_IF cp = 0 BEGIN
-      ds = (fw * fh) //Data size
-      PATCH_PRINT ~Converting frame %f1% (uncompressed): reading datasize %ds% from offset %fd% ...~
-      READ_ASCII fd fm (ds)
-    END ELSE BEGIN
-      PATCH_IF f1 < (fc - 1) BEGIN
-        READ_LONG ((f1 + 1) * 0xc + fn + 8) nf //Next frame data offset
-        nf = (nf & 0b01111111111111111111111111111111)
-        ds = (nf - fd)
-      END ELSE BEGIN
-        ds = (sz - fd)
-      END
-      PATCH_PRINT ~Converting frame %f1% (compressed): reading datasize %ds% from offset %fd% ...~
-      tx = 0 //Transparency index cleared
-      SPRINT fm ~~ //Clear frame data
-      cc = 0 //Column count
-      FOR (f2 = 0; f2 < ds; f2 += 1) BEGIN //Crawl through frame data
-        PATCH_IF tx = 0 BEGIN //If transparency set to 0 (1st byte or non-transparent reached)
-          READ_BYTE (fd + f2) bt //1st byte hex value
-          READ_ASCII (fd + f2) bx (1) //1st byte ASCII value
-          PATCH_IF (bt = 0) AND (f2 < (ds - 1)) BEGIN //If byte is transparent and not last pixel
-            READ_BYTE (fd + f2 + 1) bv //Next byte
-            FOR (f3 = 0; f3 < (bv + 1); f3 += 1) BEGIN //Augment transparent pixels
-              SPRINT fm ~%fm%%bx%~ //Add byte ASCII value
-              cc += 1 //Column counter
-              PATCH_IF (cc = fw) AND (df > 0) BEGIN //If column is frame width and there's a difference
-                SPRINT fm ~%fm%%xl%~ //Pad line with extra BMP nulls
-                cc = 0 //Reset column counter
-              END
-            END
-            tx = 1 //Transparency set
-          END ELSE BEGIN //If not transparent or last pixel
-            SPRINT fm ~%fm%%bx%~ //Add byte ASCII value
-            cc += 1 //Increase column counter
-            PATCH_IF (cc = fw) AND (df > 0) BEGIN //If column is frame width and there's a difference
-              SPRINT fm ~%fm%%xl%~ //Pad line with extra BMP nulls
-              cc = 0 //Reset column counter
-            END
-          END
-        END ELSE BEGIN //If transparency is not 0
-          tx = 0 //Set to 0
-        END
-      END
-    END
-    SPRINT fk ~~
-    INNER_PATCH ~%fm%~ BEGIN
-      FOR (g2 = fh; g2 > 0; g2 -= 1) BEGIN //Reverse rows for BMP
-        PATCH_IF cp = 0 BEGIN //If compressed
-          READ_ASCII ((g2 - 1) * fw) fl (fw) //Read frame width
-          SPRINT fk ~%fk%%fl%%xl%~ //Pad with extra nulls
-        END ELSE BEGIN
-          READ_ASCII ((g2 - 1) * lz) fl (lz) //Read padded line width
-          SPRINT fk ~%fk%%fl%~
-        END
-      END
-    END
-    fz = (0x436 + (lz * fh))
-    INNER_ACTION BEGIN
-      COPY ~bambatch/header.bmp~ ~bambatch/bmp/%bn%%f1%.bmp~
-        WRITE_LONG 0x2 fz //File size
-        WRITE_LONG 0x12 fw //Width
-        WRITE_LONG 0x16 fh //Height
-        WRITE_LONG 0x22 (lz * fh) //Image size
-        WRITE_ASCIIE 0x36 ~%pt%~ //Color table
-        READ_LONG 0x36 p0
-        PATCH_IF p0 = 0x9797 BEGIN
-          WRITE_LONG 0x36 0xff00 //Fix cyan transparency to green
-        END
-        //Uncomment line below to write a brown background (similar to in-game look)
-        //WRITE_LONG 0x36 0x352e21
-        READ_LONG 0x3a p1
-        PATCH_IF p1 = 0xff6597 BEGIN
-          WRITE_LONG 0x3a 0x080808 //Fix pink shadow to dark grey
-        END
-        INSERT_BYTES 0x436 (lz * fh)
-        WRITE_ASCIIE 0x436 ~%fk%~ //Raster data
-      BUT_ONLY
-    END
-  END
+	SET BadFrameSkip = 0
+	SPRINT xl ~~ //End of line
+	READ_SHORT (f1 * 0xc + fn) fw //Frame width
+	df = (fw / 4) * 4
+	PATCH_IF df < fw BEGIN
+	  lz = df + 4 //Line size
+	  df = lz - fw //Byte difference
+	  FOR (g1 = 0; g1 < df; g1 += 1) BEGIN
+		SPRINT xl ~%xl%%nl%~
+	  END
+	END ELSE BEGIN
+	  lz = fw
+	  df = 0
+	END
+	READ_SHORT (f1 * 0xc + fn + 2) fh //Frame height
+	READ_LONG (f1 * 0xc + fn + 8) fd //Frame data offset   
+	cp = NOT ((fd & 0b10000000000000000000000000000000) >> 31) //Compression
+	fd = (fd & 0b01111111111111111111111111111111)    
+	PATCH_IF cp = 0 BEGIN
+	  ds = (fw * fh) //Data size     
+	  PATCH_IF (%ds% > 1) BEGIN     
+		  PATCH_PRINT ~Converting frame %f1% (uncompressed): reading datasize %ds% from offset %fd% ...~
+		READ_ASCII fd fm (ds)       
+	  END  // PATCH_IF (%ds% > 1)
+	  ELSE BEGIN
+		SET BadFrameSkip = 1
+	  END     
+	END ELSE BEGIN
+	  PATCH_IF f1 < (fc - 1) BEGIN
+		READ_LONG ((f1 + 1) * 0xc + fn + 8) nf //Next frame data offset
+		nf = (nf & 0b01111111111111111111111111111111)
+		ds = (nf - fd)
+	  END ELSE BEGIN
+		ds = (sz - fd)
+	  END     
+	  PATCH_IF (%ds% > 1) BEGIN     
+		  PATCH_PRINT ~Converting frame %f1% (compressed): reading datasize %ds% from offset %fd% ...~
+		  tx = 0 //Transparency index cleared
+		  SPRINT fm ~~ //Clear frame data
+		  cc = 0 //Column count
+		  FOR (f2 = 0; f2 < ds; f2 += 1) BEGIN //Crawl through frame data
+			PATCH_IF tx = 0 BEGIN //If transparency set to 0 (1st byte or non-transparent reached)
+			  READ_BYTE (fd + f2) bt //1st byte hex value
+			  READ_ASCII (fd + f2) bx (1) //1st byte ASCII value
+			  PATCH_IF (bt = 0) AND (f2 < (ds - 1)) BEGIN //If byte is transparent and not last pixel
+				READ_BYTE (fd + f2 + 1) bv //Next byte
+				FOR (f3 = 0; f3 < (bv + 1); f3 += 1) BEGIN //Augment transparent pixels
+				  SPRINT fm ~%fm%%bx%~ //Add byte ASCII value
+				  cc += 1 //Column counter
+				  PATCH_IF (cc = fw) AND (df > 0) BEGIN //If column is frame width and there's a difference
+					SPRINT fm ~%fm%%xl%~ //Pad line with extra BMP nulls
+					cc = 0 //Reset column counter
+				  END
+				END
+				tx = 1 //Transparency set
+			  END ELSE BEGIN //If not transparent or last pixel
+				SPRINT fm ~%fm%%bx%~ //Add byte ASCII value
+				cc += 1 //Increase column counter
+				PATCH_IF (cc = fw) AND (df > 0) BEGIN //If column is frame width and there's a difference
+				  SPRINT fm ~%fm%%xl%~ //Pad line with extra BMP nulls
+				  cc = 0 //Reset column counter
+				END
+			  END
+			END ELSE BEGIN //If transparency is not 0
+			  tx = 0 //Set to 0
+			END
+		  END         
+	  END  // PATCH_IF (%ds% > 1)
+	  ELSE BEGIN
+		  SET BadFrameSkip = 1
+	  END     
+	END  // ELSE (PATCH_IF cp = 0)
+
+
+	PATCH_IF %BadFrameSkip% = 0 BEGIN   
+		SPRINT fk ~~
+		INNER_PATCH ~%fm%~ BEGIN
+		  FOR (g2 = fh; g2 > 0; g2 -= 1) BEGIN //Reverse rows for BMP
+			PATCH_IF cp = 0 BEGIN //If compressed
+			  READ_ASCII ((g2 - 1) * fw) fl (fw) //Read frame width
+			  SPRINT fk ~%fk%%fl%%xl%~ //Pad with extra nulls
+			END ELSE BEGIN
+			  READ_ASCII ((g2 - 1) * lz) fl (lz) //Read padded line width
+			  SPRINT fk ~%fk%%fl%~
+			END
+		  END
+		END
+		fz = (0x436 + (lz * fh))
+		INNER_ACTION BEGIN
+		  COPY ~bambatch/header.bmp~ ~bambatch/bmp/%bn%%f1%.bmp~
+			WRITE_LONG 0x2 fz //File size
+			WRITE_LONG 0x12 fw //Width
+			WRITE_LONG 0x16 fh //Height
+			WRITE_LONG 0x22 (lz * fh) //Image size
+			WRITE_ASCIIE 0x36 ~%pt%~ //Color table
+			READ_LONG 0x36 p0
+			PATCH_IF p0 = 0x9797 BEGIN
+			  WRITE_LONG 0x36 0xff00 //Fix cyan transparency to green
+			END
+			//Uncomment line below to write a brown background (similar to in-game look)
+			//WRITE_LONG 0x36 0x352e21
+			READ_LONG 0x3a p1
+			PATCH_IF p1 = 0xff6597 BEGIN
+			  WRITE_LONG 0x3a 0x080808 //Fix pink shadow to dark grey
+			END
+			INSERT_BYTES 0x436 (lz * fh)
+			WRITE_ASCIIE 0x436 ~%fk%~ //Raster data
+		  BUT_ONLY
+		END       
+	END  //  PATCH_IF %BadFrameSkip% = 0
+	ELSE BEGIN
+		PATCH_PRINT ~Skipping frame %f1% - invalid frame size.~
+	END
+	
+  END  // FOR
 BUT_ONLY
 
 //! Convert BMPs to inventory BAMs //////////////////////////////////////////
