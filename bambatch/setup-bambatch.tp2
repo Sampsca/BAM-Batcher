@@ -1,0 +1,892 @@
+BACKUP ~bambatch/backup~
+AUTHOR ~www.shsforums.net/index.php?showforum=535~
+VERSION ~v1~
+
+//! Convert BAMs to BMPs /////////////////////////////////////////////////////
+BEGIN ~Convert BAMs to BMPs~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY - ~bambatch/bam~ ~bambatch/bam~
+  READ_ASCII 0x0 sg (4) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+    READ_LONG 0x8 dl //Uncompressed data length
+    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+    sz = dl
+  END ELSE BEGIN
+    sz = SOURCE_SIZE
+  END
+  SPRINT bn ~%SOURCE_RES%~
+  PATCH_PRINT ~Converting %SOURCE_FILE% to bitmaps ...~
+  READ_SHORT 0x8 fc //Frame count
+  READ_LONG 0x10 pf //Palette offset
+  READ_ASCII pf pt (1024)
+  READ_ASCII (pf + 3) nl (1) //Null
+  READ_LONG 0xc fn //Frame entry offset
+  FOR (f1 = 0; f1 < fc; f1 += 1) BEGIN //Frame loop
+    SPRINT xl ~~ //End of line
+    READ_SHORT (f1 * 0xc + fn) fw //Frame width
+    df = (fw / 4) * 4
+    PATCH_IF df < fw BEGIN
+      lz = df + 4 //Line size
+      df = lz - fw //Byte difference
+      FOR (g1 = 0; g1 < df; g1 += 1) BEGIN
+        SPRINT xl ~%xl%%nl%~
+      END
+    END ELSE BEGIN
+      lz = fw
+      df = 0
+    END
+    READ_SHORT (f1 * 0xc + fn + 2) fh //Frame height
+    READ_LONG (f1 * 0xc + fn + 8) fd //Frame data offset
+    cp = NOT ((fd & 0b10000000000000000000000000000000) >> 31) //Compression
+    fd = (fd & 0b01111111111111111111111111111111)
+    PATCH_IF cp = 0 BEGIN
+      ds = (fw * fh) //Data size
+      PATCH_PRINT ~Converting frame %f1% (uncompressed): reading datasize %ds% from offset %fd% ...~
+      READ_ASCII fd fm (ds)
+    END ELSE BEGIN
+      PATCH_IF f1 < (fc - 1) BEGIN
+        READ_LONG ((f1 + 1) * 0xc + fn + 8) nf //Next frame data offset
+        nf = (nf & 0b01111111111111111111111111111111)
+        ds = (nf - fd)
+      END ELSE BEGIN
+        ds = (sz - fd)
+      END
+      PATCH_PRINT ~Converting frame %f1% (compressed): reading datasize %ds% from offset %fd% ...~
+      tx = 0 //Transparency index cleared
+      SPRINT fm ~~ //Clear frame data
+      cc = 0 //Column count
+      FOR (f2 = 0; f2 < ds; f2 += 1) BEGIN //Crawl through frame data
+        PATCH_IF tx = 0 BEGIN //If transparency set to 0 (1st byte or non-transparent reached)
+          READ_BYTE (fd + f2) bt //1st byte hex value
+          READ_ASCII (fd + f2) bx (1) //1st byte ASCII value
+          PATCH_IF (bt = 0) AND (f2 < (ds - 1)) BEGIN //If byte is transparent and not last pixel
+            READ_BYTE (fd + f2 + 1) bv //Next byte
+            FOR (f3 = 0; f3 < (bv + 1); f3 += 1) BEGIN //Augment transparent pixels
+              SPRINT fm ~%fm%%bx%~ //Add byte ASCII value
+              cc += 1 //Column counter
+              PATCH_IF (cc = fw) AND (df > 0) BEGIN //If column is frame width and there's a difference
+                SPRINT fm ~%fm%%xl%~ //Pad line with extra BMP nulls
+                cc = 0 //Reset column counter
+              END
+            END
+            tx = 1 //Transparency set
+          END ELSE BEGIN //If not transparent or last pixel
+            SPRINT fm ~%fm%%bx%~ //Add byte ASCII value
+            cc += 1 //Increase column counter
+            PATCH_IF (cc = fw) AND (df > 0) BEGIN //If column is frame width and there's a difference
+              SPRINT fm ~%fm%%xl%~ //Pad line with extra BMP nulls
+              cc = 0 //Reset column counter
+            END
+          END
+        END ELSE BEGIN //If transparency is not 0
+          tx = 0 //Set to 0
+        END
+      END
+    END
+    SPRINT fk ~~
+    INNER_PATCH ~%fm%~ BEGIN
+      FOR (g2 = fh; g2 > 0; g2 -= 1) BEGIN //Reverse rows for BMP
+        PATCH_IF cp = 0 BEGIN //If compressed
+          READ_ASCII ((g2 - 1) * fw) fl (fw) //Read frame width
+          SPRINT fk ~%fk%%fl%%xl%~ //Pad with extra nulls
+        END ELSE BEGIN
+          READ_ASCII ((g2 - 1) * lz) fl (lz) //Read padded line width
+          SPRINT fk ~%fk%%fl%~
+        END
+      END
+    END
+    fz = (0x436 + (lz * fh))
+    INNER_ACTION BEGIN
+      COPY ~bambatch/header.bmp~ ~bambatch/bmp/%bn%%f1%.bmp~
+        WRITE_LONG 0x2 fz //File size
+        WRITE_LONG 0x12 fw //Width
+        WRITE_LONG 0x16 fh //Height
+        WRITE_LONG 0x22 (lz * fh) //Image size
+        WRITE_ASCIIE 0x36 ~%pt%~ //Color table
+        READ_LONG 0x36 p0
+        PATCH_IF p0 = 0x9797 BEGIN
+          WRITE_LONG 0x36 0xff00 //Fix cyan transparency to green
+        END
+        //Uncomment line below to write a brown background (similar to in-game look)
+        //WRITE_LONG 0x36 0x352e21
+        READ_LONG 0x3a p1
+        PATCH_IF p1 = 0xff6597 BEGIN
+          WRITE_LONG 0x3a 0x080808 //Fix pink shadow to dark grey
+        END
+        INSERT_BYTES 0x436 (lz * fh)
+        WRITE_ASCIIE 0x436 ~%fk%~ //Raster data
+      BUT_ONLY
+    END
+  END
+BUT_ONLY
+
+//! Convert BMPs to inventory BAMs //////////////////////////////////////////
+BEGIN ~Convert BMPs to inventory BAMs~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
+  COPY - ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
+    rw = 0
+    READ_ASCII 0x0 sg (2) //Signature
+    PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
+      SPRINT bs ~%BASH_FOR_RES%~
+      TO_LOWER bs
+      PATCH_PRINT ~Converting %bs%.bmp to a BAM ...~
+      ln = STRING_LENGTH ~%bs%~
+      INNER_PATCH ~%bs%~ BEGIN
+        READ_ASCII 0 bf (ln - 1) //Trim rightmost character
+      END
+      READ_SHORT 0x1c bc //Bit count
+      READ_LONG 0x1e cp //Compression
+      PATCH_IF (bc = 8) AND (cp = 0) BEGIN
+        READ_ASCII 0x6 nl (1) //Null
+        READ_LONG 0xa fd //Raster data offset
+        READ_LONG 0x12 rw //Width
+        df = (rw / 4) * 4
+        PATCH_IF df < rw BEGIN
+          lz = df + 4 //Line size
+          df = lz - rw //Byte difference
+        END ELSE BEGIN
+          lz = rw
+          df = 0
+        END
+        lw = (rw / 2) //Large frame formatted width
+        READ_LONG 0x16 rh //Height
+        lh = (rh / 2) //Large frame formatted height
+        READ_ASCII 0x36 pt (1024) //Color table
+        SPRINT fk ~~
+        kl = 0 //Large BMP datasize
+        tc = 0 //Transparency count
+        FOR (j1 = rh; j1 > 0; j1 -= 1) BEGIN //Row height loop
+          FOR (j2 = 0; j2 < rw; j2 += 1) BEGIN //Row width loop
+            READ_ASCII (fd + (j1 - 1) * (rw + df) + j2) fl (1) //Last row first
+            PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
+              tc += 1
+              PATCH_IF (j1 = 1) AND (j2 = (rw - 1)) BEGIN
+                INNER_PATCH z BEGIN
+                  WRITE_BYTE 0 (tc - 1)
+                  READ_ASCII 0 tp (1) //Read ASCII value of tc
+                END
+                SPRINT fk ~%fk%%nl%%tp%~
+                kl += 2 //Increase datasize 2 bytes
+                tc = 0
+              END  
+            END ELSE BEGIN
+              PATCH_IF tc > 0 BEGIN
+                INNER_PATCH z BEGIN
+                  WRITE_BYTE 0 (tc - 1)
+                  READ_ASCII 0 tp (1) //Read ASCII value of tc
+                END
+                SPRINT fk ~%fk%%nl%%tp%%fl%~
+                kl += 3 //Increase datasize 3 bytes
+                tc = 0
+              END ELSE BEGIN
+                SPRINT fk ~%fk%%fl%~
+                kl += 1 //Increase datasize 1 byte
+              END
+            END
+          END
+        END
+      END ELSE BEGIN
+        PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed. Please check source file.~
+      END
+    END ELSE BEGIN
+      PATCH_PRINT ~%SOURCE_FILE% is not a valid bitmap - check the file.~
+    END
+  BUT_ONLY
+
+  ACTION_IF ((FILE_EXISTS ~bambatch/invsmall/%bf%s.bmp~) AND (rw > 0)) BEGIN
+    COPY - ~bambatch/invsmall/%bf%s.bmp~ ~bambatch/invsmall/%bf%s.bmp~
+      PATCH_PRINT ~Converting %bf%s.bmp to a BAM ...~
+      READ_SHORT 0x1c bc //Bit count
+      READ_LONG 0x1e cp //Compression
+      PATCH_IF (bc = 8) AND (cp = 0) BEGIN
+        READ_LONG 0xa fd //Raster data offset
+        READ_LONG 0x12 qw //Width
+        df = (qw / 4) * 4
+        PATCH_IF df < qw BEGIN
+          lz = df + 4 //Line size
+          df = df + 4 - qw //Byte difference
+        END ELSE BEGIN
+          lz = qw
+          df = 0
+        END
+        sw = ((qw - 32) / 2) //Small frame formatted width
+        READ_LONG 0x16 qh //Height
+        sh = ((qh - 32) / 2) //Small frame formatted height
+        SPRINT fj ~~
+        jl = 0 //Small BMP datasize
+        tc = 0 //Transparency count
+        FOR (k1 = qh; k1 > 0; k1 -= 1) BEGIN //Row height loop
+          FOR (k2 = 0; k2 < qw; k2 += 1) BEGIN //Row width loop
+            READ_ASCII (fd + (k1 - 1) * (qw + df) + k2) fl (1) //Last row first
+            PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
+              tc += 1
+              PATCH_IF (k1 = 1) AND (k2 = (qw - 1)) BEGIN
+                INNER_PATCH z BEGIN
+                  WRITE_BYTE 0 (tc - 1)
+                  READ_ASCII 0 tp (1) //Read ASCII value of tc
+                END
+                SPRINT fj ~%fj%%nl%%tp%~
+                jl += 2 //Increase datasize 2 bytes
+                tc = 0
+              END
+            END ELSE BEGIN
+              PATCH_IF tc > 0 BEGIN
+                INNER_PATCH z BEGIN
+                  WRITE_BYTE 0 (tc - 1)
+                  READ_ASCII 0 tp (1) //Read ASCII value of tc
+                END
+                SPRINT fj ~%fj%%nl%%tp%%fl%~
+                jl += 3 //Increase datasize 3 bytes
+                tc = 0
+              END ELSE BEGIN
+                SPRINT fj ~%fj%%fl%~
+                jl += 1 //Increase datasize 1 byte
+              END
+            END
+          END
+        END
+      END ELSE BEGIN
+        PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+      END
+    BUT_ONLY
+
+    COPY ~bambatch/hdr-inv.bam~ ~bambatch/bam/%bf%.bam~
+      READ_LONG 0xc fn //Frame entry offset
+      WRITE_SHORT fn qw //Small frame width
+      WRITE_SHORT (fn + 2) qh //Small frame height
+      WRITE_SHORT (fn + 4) sw //Small frame X coordinate
+      WRITE_SHORT (fn + 6) sh //Small frame Y coordinate
+      READ_LONG (fn + 8) fd //Small frame data offset
+      WRITE_SHORT (0xc + fn) rw //Large frame width
+      WRITE_SHORT (0xc + fn + 2) rh //Large frame height
+      WRITE_SHORT (0xc + fn + 4) lw //Large frame X coordinate
+      WRITE_SHORT (0xc + fn + 6) lh //Large frame Y coordinate
+      WRITE_SHORT (0xc + fn + 8) (fd + jl) //Large frame data offset
+      READ_LONG 0x10 pf //Palette offset
+      WRITE_ASCIIE pf ~%pt%~ //Palette
+      READ_LONG pf p0
+      PATCH_IF p0 = 0x9797 BEGIN
+        WRITE_LONG pf 0xff00 //Fix cyan transparency to green
+      END
+      READ_LONG (pf + 4) p1
+      PATCH_IF p1 = 0xff6597 BEGIN
+        WRITE_LONG (pf + 4) 0x080808 //Fix pink shadow to dark grey
+      END
+      INSERT_BYTES fd (jl)
+      WRITE_ASCIIE fd ~%fj%~ //Small frame data
+      INSERT_BYTES (fd + jl) (kl)
+      WRITE_ASCIIE (fd + jl) ~%fk%~ //Large frame data
+      COMPRESS_REPLACE_FILE 0 (fd + jl + kl) 9
+      INSERT_BYTES 0x0 0xc
+      WRITE_ASCII 0x0 ~BAMCV1  ~ //Signature
+      WRITE_LONG 0x8 (fd + jl + kl) //Data length
+    BUT_ONLY
+  END ELSE BEGIN
+    PRINT ~Small bitmap %bf%s does not exist - check your files.~
+  END
+END
+
+//! Convert BMPs to spell BAMs //////////////////////////////////////////////
+BEGIN ~Convert BMPs to spell BAMs~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY - ~bambatch/spell~ ~bambatch/spell~
+  qw = 0
+  READ_ASCII 0x0 sg (2) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
+    SPRINT bs ~%SOURCE_RES%~
+    TO_LOWER bs
+    PATCH_PRINT ~Converting %bs%.bmp to a BAM ...~
+    READ_SHORT 0x1c bc //Bit count
+    READ_LONG 0x1e cp //Compression
+    PATCH_IF (bc = 8) AND (cp = 0) BEGIN
+      READ_ASCII 0x6 nl (1) //Null
+      READ_LONG 0xa fd //Raster data offset
+      READ_LONG 0x12 qw //Width
+      df = (qw / 4) * 4
+      PATCH_IF df < qw BEGIN
+        lz = df + 4 //Line size
+        df = lz - qw //Byte difference
+      END ELSE BEGIN
+        lz = qw
+        df = 0
+      END
+      sw = ((qw - 32) / 2) //Formatted width
+      READ_LONG 0x16 qh //Height
+      sh = ((qh - 32) / 2) //Formatted height
+      READ_ASCII 0x36 pt (1024) //Color table
+      SPRINT fj ~~
+      jl = 0 //BMP datasize
+      tc = 0 //Transparency count
+      FOR (k1 = qh; k1 > 0; k1 -= 1) BEGIN //Row height loop
+        FOR (k2 = 0; k2 < qw; k2 += 1) BEGIN //Row width loop
+          READ_ASCII (fd + (k1 - 1) * (qw + df) + k2) fl (1) //Last row first
+          PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
+            tc += 1
+            PATCH_IF (k1 = 1) AND (k2 = (qw - 1)) BEGIN
+              INNER_PATCH z BEGIN
+                WRITE_BYTE 0 (tc - 1)
+                READ_ASCII 0 tp (1) //Read ASCII value of tc
+              END
+              SPRINT fj ~%fj%%nl%%tp%~
+              jl += 2 //Increase datasize 2 bytes
+              tc = 0
+            END
+          END ELSE BEGIN
+            PATCH_IF tc > 0 BEGIN
+              INNER_PATCH z BEGIN
+                WRITE_BYTE 0 (tc - 1)
+                READ_ASCII 0 tp (1) //Read ASCII value of tc
+              END
+              SPRINT fj ~%fj%%nl%%tp%%fl%~
+              jl += 3 //Increase datasize 3 bytes
+              tc = 0
+            END ELSE BEGIN
+              SPRINT fj ~%fj%%fl%~
+              jl += 1 //Increase datasize 1 byte
+            END
+          END
+        END
+      END
+    END ELSE BEGIN
+      PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+    END
+  END ELSE BEGIN
+    PATCH_PRINT ~%SOURCE_FILE% is not a valid bitmap - check the file.~
+  END
+BUT_ONLY
+
+ACTION_IF qw > 0 BEGIN
+  COPY ~bambatch/hdr-spl.bam~ ~bambatch/bam/%bs%.bam~
+    READ_LONG 0xc fn //Frame entry offset
+    WRITE_SHORT fn qw //Frame width
+    WRITE_SHORT (fn + 2) qh //Frame height
+    WRITE_SHORT (fn + 4) sw //X coordinate
+    WRITE_SHORT (fn + 6) sh //Y coordinate
+    READ_LONG (fn + 8) fd //Frame data offset
+    READ_LONG 0x10 pf //Palette offset
+    WRITE_ASCIIE pf ~%pt%~ //Palette
+    READ_LONG pf p0
+    PATCH_IF p0 = 0x9797 BEGIN
+      WRITE_LONG pf 0xff00 //Fix cyan transparency to green
+    END
+    READ_LONG (pf + 4) p1
+    PATCH_IF p1 = 0xff6597 BEGIN
+      WRITE_LONG (pf + 4) 0x080808 //Fix pink shadow to dark grey
+    END
+    INSERT_BYTES fd (jl)
+    WRITE_ASCIIE fd ~%fj%~ //Small frame data
+    COMPRESS_REPLACE_FILE 0 (fd + jl) 9
+    INSERT_BYTES 0x0 0xc
+    WRITE_ASCII 0x0 ~BAMCV1  ~ //Signature
+    WRITE_LONG 0x8 (fd + jl) //Data length
+  BUT_ONLY
+END
+
+//! Convert BMPs to description BAMs ////////////////////////////////////////
+BEGIN ~Convert BMPs to description BAMs~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY - ~bambatch/desc~ ~bambatch/desc~
+  qw = 0
+  READ_ASCII 0x0 sg (2) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
+    SPRINT bs ~%SOURCE_RES%~
+    TO_LOWER bs
+    PATCH_PRINT ~Converting %bs%.bmp to a BAM ...~
+    READ_SHORT 0x1c bc //Bit count
+    READ_LONG 0x1e cp //Compression
+    PATCH_IF (bc = 8) AND (cp = 0) BEGIN
+      READ_ASCII 0x6 nl (1) //Null
+      READ_LONG 0xa fd //Raster data offset
+      READ_LONG 0x12 qw //Width
+      df = (qw / 4) * 4
+      PATCH_IF df < qw BEGIN
+        lz = df + 4 //Line size
+        df = lz - qw //Byte difference
+      END ELSE BEGIN
+        lz = qw
+        df = 0
+      END
+      sw = (qw / 2) //Formatted width
+      READ_LONG 0x16 qh //Height
+      sh = (qh / 2) //Formatted height
+      READ_ASCII 0x36 pt (1024) //Color table
+      SPRINT fj ~~
+      jl = 0 //BMP datasize
+      tc = 0 //Transparency count
+      FOR (k1 = qh; k1 > 0; k1 -= 1) BEGIN //Row height loop
+        FOR (k2 = 0; k2 < qw; k2 += 1) BEGIN //Row width loop
+          READ_ASCII (fd + (k1 - 1) * (qw + df) + k2) fl (1) //Last row first
+          PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
+            tc += 1
+            PATCH_IF (k1 = 1) AND (k2 = (qw - 1)) BEGIN
+              INNER_PATCH z BEGIN
+                WRITE_BYTE 0 (tc - 1)
+                READ_ASCII 0 tp (1) //Read ASCII value of tc
+              END
+              SPRINT fj ~%fj%%nl%%tp%~
+              jl += 2 //Increase datasize 2 bytes
+              tc = 0
+            END
+          END ELSE BEGIN
+            PATCH_IF tc > 0 BEGIN
+              INNER_PATCH z BEGIN
+                WRITE_BYTE 0 (tc - 1)
+                READ_ASCII 0 tp (1) //Read ASCII value of tc
+              END
+              SPRINT fj ~%fj%%nl%%tp%%fl%~
+              jl += 3 //Increase datasize 3 bytes
+              tc = 0
+            END ELSE BEGIN
+              SPRINT fj ~%fj%%fl%~
+              jl += 1 //Increase datasize 1 byte
+            END
+          END
+        END
+      END
+    END ELSE BEGIN
+      PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+    END
+  END ELSE BEGIN
+    PATCH_PRINT ~%SOURCE_FILE% is not a valid bitmap - check the file.~
+  END
+BUT_ONLY
+
+ACTION_IF qw > 0 BEGIN
+  COPY ~bambatch/hdr-desc.bam~ ~bambatch/bam/%bs%.bam~
+    READ_LONG 0xc fn //Frame entry offset
+    WRITE_SHORT fn qw //Frame width
+    WRITE_SHORT (fn + 2) qh //Frame height
+    WRITE_SHORT (fn + 4) sw //X coordinate
+    WRITE_SHORT (fn + 6) sh //Y coordinate
+    READ_LONG (fn + 8) fd //Frame data offset
+    READ_LONG 0x10 pf //Palette offset
+    WRITE_ASCIIE pf ~%pt%~ //Palette
+    READ_LONG pf p0
+    PATCH_IF p0 = 0x9797 BEGIN
+      WRITE_LONG pf 0xff00 //Fix cyan transparency to green
+    END
+    READ_LONG (pf + 4) p1
+    PATCH_IF p1 = 0xff6597 BEGIN
+      WRITE_LONG (pf + 4) 0x080808 //Fix pink shadow to dark grey
+    END
+    INSERT_BYTES fd (jl)
+    WRITE_ASCIIE fd ~%fj%~ //Small frame data
+    COMPRESS_REPLACE_FILE 0 (fd + jl) 9
+    INSERT_BYTES 0x0 0xc
+    WRITE_ASCII 0x0 ~BAMCV1  ~ //Signature
+    WRITE_LONG 0x8 (fd + jl) //Data length
+  BUT_ONLY
+END
+
+//! Fix inventory BAM coordinates ///////////////////////////////////////////
+BEGIN ~Fix inventory BAM coordinates~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/bam~ ~bambatch/bam~
+  READ_ASCII 0x0 sg (4) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+    READ_LONG 0x8 dl //Uncompressed data length
+    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+  END ELSE BEGIN
+    dl = SOURCE_SIZE //Uncompressed data length
+  END
+  READ_SHORT 0x8 fc //Frame count
+  PATCH_IF (fc != 2) BEGIN
+    i1 = 1
+    PATCH_PRINT ~%SOURCE_FILE% has %fc% frames (inventory BAMs need 2) - check source file.~
+  END ELSE BEGIN
+    READ_LONG 0xc fn //Frame entry offset
+    READ_SHORT fn w1 //Frame width 1
+    READ_SHORT (fn + 2) h1 //Frame height 1
+    READ_SHORT (0xc + fn) w2 //Frame width 2
+    READ_SHORT (0xc + fn + 2) h2 //Frame height 2
+    PATCH_IF (w1 = w2) BEGIN
+      i1 = 1
+      PATCH_PRINT ~%SOURCE_FILE% has 2 frames of equal width - check source file.~
+    END ELSE BEGIN
+      PATCH_IF (w1 > w2) BEGIN
+        i1 = 0xc
+        i2 = 0
+      END ELSE BEGIN
+        PATCH_IF (w2 > w1) BEGIN
+          i1 = 0
+          i2 = 0xc
+        END
+      END
+    END
+    PATCH_IF (i1 != 1) BEGIN
+      READ_SHORT (i1 + fn) qw //Small frame raw width
+      sw = ((qw - 32) / 2) //Small frame formatted width
+      READ_SHORT (i1 + fn + 2) qh //Small frame raw height
+      sh = ((qh - 32) / 2) //Small frame formatted height
+      READ_SSHORT (i1 + fn + 4) sx //Small frame X coordinate
+      PATCH_IF (sx > (sw + 1)) OR (sx < (sw - 1)) BEGIN
+        WRITE_SHORT (i1 + fn + 4) sw
+        PATCH_PRINT ~%SOURCE_FILE% small frame X offset changed from %sx% to %sw%.~
+      END
+      READ_SSHORT (i1 + fn + 6) sy //Small frame Y coordinate
+      PATCH_IF (sy > (sh + 1)) OR (sy < (sh - 1)) BEGIN
+        WRITE_SHORT (i1 + fn + 6) sh
+        PATCH_PRINT ~%SOURCE_FILE% small frame Y offset changed from %sy% to %sh%.~
+      END
+      READ_SHORT (i2 + fn) rw //Large frame raw width
+      lw = (rw / 2) //Large frame formatted width
+      READ_SHORT (i2 + fn + 2) rh //Large frame raw height
+      lh = (rh / 2) //Large frame formatted height
+      READ_SSHORT (i2 + fn + 4) lx //Large frame X coordinate
+      PATCH_IF (lx > (lw + 1)) OR (lx < (lw - 1)) BEGIN
+        WRITE_SHORT (i2 + fn + 4) lw
+        PATCH_PRINT ~%SOURCE_FILE% large frame X offset changed from %lx% to %lw%.~
+      END
+      READ_SSHORT (i2 + fn + 6) ly //Large frame Y coordinate
+      PATCH_IF (ly > (lh + 1)) OR (ly < (lh - 1)) BEGIN
+        WRITE_SHORT (i2 + fn + 6) lh
+        PATCH_PRINT ~%SOURCE_FILE% large frame Y offset changed from %ly% to %lh%.~
+      END
+      PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+        COMPRESS_REPLACE_FILE 0 dl 9
+        INSERT_BYTES 0x0 0xc
+        WRITE_ASCII 0x0 ~BAMCV1  ~
+        WRITE_LONG 0x8 dl
+      END
+    END
+  END
+BUT_ONLY
+
+//! Fix spell BAM coordinates ///////////////////////////////////////////////
+BEGIN ~Fix spell BAM coordinates~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/bam~ ~bambatch/bam~
+  READ_ASCII 0x0 sg (4) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+    READ_LONG 0x8 dl //Uncompressed data length
+    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+  END ELSE BEGIN
+    dl = SOURCE_SIZE //Uncompressed data length
+  END
+  READ_SHORT 0x8 fc //Frame count
+  PATCH_IF (fc != 1) BEGIN
+    PATCH_PRINT ~%SOURCE_FILE% has %fc% frames (spell BAMs need 1) - check source file.~
+  END ELSE BEGIN
+    READ_LONG 0xc fn //Frame entry offset
+    READ_SHORT fn qw //Raw width
+    sw = ((qw - 32) / 2) //Formatted width
+    READ_SHORT (fn + 2) qh //Raw height
+    sh = ((qh - 32) / 2) //Formatted height
+    READ_SSHORT (fn + 4) sx //X coordinate
+    PATCH_IF (sx > (sw + 1)) OR (sx < (sw - 1)) BEGIN
+      WRITE_SHORT (fn + 4) sw
+      PATCH_PRINT ~%SOURCE_FILE% X offset changed from %sx% to %sw%.~
+    END
+    READ_SSHORT (fn + 6) sy //Y coordinate
+    PATCH_IF (sy > (sh + 1)) OR (sy < (sh - 1)) BEGIN
+      WRITE_SHORT (fn + 6) sh
+      PATCH_PRINT ~%SOURCE_FILE% Y offset changed from %sy% to %sh%.~
+    END
+    PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+      COMPRESS_REPLACE_FILE 0 dl 9
+      INSERT_BYTES 0x0 0xc
+      WRITE_ASCII 0x0 ~BAMCV1  ~
+      WRITE_LONG 0x8 dl
+    END
+  END
+BUT_ONLY
+
+//! Fix description BAM coordinates /////////////////////////////////////////
+BEGIN ~Fix description BAM coordinates~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/bam~ ~bambatch/bam~
+  READ_ASCII 0x0 sg (4) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+    READ_LONG 0x8 dl //Uncompressed data length
+    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+  END ELSE BEGIN
+    dl = SOURCE_SIZE //Uncompressed data length
+  END
+  READ_SHORT 0x8 fc //Frame count
+  PATCH_IF (fc != 1) BEGIN
+    PATCH_PRINT ~%SOURCE_FILE% has %fc% frames (spell BAMs need 1) - check source file.~
+  END ELSE BEGIN
+    READ_LONG 0xc fn //Frame entry offset
+    READ_SHORT fn qw //Raw width
+    sw = (qw / 2) //Formatted width
+    READ_SHORT (fn + 2) qh //Raw height
+    sh = (qh / 2) //Formatted height
+    READ_SSHORT (fn + 4) sx //X coordinate
+    PATCH_IF (sx > (sw + 1)) OR (sx < (sw - 1)) BEGIN
+      WRITE_SHORT (fn + 4) sw
+      PATCH_PRINT ~%SOURCE_FILE% X offset changed from %sx% to %sw%.~
+    END
+    READ_SSHORT (fn + 6) sy //Y coordinate
+    PATCH_IF (sy > (sh + 1)) OR (sy < (sh - 1)) BEGIN
+      WRITE_SHORT (fn + 6) sh
+      PATCH_PRINT ~%SOURCE_FILE% Y offset changed from %sy% to %sh%.~
+    END
+    PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+      COMPRESS_REPLACE_FILE 0 dl 9
+      INSERT_BYTES 0x0 0xc
+      WRITE_ASCII 0x0 ~BAMCV1  ~
+      WRITE_LONG 0x8 dl
+    END
+  END
+BUT_ONLY
+
+//! Decompress BAMs /////////////////////////////////////////////////////////
+BEGIN ~Decompress BAMs~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/bam~ ~bambatch/bam~
+  READ_ASCII 0x0 sg (4) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+    READ_LONG 0x8 dl //Uncompressed data length
+    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+  END ELSE BEGIN
+    PATCH_PRINT ~%SOURCE_FILE% is not a compressed BAM.~
+  END
+BUT_ONLY
+
+//! Compress BAMs ///////////////////////////////////////////////////////////
+BEGIN ~Compress BAMs~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/bam~ ~bambatch/bam~
+  READ_ASCII 0x0 sg (4) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAM ~ = 1) BEGIN
+    dl = SOURCE_SIZE //Data length
+    COMPRESS_REPLACE_FILE 0 dl 9
+    INSERT_BYTES 0x0 0xc
+    WRITE_ASCII 0x0 ~BAMCV1  ~
+    WRITE_LONG 0x8 dl
+  END ELSE BEGIN
+    PATCH_PRINT ~%SOURCE_FILE% is not an uncompressed BAM.~
+  END
+BUT_ONLY
+
+//! List BAMs and dimensions ////////////////////////////////////////////////
+BEGIN ~List BAMs and dimensions~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/bam~ ~bambatch/bam~
+  SPRINT bm ~%SOURCE_FILE%~
+  TO_LOWER bm
+  READ_ASCII 0x0 sg (4) //Signature
+  READ_ASCII 0x0 sn (3) //Short signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+    READ_LONG 0x8 dl //Uncompressed data length
+    DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
+  END
+  PATCH_IF (~%sn%~ STRING_EQUAL_CASE ~BAM~ = 1) BEGIN
+    READ_SHORT 0x8 fc //Frame count
+    READ_LONG 0xc fn //Frame entry offset
+    FOR (f1 = 0; f1 < fc; f1 += 1) BEGIN //Frame loop
+      SPRINT xl ~~ //End of line
+      READ_SHORT (f1 * 0xc + fn) fw //Frame width
+      READ_SHORT (f1 * 0xc + fn + 2) fh //Frame height
+      INNER_ACTION BEGIN
+        APPEND_OUTER ~bambatch/backup/bam_list.txt~ ~%bm%	%f1%	%fw%	%fh%~
+      END
+    END
+    PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
+      dl = SOURCE_SIZE //Data length
+      COMPRESS_REPLACE_FILE 0 dl 9
+      INSERT_BYTES 0x0 0xc
+      WRITE_ASCII 0x0 ~BAMCV1  ~
+      WRITE_LONG 0x8 dl
+    END
+  END
+BUT_ONLY
+
+//! List BMPs and dimensions ////////////////////////////////////////////////
+BEGIN ~List BMPs and dimensions~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/bmp~ ~bambatch/bmp~
+  SPRINT bm ~%SOURCE_FILE%~
+  TO_LOWER bm
+  READ_ASCII 0x0 sg (2) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
+    READ_LONG 0x12 fw //Width
+    READ_LONG 0x16 fh //Height
+    INNER_ACTION BEGIN
+      APPEND_OUTER ~bambatch/backup/bmp_list.txt~ ~%bm%	%fw%	%fh%~
+    END
+  END
+BUT_ONLY
+
+//! List GIFs and dimensions ////////////////////////////////////////////////
+BEGIN ~List GIFs and dimensions~
+SUBCOMPONENT ~BAM Batcher~
+NO_LOG_RECORD
+
+COPY ~bambatch/moingif~ ~bambatch/moingif~
+  SPRINT bm ~%SOURCE_FILE%~
+  TO_LOWER bm
+  READ_ASCII 0x0 sg (3) //Signature
+  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~GIF~ = 1) BEGIN
+    SPRINT bs ~%SOURCE_RES%~
+    TO_LOWER bs
+    ln = STRING_LENGTH ~%bs%~
+    INNER_PATCH ~%bs%~ BEGIN
+      READ_ASCII 0 bf (ln - 1) //Trim rightmost character
+    END
+    READ_SHORT 0x6 fw //Width
+    READ_SHORT 0x8 fh //Height
+    INNER_ACTION BEGIN
+      APPEND_OUTER ~bambatch/backup/gif_list.txt~ ~            <img width=%fw% height=%fh% src="moingif/%bm%" alt="%bf%" />~
+    END
+  END
+BUT_ONLY
+
+//! Moinesse's BAMs (BAMs only) /////////////////////////////////////////////
+BEGIN ~BAMs only~
+SUBCOMPONENT ~Moinesse's BAMs~
+DESIGNATED 100
+
+COPY ~bambatch/moinbam~ ~override~
+
+//! Moinesse's BAMs (BAMs with test items) //////////////////////////////////
+BEGIN ~BAMs with test items~
+SUBCOMPONENT ~Moinesse's BAMs~
+DESIGNATED 110
+
+ACTION_IF FILE_EXISTS_IN_GAME ~fw0125.are~ BEGIN
+  OUTER_SPRINT tsu ~_~ //Tutu underscore
+  OUTER_SPRINT tst ~_inn2616~ //Candlekeep Inn store
+END ELSE BEGIN //BG2
+  OUTER_SPRINT tsu ~~ //no underscore otherwise
+  OUTER_SPRINT tst ~shop01~ //Mira (merchant E of circus tent)
+END
+
+COPY ~bambatch/moinbam~ ~override~
+
+ACTION_FOR_EACH amul IN ~mnamul01~ ~mnamul02~ ~mnamul03~ ~mnamul04~ ~mnamul05~ ~mnamul06~ ~mnamul07~ ~mnamul08~ ~mnamul09~ ~mnamul10~ ~mnamul11~ ~mnamul12~ ~mnamul13~ ~mnamul14~ ~mnamul15~ ~mnamul16~ ~mnamul17~ ~mnamul18~ ~mnamul19~ BEGIN
+  COPY_EXISTING ~%tsu%amul10.itm~ ~override/%amul%.itm~ //Amulets (clone Gold Necklace)
+    WRITE_ASCIIE 0x3a ~%amul%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH armr IN ~mnarmr01~ ~mnarmr02~ ~mnarmr03~ ~mnarmr04~ ~mnarmr05~ ~mnarmr06~ ~mnarmr07~ ~mnarmr08~ ~mnarmr09~ ~mnarmr10~ ~mnarmr11~ ~mnarmr12~ ~mnarmr13~ ~mnarmr14~ ~mnarmr15~ ~mnarmr16~ ~mnarmr17~ ~mnarmr18~ ~mnarmr19~ BEGIN
+  COPY_EXISTING ~%tsu%chan01.itm~ ~override/%armr%.itm~ //Armor (clone Chainmail)
+    WRITE_ASCIIE 0x3a ~%armr%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH axe IN ~mnaxe01~ ~mnaxe02~ ~mnaxe03~ ~mnaxe04~ ~mnaxe05~ ~mnaxe06~ ~mnaxe07~ ~mnaxe08~ ~mnaxe09~ ~mnaxe10~ ~mnaxe11~ BEGIN
+  COPY_EXISTING ~%tsu%ax1h01.itm~ ~override/%axe%.itm~ //Axes (clone Battle Axe)
+    WRITE_ASCIIE 0x3a ~%axe%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH belt IN ~mnbelt01~ ~mnbelt02~ ~mnbelt03~ ~mnbelt04~ ~mnbelt05~ ~mnbelt06~ ~mnbelt07~ ~mnbelt08~ ~mnbelt09~ ~mnbelt10~ ~mnbelt11~ ~mnbelt12~ ~mnbelt13~ ~mnbelt14~ BEGIN
+  COPY_EXISTING ~%tsu%belt01.itm~ ~override/%belt%.itm~ //Belts (clone Girdle)
+    WRITE_ASCIIE 0x3a ~%belt%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH blun IN ~mnblun01~ ~mnblun02~ ~mnblun03~ ~mnblun04~ ~mnblun05~ BEGIN
+  COPY_EXISTING ~%tsu%blun04.itm~ ~override/%blun%.itm~ //Blunts (clone Mace)
+    WRITE_ASCIIE 0x3a ~%blun%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH boot IN ~mnboot01~ ~mnboot02~ ~mnboot03~ ~mnboot04~ ~mnboot05~ ~mnboot06~ ~mnboot07~ ~mnboot08~ ~mnboot09~ ~mnboot10~ ~mnboot11~ ~mnboot12~ ~mnboot13~ ~mnboot14~ ~mnboot15~ ~mnboot16~ BEGIN
+  COPY_EXISTING ~%tsu%boot06.itm~ ~override/%boot%.itm~ //Boots (clone Worn Out Boots)
+    WRITE_ASCIIE 0x3a ~%boot%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH bow IN ~mnbow01~ ~mnbow02~ ~mnbow03~ ~mnbow04~ ~mnbow05~ ~mnbow06~ BEGIN
+  COPY_EXISTING ~%tsu%bow03.itm~ ~override/%bow%.itm~ //Bows (clone Long Bow)
+    WRITE_ASCIIE 0x3a ~%bow%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH dagg IN ~mnclaw01~ ~mnclaw02~ ~mndagg01~ BEGIN
+  COPY_EXISTING ~%tsu%dagg01.itm~ ~override/%dagg%.itm~ //Daggers (clone Dagger)
+    WRITE_ASCIIE 0x3a ~%dagg%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH glov IN ~mnglov01~ ~mnglov02~ ~mnglov03~ ~mnglov04~ ~mnglov05~ ~mnglov06~ ~mnglov07~ ~mnglov08~ ~mnglov09~ ~mnglov10~ BEGIN
+  COPY_EXISTING ~%tsu%brac01.itm~ ~override/%glov%.itm~ //Gloves (clone Bracers of Defense AC8)
+    WRITE_ASCIIE 0x3a ~%glov%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH helm IN ~mnhelm01~ ~mnhelm02~ ~mnhelm03~ ~mnhelm04~ BEGIN
+  COPY_EXISTING ~%tsu%helm01.itm~ ~override/%helm%.itm~ //Helms (clone Helmet)
+    WRITE_ASCIIE 0x3a ~%helm%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH misc IN ~mnbird01~ ~mnbook01~ ~mnbook02~ ~mncher01~ ~mncup01~ ~mngift01~ ~mnrose01~ ~mnrose02~ ~mnrose03~BEGIN
+  COPY_EXISTING ~%tsu%book09.itm~ ~override/%misc%.itm~ //Miscellany (clone Normal Book)
+    WRITE_ASCIIE 0x3a ~%misc%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH ring IN ~mnring01~ ~mnring02~ ~mnring03~ ~mnring04~ ~mnring05~ ~mnring06~ ~mnring07~ ~mnring08~ ~mnring09~ ~mnring10~ ~mnring11~ ~mnring12~ ~mnring13~ ~mnring14~ ~mnring15~ ~mnring16~ ~mnring17~ ~mnring18~ ~mnring19~ ~mnring20~ ~mnring21~ ~mnring22~ ~mnring23~ BEGIN
+  COPY_EXISTING ~%tsu%ring10.itm~ ~override/%ring%.itm~ //Rings (clone Gold Ring)
+    WRITE_ASCIIE 0x3a ~%ring%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH robe IN ~mnrobe01~ ~mnrobe02~ ~mnrobe03~ ~mnrobe04~ ~mnrobe05~ ~mnrobe06~ ~mnrobe07~ ~mnrobe08~ ~mnrobe09~ ~mnrobe10~ ~mnrobe11~ ~mnrobe12~ ~mnrobe13~ ~mnrobe14~ BEGIN
+  COPY_EXISTING ~%tsu%clck12.itm~ ~override/%robe%.itm~ //Robes (clone Knave's Robe)
+    WRITE_ASCIIE 0x3a ~%robe%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH shld IN ~mnshld01~ ~mnshld02~ ~mnshld03~ ~mnshld04~ ~mnshld05~ ~mnshld06~ ~mnshld07~ BEGIN
+  COPY_EXISTING ~%tsu%shld03.itm~ ~override/%shld%.itm~ //Shield (clone Medium Shield)
+    WRITE_ASCIIE 0x3a ~%shld%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH shur IN ~mnshur01~ ~mnshur02~ ~mnshur03~ ~mnshur04~ BEGIN
+  COPY_EXISTING ~%tsu%dart01.itm~ ~override/%shur%.itm~ //Shuriken (clone Dart)
+    WRITE_ASCIIE 0x3a ~%shur%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH staf IN ~mnstaf01~ ~mnstaf02~ ~mnstaf03~ ~mnstaf04~ ~mnstaf05~ ~mnstaf06~ BEGIN
+  COPY_EXISTING ~%tsu%staf01.itm~ ~override/%staf%.itm~ //Staves (clone Quarter Staff)
+    WRITE_ASCIIE 0x3a ~%staf%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH swrd IN ~mnswrd01~ ~mnswrd02~ ~mnswrd03~ ~mnswrd04~ ~mnswrd05~ ~mnswrd06~ BEGIN
+  COPY_EXISTING ~%tsu%sw1h04.itm~ ~override/%swrd%.itm~ //Swords (clone Long Sword)
+    WRITE_ASCIIE 0x3a ~%swrd%~ #8
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH xbow IN ~mnxbow01~ ~mnxbow02~ ~mnxbow03~ BEGIN
+  COPY_EXISTING ~%tsu%xbow01.itm~ ~override/%xbow%.itm~ //Crossbows (clone Heavy Crossbow)
+    WRITE_ASCIIE 0x3a ~%xbow%~ #8
+  BUT_ONLY
+END
+
+COPY_EXISTING ~%tst%.sto~ ~override~
+  PATCH_FOR_EACH itm IN ~mnamul01~ ~mnamul02~ ~mnamul03~ ~mnamul04~ ~mnamul05~ ~mnamul06~ ~mnamul07~ ~mnamul08~ ~mnamul09~ ~mnamul10~ ~mnamul11~ ~mnamul12~ ~mnamul13~ ~mnamul14~ ~mnamul15~ ~mnamul16~ ~mnamul17~ ~mnamul18~ ~mnamul19~ ~mnarmr01~ ~mnarmr02~ ~mnarmr03~ ~mnarmr04~ ~mnarmr05~ ~mnarmr06~ ~mnarmr07~ ~mnarmr08~ ~mnarmr09~ ~mnarmr10~ ~mnarmr11~ ~mnarmr12~ ~mnarmr13~ ~mnarmr14~ ~mnarmr15~ ~mnarmr16~ ~mnarmr17~ ~mnarmr18~ ~mnarmr19~ ~mnaxe01~ ~mnaxe02~ ~mnaxe03~ ~mnaxe04~ ~mnaxe05~ ~mnaxe06~ ~mnaxe07~ ~mnaxe08~ ~mnaxe09~ ~mnaxe10~ ~mnaxe11~ ~mnbelt01~ ~mnbelt02~ ~mnbelt03~ ~mnbelt04~ ~mnbelt05~ ~mnbelt06~ ~mnbelt07~ ~mnbelt08~ ~mnbelt09~ ~mnbelt10~ ~mnbelt11~ ~mnbelt12~ ~mnbelt13~ ~mnbelt14~ ~mnbird01~ ~mnblun01~ ~mnblun02~ ~mnblun03~ ~mnblun04~ ~mnblun05~ ~mnbook01~ ~mnbook02~ ~mnboot01~ ~mnboot02~ ~mnboot03~ ~mnboot04~ ~mnboot05~ ~mnboot06~ ~mnboot07~ ~mnboot08~ ~mnboot09~ ~mnboot10~ ~mnboot11~ ~mnboot12~ ~mnboot13~ ~mnboot14~ ~mnboot15~ ~mnboot16~ ~mnbow01~ ~mnbow02~ ~mnbow03~ ~mnbow04~ ~mnbow05~ ~mnbow06~ ~mncher01~ ~mnclaw01~ ~mnclaw02~ ~mncup01~ ~mndagg01~ ~mngift01~ ~mnglov01~ ~mnglov02~ ~mnglov03~ ~mnglov04~ ~mnglov05~ ~mnglov06~ ~mnglov07~ ~mnglov08~ ~mnglov09~ ~mnglov10~ ~mnhelm01~ ~mnhelm02~ ~mnhelm03~ ~mnhelm04~ ~mnring01~ ~mnring02~ ~mnring03~ ~mnring04~ ~mnring05~ ~mnring06~ ~mnring07~ ~mnring08~ ~mnring09~ ~mnring10~ ~mnring11~ ~mnring12~ ~mnring13~ ~mnring14~ ~mnring15~ ~mnring16~ ~mnring17~ ~mnring18~ ~mnring19~ ~mnring20~ ~mnring21~ ~mnring22~ ~mnring23~ ~mnrobe01~ ~mnrobe02~ ~mnrobe03~ ~mnrobe04~ ~mnrobe05~ ~mnrobe06~ ~mnrobe07~ ~mnrobe08~ ~mnrobe09~ ~mnrobe10~ ~mnrobe11~ ~mnrobe12~ ~mnrobe13~ ~mnrobe14~ ~mnrose01~ ~mnrose02~ ~mnrose03~ ~mnshld01~ ~mnshld02~ ~mnshld03~ ~mnshld04~ ~mnshld05~ ~mnshld06~ ~mnshld07~ ~mnshur01~ ~mnshur02~ ~mnshur03~ ~mnshur04~ ~mnstaf01~ ~mnstaf02~ ~mnstaf03~ ~mnstaf04~ ~mnstaf05~ ~mnstaf06~ ~mnswrd01~ ~mnswrd02~ ~mnswrd03~ ~mnswrd04~ ~mnswrd05~ ~mnswrd06~ ~mnxbow01~ ~mnxbow02~ ~mnxbow03~ BEGIN
+    ADD_STORE_ITEM ~%itm%~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+  END
+BUT_ONLY_IF_IT_CHANGES

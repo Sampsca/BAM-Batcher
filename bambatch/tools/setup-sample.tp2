@@ -1,0 +1,29 @@
+//This is a sample TP2 installer for an item mod using custom BAM icons.
+
+BACKUP ~sample/backup~
+AUTHOR ~Address for bug reports goes here~
+VERSION ~v1~
+README ~sample/sample-readme.html~
+
+AUTO_TRA ~sample/%s~ //Only necessary if your mod is translated into other languages
+LANGUAGE ~English~ ~english~ ~sample/english/setup.tra~ //Same as above
+
+//Once you're done with all the descriptions, you can launch use weidu to
+//--traify setup-sample.tp2 --traify-comment --out setup-sample-new.tp2
+//This will create a translation-ready version of this file.
+
+BEGIN ~Your Mod Name (Component 1)~
+
+//Repeat and change this block for each item
+COPY ~sample/items/youritem.itm~ ~override~
+  SAY NAME1 ~Unidentified name goes here~ //Only necessary if not using a hardcoded default string
+  SAY NAME2 ~Identified name~
+  SAY UNIDENTIFIED_DESC ~Unidentified description~ //Only necessary if not using a hardcoded default string
+  SAY DESC ~Identified description~
+  WRITE_ASCII 0x3a ~mnbam01~ #8 //Inventory icon (only necessary if not coded on the item directly)
+  WRITE_ASCII 0x76 ~mnbam01~ #8 //Use icon 1 (only necessary for items with usable abilities)
+
+//Patches your item(s) into an existing store (it's best to make your own store though)
+COPY_EXISTING ~ribald.sto~ ~override~
+  ADD_STORE_ITEM ~youritem~ LAST #0 #0 #0 ~IDENTIFIED~ #1
+BUT_ONLY_IF_IT_CHANGES
