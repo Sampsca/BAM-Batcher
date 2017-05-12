@@ -1,6 +1,6 @@
 BACKUP ~bambatch/backup~
 AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
-VERSION ~v2.1~
+VERSION ~v2.2~
 
 //! Convert BAMs to BMPs /////////////////////////////////////////////////////
 BEGIN ~Convert BAMs to BMPs~
@@ -794,7 +794,7 @@ BEGIN ~Repalette BAMs from a BMP~
 SUBCOMPONENT ~BAM Batcher~
 NO_LOG_RECORD
 
-OUTER_SPRINT tpath ~~
+OUTER_SPRINT tpath ~palette/~
 
 COPY ~bambatch/bam~ ~bambatch/bam~
   READ_ASCII 0x0 sg (4) //Signature
@@ -824,7 +824,7 @@ COPY ~bambatch/bam~ ~bambatch/bam~
           READ_ASCII (size+14) pt (ColorsUsed * 4) //Color table
           pq = 1
         END ELSE BEGIN
-          PATCH_PRINT ~Palette.bmp is not a valid uncompressed bitmap.~
+          PATCH_PRINT ~%tpath%%tpal%.bmp is not a valid uncompressed bitmap.~
           pq = 2
         END
       BUT_ONLY
