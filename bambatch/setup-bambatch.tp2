@@ -1,10 +1,12 @@
 BACKUP ~bambatch/backup~
 AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
-VERSION ~v2.2~
+VERSION ~v2.2.1~
+
+LANGUAGE ~English~ ~english~ ~bambatch/translations/english/setup.tra~
 
 //! Convert BAMs to BMPs /////////////////////////////////////////////////////
-BEGIN ~Convert BAMs to BMPs~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @0 /* Convert BAMs to BMPs */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY - ~bambatch/bam~ ~bambatch/bam~
@@ -17,7 +19,7 @@ COPY - ~bambatch/bam~ ~bambatch/bam~
 	sz = SOURCE_SIZE
   END
   SPRINT bn ~%SOURCE_RES%~
-  PATCH_PRINT ~Converting %SOURCE_FILE% to bitmaps ...~
+  PATCH_PRINT @2 /* Converting %SOURCE_FILE% to bitmaps ... */
   READ_SHORT 0x8 fc //Frame count
   READ_LONG 0x10 pf //Palette offset
   READ_ASCII pf pt (1024)
@@ -45,7 +47,7 @@ COPY - ~bambatch/bam~ ~bambatch/bam~
 	PATCH_IF cp = 0 BEGIN
 	  ds = (fw * fh) //Data size     
 	  PATCH_IF (%ds% > 1) BEGIN     
-		  PATCH_PRINT ~Converting frame %f1% (uncompressed): reading datasize %ds% from offset %fd% ...~
+		  PATCH_PRINT @3 /* Converting frame %f1% (uncompressed): reading datasize %ds% from offset %fd% ... */
 		READ_ASCII fd fm (ds)       
 	  END  // PATCH_IF (%ds% > 1)
 	  ELSE BEGIN
@@ -60,7 +62,7 @@ COPY - ~bambatch/bam~ ~bambatch/bam~
 		ds = (sz - fd)
 	  END     
 	  PATCH_IF (%ds% > 1) BEGIN     
-		  PATCH_PRINT ~Converting frame %f1% (compressed): reading datasize %ds% from offset %fd% ...~
+		  PATCH_PRINT @4 /* Converting frame %f1% (compressed): reading datasize %ds% from offset %fd% ... */
 		  tx = 0 //Transparency index cleared
 		  SPRINT fm ~~ //Clear frame data
 		  cc = 0 //Column count
@@ -135,15 +137,15 @@ COPY - ~bambatch/bam~ ~bambatch/bam~
 		END       
 	END  //  PATCH_IF %BadFrameSkip% = 0
 	ELSE BEGIN
-		PATCH_PRINT ~Skipping frame %f1% - invalid frame size.~
+		PATCH_PRINT @5 /* Skipping frame %f1% - invalid frame size. */
 	END
 	
   END  // FOR
 BUT_ONLY
 
 //! Convert BMPs to inventory BAMs //////////////////////////////////////////
-BEGIN ~Convert BMPs to inventory BAMs~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @6 /* Convert BMPs to inventory BAMs */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
@@ -153,7 +155,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
     PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
       SPRINT bs ~%BASH_FOR_RES%~
       TO_LOWER bs
-      PATCH_PRINT ~Converting %bs%.bmp to a BAM ...~
+      PATCH_PRINT @7 /* Converting %bs%.bmp to a BAM ... */
       ln = STRING_LENGTH ~%bs%~
       INNER_PATCH ~%bs%~ BEGIN
         READ_ASCII 0 bf (ln - 1) //Trim rightmost character
@@ -215,16 +217,16 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
           END
         END
       END ELSE BEGIN
-        PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed. Please check source file.~
+        PATCH_PRINT @8 /* Bitmap %bs% is not 8-bit or is compressed. Please check source file. */
       END
     END ELSE BEGIN
-      PATCH_PRINT ~%SOURCE_FILE% is not a valid bitmap - check the file.~
+      PATCH_PRINT @9 /* %SOURCE_FILE% is not a valid bitmap - check the file. */
     END
   BUT_ONLY
 
   ACTION_IF ((FILE_EXISTS ~bambatch/invsmall/%bf%s.bmp~) AND (rw > 0)) BEGIN
     COPY - ~bambatch/invsmall/%bf%s.bmp~ ~bambatch/invsmall/%bf%s.bmp~
-      PATCH_PRINT ~Converting %bf%s.bmp to a BAM ...~
+      PATCH_PRINT @10 /* Converting %bf%s.bmp to a BAM ... */
       READ_SHORT 0x1c bc //Bit count
       READ_LONG 0x1e cp //Compression
       PATCH_IF (bc = 8) AND (cp = 0) BEGIN
@@ -275,7 +277,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
           END
         END
       END ELSE BEGIN
-        PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+        PATCH_PRINT @11 /* Bitmap %bs% is not 8-bit or is compressed - check the file. */
       END
     BUT_ONLY
 
@@ -311,13 +313,13 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
       WRITE_LONG 0x8 (fd + jl + kl) //Data length
     BUT_ONLY
   END ELSE BEGIN
-    PRINT ~Small bitmap %bf%s does not exist - check your files.~
+    PRINT @12 /* Small bitmap %bf%s does not exist - check your files. */
   END
 END
 
 //! Convert BMPs to spell BAMs //////////////////////////////////////////////
-BEGIN ~Convert BMPs to spell BAMs~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @13 /* Convert BMPs to spell BAMs */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY - ~bambatch/spell~ ~bambatch/spell~
@@ -326,7 +328,7 @@ COPY - ~bambatch/spell~ ~bambatch/spell~
   PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
     SPRINT bs ~%SOURCE_RES%~
     TO_LOWER bs
-    PATCH_PRINT ~Converting %bs%.bmp to a BAM ...~
+    PATCH_PRINT @7 /* Converting %bs%.bmp to a BAM ... */
     READ_SHORT 0x1c bc //Bit count
     READ_LONG 0x1e cp //Compression
     PATCH_IF (bc = 8) AND (cp = 0) BEGIN
@@ -410,17 +412,17 @@ COPY - ~bambatch/spell~ ~bambatch/spell~
       BUT_ONLY
       END
     END ELSE BEGIN
-      PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+      PATCH_PRINT @11 /* Bitmap %bs% is not 8-bit or is compressed - check the file. */
     END
 
   END ELSE BEGIN
-    PATCH_PRINT ~%SOURCE_FILE% is not a valid bitmap - check the file.~
+    PATCH_PRINT @9 /* %SOURCE_FILE% is not a valid bitmap - check the file. */
   END
 BUT_ONLY
 
 //! Convert BMPs to description BAMs ////////////////////////////////////////
-BEGIN ~Convert BMPs to description BAMs~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @14 /* Convert BMPs to description BAMs */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY - ~bambatch/desc~ ~bambatch/desc~
@@ -429,7 +431,7 @@ COPY - ~bambatch/desc~ ~bambatch/desc~
   PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
     SPRINT bs ~%SOURCE_RES%~
     TO_LOWER bs
-    PATCH_PRINT ~Converting %bs%.bmp to a BAM ...~
+    PATCH_PRINT @7 /* Converting %bs%.bmp to a BAM ... */
     READ_SHORT 0x1c bc //Bit count
     READ_LONG 0x1e cp //Compression
     PATCH_IF (bc = 8) AND (cp = 0) BEGIN
@@ -487,10 +489,10 @@ COPY - ~bambatch/desc~ ~bambatch/desc~
         END
       END
     END ELSE BEGIN
-      PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+      PATCH_PRINT @11 /* Bitmap %bs% is not 8-bit or is compressed - check the file. */
     END
   END ELSE BEGIN
-    PATCH_PRINT ~%SOURCE_FILE% is not a valid bitmap - check the file.~
+    PATCH_PRINT @9 /* %SOURCE_FILE% is not a valid bitmap - check the file. */
   END
 BUT_ONLY
 
@@ -522,8 +524,8 @@ ACTION_IF qw > 0 BEGIN
 END
 
 //! Fix inventory BAM coordinates ///////////////////////////////////////////
-BEGIN ~Fix inventory BAM coordinates~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @15 /* Fix inventory BAM coordinates */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/bam~ ~bambatch/bam~
@@ -537,7 +539,7 @@ COPY ~bambatch/bam~ ~bambatch/bam~
   READ_SHORT 0x8 fc //Frame count
   PATCH_IF (fc != 2) BEGIN
     i1 = 1
-    PATCH_PRINT ~%SOURCE_FILE% has %fc% frames (inventory BAMs need 2) - check source file.~
+    PATCH_PRINT @16 /* %SOURCE_FILE% has %fc% frames (inventory BAMs need 2) - check source file. */
   END ELSE BEGIN
     READ_LONG 0xc fn //Frame entry offset
     READ_SHORT fn w1 //Frame width 1
@@ -546,7 +548,7 @@ COPY ~bambatch/bam~ ~bambatch/bam~
     READ_SHORT (0xc + fn + 2) h2 //Frame height 2
     PATCH_IF (w1 = w2) BEGIN
       i1 = 1
-      PATCH_PRINT ~%SOURCE_FILE% has 2 frames of equal width - check source file.~
+      PATCH_PRINT @17 /* %SOURCE_FILE% has 2 frames of equal width - check source file. */
     END ELSE BEGIN
       PATCH_IF (w1 > w2) BEGIN
         i1 = 0xc
@@ -566,12 +568,12 @@ COPY ~bambatch/bam~ ~bambatch/bam~
       READ_SSHORT (i1 + fn + 4) sx //Small frame X coordinate
       PATCH_IF (sx > (sw + 1)) OR (sx < (sw - 1)) BEGIN
         WRITE_SHORT (i1 + fn + 4) sw
-        PATCH_PRINT ~%SOURCE_FILE% small frame X offset changed from %sx% to %sw%.~
+        PATCH_PRINT @18 /* %SOURCE_FILE% small frame X offset changed from %sx% to %sw%. */
       END
       READ_SSHORT (i1 + fn + 6) sy //Small frame Y coordinate
       PATCH_IF (sy > (sh + 1)) OR (sy < (sh - 1)) BEGIN
         WRITE_SHORT (i1 + fn + 6) sh
-        PATCH_PRINT ~%SOURCE_FILE% small frame Y offset changed from %sy% to %sh%.~
+        PATCH_PRINT @19 /* %SOURCE_FILE% small frame Y offset changed from %sy% to %sh%. */
       END
       READ_SHORT (i2 + fn) rw //Large frame raw width
       lw = (rw / 2) //Large frame formatted width
@@ -580,12 +582,12 @@ COPY ~bambatch/bam~ ~bambatch/bam~
       READ_SSHORT (i2 + fn + 4) lx //Large frame X coordinate
       PATCH_IF (lx > (lw + 1)) OR (lx < (lw - 1)) BEGIN
         WRITE_SHORT (i2 + fn + 4) lw
-        PATCH_PRINT ~%SOURCE_FILE% large frame X offset changed from %lx% to %lw%.~
+        PATCH_PRINT @20 /* %SOURCE_FILE% large frame X offset changed from %lx% to %lw%. */
       END
       READ_SSHORT (i2 + fn + 6) ly //Large frame Y coordinate
       PATCH_IF (ly > (lh + 1)) OR (ly < (lh - 1)) BEGIN
         WRITE_SHORT (i2 + fn + 6) lh
-        PATCH_PRINT ~%SOURCE_FILE% large frame Y offset changed from %ly% to %lh%.~
+        PATCH_PRINT @21 /* %SOURCE_FILE% large frame Y offset changed from %ly% to %lh%. */
       END
       PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
         COMPRESS_REPLACE_FILE 0 dl 9
@@ -598,8 +600,8 @@ COPY ~bambatch/bam~ ~bambatch/bam~
 BUT_ONLY
 
 //! Fix spell BAM coordinates ///////////////////////////////////////////////
-BEGIN ~Fix spell BAM coordinates~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @22 /* Fix spell BAM coordinates */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/bam~ ~bambatch/bam~
@@ -612,7 +614,7 @@ COPY ~bambatch/bam~ ~bambatch/bam~
   END
   READ_SHORT 0x8 fc //Frame count
   PATCH_IF (fc != 1) BEGIN
-    PATCH_PRINT ~%SOURCE_FILE% has %fc% frames (spell BAMs need 1) - check source file.~
+    PATCH_PRINT @23 /* %SOURCE_FILE% has %fc% frames (spell BAMs need 1) - check source file. */
   END ELSE BEGIN
     READ_LONG 0xc fn //Frame entry offset
     READ_SHORT fn qw //Raw width
@@ -622,12 +624,12 @@ COPY ~bambatch/bam~ ~bambatch/bam~
     READ_SSHORT (fn + 4) sx //X coordinate
     PATCH_IF (sx > (sw + 1)) OR (sx < (sw - 1)) BEGIN
       WRITE_SHORT (fn + 4) sw
-      PATCH_PRINT ~%SOURCE_FILE% X offset changed from %sx% to %sw%.~
+      PATCH_PRINT @24 /* %SOURCE_FILE% X offset changed from %sx% to %sw%. */
     END
     READ_SSHORT (fn + 6) sy //Y coordinate
     PATCH_IF (sy > (sh + 1)) OR (sy < (sh - 1)) BEGIN
       WRITE_SHORT (fn + 6) sh
-      PATCH_PRINT ~%SOURCE_FILE% Y offset changed from %sy% to %sh%.~
+      PATCH_PRINT @25 /* %SOURCE_FILE% Y offset changed from %sy% to %sh%. */
     END
     PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
       COMPRESS_REPLACE_FILE 0 dl 9
@@ -639,8 +641,8 @@ COPY ~bambatch/bam~ ~bambatch/bam~
 BUT_ONLY
 
 //! Fix description BAM coordinates /////////////////////////////////////////
-BEGIN ~Fix description BAM coordinates~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @26 /* Fix description BAM coordinates */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/bam~ ~bambatch/bam~
@@ -653,7 +655,7 @@ COPY ~bambatch/bam~ ~bambatch/bam~
   END
   READ_SHORT 0x8 fc //Frame count
   PATCH_IF (fc != 1) BEGIN
-    PATCH_PRINT ~%SOURCE_FILE% has %fc% frames (spell BAMs need 1) - check source file.~
+    PATCH_PRINT @23 /* %SOURCE_FILE% has %fc% frames (spell BAMs need 1) - check source file. */
   END ELSE BEGIN
     READ_LONG 0xc fn //Frame entry offset
     READ_SHORT fn qw //Raw width
@@ -663,12 +665,12 @@ COPY ~bambatch/bam~ ~bambatch/bam~
     READ_SSHORT (fn + 4) sx //X coordinate
     PATCH_IF (sx > (sw + 1)) OR (sx < (sw - 1)) BEGIN
       WRITE_SHORT (fn + 4) sw
-      PATCH_PRINT ~%SOURCE_FILE% X offset changed from %sx% to %sw%.~
+      PATCH_PRINT @24 /* %SOURCE_FILE% X offset changed from %sx% to %sw%. */
     END
     READ_SSHORT (fn + 6) sy //Y coordinate
     PATCH_IF (sy > (sh + 1)) OR (sy < (sh - 1)) BEGIN
       WRITE_SHORT (fn + 6) sh
-      PATCH_PRINT ~%SOURCE_FILE% Y offset changed from %sy% to %sh%.~
+      PATCH_PRINT @25 /* %SOURCE_FILE% Y offset changed from %sy% to %sh%. */
     END
     PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
       COMPRESS_REPLACE_FILE 0 dl 9
@@ -680,8 +682,8 @@ COPY ~bambatch/bam~ ~bambatch/bam~
 BUT_ONLY
 
 //! Decompress BAMs /////////////////////////////////////////////////////////
-BEGIN ~Decompress BAMs~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @27 /* Decompress BAMs */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/bam~ ~bambatch/bam~
@@ -690,13 +692,13 @@ COPY ~bambatch/bam~ ~bambatch/bam~
     READ_LONG 0x8 dl //Uncompressed data length
     DECOMPRESS_REPLACE_FILE 0xc (SOURCE_SIZE - 0xc) dl
   END ELSE BEGIN
-    PATCH_PRINT ~%SOURCE_FILE% is not a compressed BAM.~
+    PATCH_PRINT @28 /* %SOURCE_FILE% is not a compressed BAM. */
   END
 BUT_ONLY
 
 //! Compress BAMs ///////////////////////////////////////////////////////////
-BEGIN ~Compress BAMs~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @29 /* Compress BAMs */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/bam~ ~bambatch/bam~
@@ -708,13 +710,13 @@ COPY ~bambatch/bam~ ~bambatch/bam~
     WRITE_ASCII 0x0 ~BAMCV1  ~
     WRITE_LONG 0x8 dl
   END ELSE BEGIN
-    PATCH_PRINT ~%SOURCE_FILE% is not an uncompressed BAM.~
+    PATCH_PRINT @30 /* %SOURCE_FILE% is not an uncompressed BAM. */
   END
 BUT_ONLY
 
 //! List BAMs and dimensions ////////////////////////////////////////////////
-BEGIN ~List BAMs and dimensions~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @31 /* List BAMs and dimensions */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/bam~ ~bambatch/bam~
@@ -748,8 +750,8 @@ COPY ~bambatch/bam~ ~bambatch/bam~
 BUT_ONLY
 
 //! List BMPs and dimensions ////////////////////////////////////////////////
-BEGIN ~List BMPs and dimensions~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @32 /* List BMPs and dimensions */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/bmp~ ~bambatch/bmp~
@@ -766,8 +768,8 @@ COPY ~bambatch/bmp~ ~bambatch/bmp~
 BUT_ONLY
 
 //! List GIFs and dimensions ////////////////////////////////////////////////
-BEGIN ~List GIFs and dimensions~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @33 /* List GIFs and dimensions */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 COPY ~bambatch/moingif~ ~bambatch/moingif~
@@ -790,8 +792,8 @@ COPY ~bambatch/moingif~ ~bambatch/moingif~
 BUT_ONLY
 
 //! Repalette BAMs from a BMP ///////////////////////////////////////////////
-BEGIN ~Repalette BAMs from a BMP~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @34 /* Repalette BAMs from a BMP */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 OUTER_SPRINT tpath ~palette/~
@@ -824,12 +826,12 @@ COPY ~bambatch/bam~ ~bambatch/bam~
           READ_ASCII (size+14) pt (ColorsUsed * 4) //Color table
           pq = 1
         END ELSE BEGIN
-          PATCH_PRINT ~%tpath%%tpal%.bmp is not a valid uncompressed bitmap.~
+          PATCH_PRINT @35 /* %tpath%%tpal%.bmp is not a valid uncompressed bitmap. */
           pq = 2
         END
       BUT_ONLY
     END ELSE BEGIN
-      PRINT ~No %tpath%%tpal%.bmp exists.~
+      PRINT @36 /* No %tpath%%tpal%.bmp exists. */
       OUTER_SET pq = 2
     END
   END
@@ -844,8 +846,8 @@ COPY ~bambatch/bam~ ~bambatch/bam~
 BUT_ONLY
 
 //! Convert BMPs to paperdoll BAMs //////////////////////////////////////////
-BEGIN ~Convert BMPs to paperdoll BAMs~
-SUBCOMPONENT ~BAM Batcher~
+BEGIN @37 /* Convert BMPs to paperdoll BAMs */
+SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
 ACTION_BASH_FOR ~bambatch/paperdollbottom~ ~^.+\.bmp$~ BEGIN
@@ -855,7 +857,7 @@ ACTION_BASH_FOR ~bambatch/paperdollbottom~ ~^.+\.bmp$~ BEGIN
     PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BM~ = 1) BEGIN
       SPRINT bs ~%BASH_FOR_RES%~
       TO_LOWER bs
-      PATCH_PRINT ~Converting %bs%.bmp to a BAM ...~
+      PATCH_PRINT @7 /* Converting %bs%.bmp to a BAM ... */
       ln = STRING_LENGTH ~%bs%~
       INNER_PATCH ~%bs%~ BEGIN
         READ_ASCII 0 bf (ln - 1) //Trim rightmost character
@@ -917,16 +919,16 @@ ACTION_BASH_FOR ~bambatch/paperdollbottom~ ~^.+\.bmp$~ BEGIN
           END
         END
       END ELSE BEGIN
-        PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed. Please check source file.~
+        PATCH_PRINT @8 /* Bitmap %bs% is not 8-bit or is compressed. Please check source file. */
       END
     END ELSE BEGIN
-      PATCH_PRINT ~%SOURCE_FILE% is not a valid bitmap - check the file.~
+      PATCH_PRINT @9 /* %SOURCE_FILE% is not a valid bitmap - check the file. */
     END
   BUT_ONLY
 
   ACTION_IF ((FILE_EXISTS ~bambatch/paperdolltop/%bf%t.bmp~) AND (rw > 0)) BEGIN
     COPY - ~bambatch/paperdolltop/%bf%t.bmp~ ~bambatch/paperdolltop/%bf%t.bmp~
-      PATCH_PRINT ~Converting %bf%t.bmp to a BAM ...~
+      PATCH_PRINT @38 /* Converting %bf%t.bmp to a BAM ... */
       READ_SHORT 0x1c bc //Bit count
       READ_LONG 0x1e cp //Compression
       PATCH_IF (bc = 8) AND (cp = 0) BEGIN
@@ -977,7 +979,7 @@ ACTION_BASH_FOR ~bambatch/paperdollbottom~ ~^.+\.bmp$~ BEGIN
           END
         END
       END ELSE BEGIN
-        PATCH_PRINT ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+        PATCH_PRINT @11 /* Bitmap %bs% is not 8-bit or is compressed - check the file. */
       END
     BUT_ONLY
 
@@ -1013,20 +1015,20 @@ ACTION_BASH_FOR ~bambatch/paperdollbottom~ ~^.+\.bmp$~ BEGIN
       WRITE_LONG 0x8 (fd + jl + kl) //Data length
     BUT_ONLY
   END ELSE BEGIN
-    PRINT ~Small bitmap %bf%t does not exist - check your files.~
+    PRINT @39 /* Small bitmap %bf%t does not exist - check your files. */
   END
 END
 
 //! Moinesse's BAMs (BAMs only) /////////////////////////////////////////////
-BEGIN ~BAMs only~
-SUBCOMPONENT ~Moinesse's BAMs~
+BEGIN @40 /* BAMs only */
+SUBCOMPONENT @41 /* Moinesse's BAMs */
 DESIGNATED 100
 
 COPY ~bambatch/moinbam~ ~override~
 
 //! Moinesse's BAMs (BAMs with test items) //////////////////////////////////
-BEGIN ~BAMs with test items~
-SUBCOMPONENT ~Moinesse's BAMs~
+BEGIN @42 /* BAMs with test items */
+SUBCOMPONENT @41 /* Moinesse's BAMs */
 DESIGNATED 110
 
 ACTION_IF FILE_EXISTS_IN_GAME ~fw0125.are~ BEGIN
