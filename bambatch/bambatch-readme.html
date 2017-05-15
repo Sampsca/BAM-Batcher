@@ -1,17 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
     <style type="text/css">
-/*<![CDATA[*/
-    <!-- 
       body {
         margin: 0;
         padding: 0;
         cursor: default;
         text-align: center;
         color: #000;
-        background: #e3e3db url('moingif/shsbkgd.jpg');
+        background: #e3e3db url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7ABlRHVja3kAAQAEAAAAUAADAFAAAAAmAE0AYQByAGMAaAAgADQAIABXAGUAYgAgAFMAbwBsAHUAdABpAG8AbgBzACAALQAtACAAdwB3AHcALgBtAGEAcgBjAGgANAAuAHcAcwAA/+4ADkFkb2JlAGTAAAAAAf/bAIQAAgICAgICAgICAgMCAgIDBAMCAgMEBQQEBAQEBQYFBQUFBQUGBgcHCAcHBgkJCgoJCQwMDAwMDAwMDAwMDAwMDAEDAwMFBAUJBgYJDQsJCw0PDg4ODg8PDAwMDAwPDwwMDAwMDA8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM/8AAEQgAZABkAwERAAIRAQMRAf/EAHcAAAMBAQEBAAAAAAAAAAAAAAIDBAEABQkBAQEBAAAAAAAAAAAAAAAAAAACBBAAAgEDAwIEAwcCBQUBAAAAAQIRIRIDADETQSJRYTIEcYEUkaGxwUJSI9Ez4fFyQyTwotKDRFQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APsgnvGy5HcKEDLYXxwX2Ed/aSabEx+WNahx7hMh5MxJxKzhgA5UqbTQypMwen5aCdit6ZMQZHx9pyEdwO5hQLJMwBNfnoD90ztkbEH5gqKCCxIkAGApPjSvgfMaCIMRkB7GLMUAAA2Py2nafDQUYXGQw2GEQAMxdcZEjYzRhJ8NBZyvjDO8nGBkUyKvAFhBIgSK1FR0jQAhUr3ZFNillxEJIgghaDZSvWB8a6CTJlOWGKrjChShAJAgwoMV+z+ug7Hn+nUgWOmTuZisGTVhQiR2in5ToGIxbLzO/HjVUlxcIAUgBfVWDMfhoHXYFHI+Zcs4ypQ3EuJUyzm2ZMCeg+4EfU57eW5eTlt+q6zM2XREaBWQlMmRcphsZIYAmrSVjcA+Bp8PHQWn/kyynjGQnJ2gFVipDMTKiWMgiJExoA92Uxo4yIwLmlwnY0IEAgR4nfad9BECSFHRAQQ0gqRBms+FR+WgeMOamQYXtQEB1mCyyoikfj8NxoHMj+1Y40vwYySocmL4kGTM1j+nUkFtjZ72XMz50a0gsGiwyNqigNOoBPloJ25LGaHkLcYEgVFWptWk7x4aAXoaGRNwttigEt0mooJ8ttAQS1i8BrWIyBwSYMzJmvWhGge4xgYAp5LULPxgiS/ram8UH+WgUiM7MFE46S6jtBJMRaJ+Hn56Cv6R7OH6nF/+ia22+mZiImkz91dBOSFcZGcMp7mJA/fXbYgkz91K6CpCwCFSqlnty5bJMrWGrEbHaaGsDQT5/b8acih0VwMuNla+AQBErPh4/wCAcntk7zmNXte0DYNCrAiTF0wNqddgJRlZSEZnGCrBt7gAFUzStRA3HjGgJVy5QHyYA3cWsGXjVgQJoZoSNx10DMQNuZFAKJ3KSJJtUgQe4AhgFFDO1RoMZseJHIzYimbGUxIFA7gpBgi6Setf2yToIlwnI2RgoyIFbuLQB/qYmJIPn8tA1/a52MJ/ykwBSShmpqKRLClCBB0FmJc6e2RO5SjsMbMpgwymDAJo0n7oPQCVUbFmwCMZBYZCUYILhYQLqiABNdj8tA3jEf3D9Vx8X00C27ijaIm6k/KdB4q5MivkT27nES0KUYreTI6GKDQNy32lnbI9gBF9aETSpAkqOmgrVLCqF0tQ25IFaTKm4CQzU67zSg0BM5yooQtiQlShEsQAGvuELJEbA+npE6BZ7TjK4wbmV1PIHuKVAMGgNR1H2aDVzviyMMBa8NZkyiCGMlRQ7AHYRG3wATE58+RMzMBkSl5hJaN+2LjQRB8PDQUtkfItvucgORHuzCQi2N6n7YkkQf8Ao6BPuF48qBscJiVCmMzcCQszsJqK7U0Be3vyDIuJWyMajKok3D0qWA2kUIYb1kCNBXjIYsBDDHAysYVR2KCRELIHTpSm+gkf3NyBFRcfGBGae9STEgiB6TQx+Wgj5MnHbC8dt3SZmIiZj7/w0GurEISbmghELTBBgCKA76AGLFrCSDinu2Xt22MyNBW+QluVK43csgJWgJ2EjtIkSCaD7dAjHkdC7YiRmcn+QMBNNhB67H5aCnFlb3OZcTFs6sbQ7FpW39Qn9s18fwDG9yz5DyDIrM2S9Jh0D0KAtNPzO3Qgx8q4sjWSFC41EElkKpbBn9skEU84OgfkfG6q8c2VUDMiqA0Gl4JJKRuY+NCdB5+R8uQtl4jaQshE7J3CgxMCkDQX8ZxouPHlxAOqkI8sQ7gQAF28RSvTqSG+8yZcdRK5Qv8AMawFIAO4EyKSR2+e+g8sEkSDCIJVlIKgAkGYAHjFPDz0GXnbs4/XFbtt/Db5aA2ZSqoihnYQSJMV8yJqPhHloDPJAKhij0RgIWayQSYJ8f6ToH4MebGFuxd0hFFyJWLlIGQVIJ8fx0D2c+5Dk/yuA3G7EYwFQEkqdolQD8ZgaAMeL26cxYEiGLvjLA9tzW1KmsbbkgkmmgzNk9t6xbj9ytrAAljUiSCwCz5gxFRoJF7HalyE3BZNxgiZ3nboSdBUl2QHL7XEv8MiGgCQaSpCgGRAjwiugaQt75TlHA6r/EIO5BCqQwNGHiomY6jQbmQMQVcKyO6OrLsbRKKIUkQpiOnnEhPxYs+I5rDjVnZmCt2qI7ZuNbpihHynQF9I+TGzYyzsDNtphyQD2+fcadOugkhZiw3TbZ849O03U20BSOQIRehYBkG8CZBr1E1jQUe59yoVVURmHqY0iKQIgBgADUGJ0CHyDIFHEtxYu/7nYyCaUoFBgDxjQWuG4s3GWtLB8eBaOqwLZVa0YkneT9ugmGVzjfC4DsQAC0mIJX0gVisCKH56A8Rz/TKMr5MeLIXQMiswUt+oxTc9RPhoGY1XK3MKBVpAUyYABCM1s9wpXfxroF414RkeR7a82KWF/pjrFp3EE7zM6B/t3YhbWvfGFbJkBJY/pezzApNaTGghy58ysyMqsaqHE7kWxuothoH3aAe0Hc3xcTEiDHduVMA+H3V0FOJ2x3qkriIJcUHpIa8yIFaee0+AKk/V2QOSbogW/wCuYiY6R5aBmPAMebEYYN3QqAT2IMgo0kEyf8dAjI4yjHCsWA9bmWdtqkEAUiKeU10CMuUZA6Y3MSAzAUgb1rIM/wCWgeXAD4rlvlWL7MYFLoMACBQR5zE6BuJBlx3ZHZsuIkYVWBJhu24VNVp9nhoOL5MS8C4lfIMYDFQxILiCpBpMmNvAaCnEpn28hly4oC4ySGopkkTcKEmgr5mNBK7syBYLZZ5bwVMAhIoKdvhFBXxgFM2zT3OSB3dYkjuoJ/OdBjHI4Zn5GZS0SSZBJXeCDE9NArsUl2kQFYiZMgSCYBIroK8ZyqxfHxo2UFSjFRcJP6ZM9dunnoGXrPLyHkt47bBbdMbbW2UmNqxOgc7D3JksFfLLPjuCKBjFVJJUxHUA7CdqhyviLHHzMVuK4MTgWq4orW1YV6zJmvXQQuQA3FkN9veWWJIkXRSABQSOk0k6BRN4uYEYQ0qpgFiAd676B2PMEDoxksAzfrHZEiPnSvnuNBVdgxBMUYTe85WQmyDvaDJujzp0FToDzIMOSbynFLhSFCkK3GNpg1H20iBoJ8meAcgyF3dw2QOwBAUmAhWZIJiSI+7QE/vL5V8bYkJngMFRcZBW0LUGN+vga6BDqyY5vBXJ3YXqQKlrbp2Nu58/AwBYMIzB1aWbtZbVkkD1Urca7jbceYV4EOLFiUZLjdYiItwcAkssNBI3E7CYrNAbGPkupF0zYOOfT/ct36zE210E+NLfb3HMO4nG7k21DT23MOq02JMmRGgTlGMuHxOC7C4gAiASAuxpNIG4/EMTFjyh8jTiylrVwiJMCGs7lNT0+zw0AZsYQFkcMT+thZAeYgwfOg+cHQWgJjXlyhECJj/27mDN3bNSYiTEzPzCInCrPkxhlZiXU5ACEAM9vczdd/z0HYXU5kvLH2xDC4ifhA8jH5V0G5pOSxETE2KJxrHRfUBFpnen26BRYOGGNmLs3YqmCTEyT5dCRoLGyJk9sroby1uXNKRdCBSQa7EGT4/A6BGMS6Ua5yFAIIJif1dLiQJP5aC3Gczo7lWKoGHaxDFVU9wYiKzIMdT1jQK48HH9X328t309qzfO187R/wCUaDsmf/jQ/b7nGCArKWqSGgmN7QQekUOgE4vbc75rTkxY3VGCPcQGeJbc7Qa9aaAGK4smJcHGMjqFuADkEtIKkSZiNvkNA5oxYBw43ecJRspqLJuCztdJPw+/QSksMPG7lnVhkKvICAhu2s/qavX56BFFh3CuuRLVVeu81nzMCRMdI0DUJOUsE7cdCPOoBkDcTTePxCvLkw5QkMytQpBWkACoApXfx3GgF8Pdixe3XlYXB3xm9SYgEQCFmSK/loDIx5xkJzC4tcnt5K2dvQQaqSDQCfu0BqHtcK+Ns6LcmJESVCiRMKNiCJoB0rTQS5Fy4X7cwYjtdZuLCRcQOo3IPxECNA7+CPR38Vl/G0xbHjbM9No69NAlPp+N05Hysq3K4ZUDljAoRT1Gs/jGgZLN7hceQY+MOnIjEQq1EFoFwAmI840BZcS+3ysLgr4RyoSorY9omBJYkDyM6AFz5UxqcWZlJpFKEGAKQCY7RI26bQBZcONWygkBFBdsLEg2q9pa6R8dttAp2RgVxqVjtVpqIiahiCRERHWdAsIVYPkUj252BlQyisb+nbQVLgw5FyDFjVpHaOT1ljG5JtOwFN+tdBK4woFsVSqsOX9ax4EgSOtY+e+gsW1i+RXYnItFNhDsZWW2hiGiog+MkHQKytkxIHV19yMk8mYkG0EA3ErIDWyKGY+UAIwl15WNpaC7EAKDUC43UqJ2O9ToJrBHFDftstaZj4Xb9Pl56DcV8twWTcbNvP8Ad27x57xoKVnk9zxW3QfpbZjc22+fh5T1jQblnlrdwcLb2zbXe7rf9+3TQFmjkebOTiWLZsvil80ifCm00nQS4eTnPLfyWiLpi2TfM9LvGs6BbRK2Rbb/ADW3bybfVWZj7/PQejk/t0/tfy8t0+qW3tpM7R59NApeLhp/chOPiid1i2KxM/doF57ZPHbx+U2+pvCm0THnoFrPHk4LL7P12xE99v3R5XT10Hp5+Pi95dPpx8m9lnJW7pdM7fLQK9v6Wut+jinJ+yt0z3R4ee1J0Bf/AHf7Vt//ALLp+yf+3Qf/2Q%3D%3D");
       }
       #wrap {
         text-align: left;
@@ -45,15 +43,6 @@
       #header .menu a:visited {
         color: #333;
       }
-      #footer {
-        text-align: center;
-        background: #e5e5e5;
-        border: 1px solid #781808;
-        border-top: 5px solid #781808;
-        border-bottom: 5px solid #781808;
-        font-size: 75%;
-        padding: 5px 0 13px 0;
-      }
       #maindiv {
         margin: 0 auto;
         margin-top: -20px;
@@ -79,13 +68,78 @@
         color: #eee;
         background-color: #781808;
         width: 35px;
+        position: absolute;
         top: 0px;
         left: 0px;
         display: block;
       }
+      h2 {
+        display: block;
+        font-family: Verdana, Tahoma, Arial, sans-serif;
+        text-align: left;
+        text-indent: 30px;
+        padding: 0px;
+        margin: 20px 0 0 0;
+        border-bottom: dotted 2px #d0d0d0;
+        border-top: dotted 2px #d0d0d0;
+        background: #deded9;
+        font-size: 160%;
+      }
+      h2::first-letter {
+        color: #781808;
+        background-color: transparent;
+      }
+      #maindiv p {
+        font-size: 100%;
+        font-style: normal;
+        line-height: 150%;
+        padding: 0px;
+        margin: 10px auto;
+        width: 90%;
+        display: block;
+      }
+      #maindiv address a:link {
+        font-weight: bold;
+        text-decoration: underline;
+        background-color: transparent;
+        color: #eaeaea;
+        padding-right: 5px;
+        padding-left: 6px;
+      }
+      #maindiv address a:visited {
+        background-color: transparent;
+        color: #eaeaea
+      }
+      #maindiv address a:focus,
+      #maindiv address a:hover {
+        text-decoration: none;
+        color: #F1F1F1;
+        border: 0;
+      }
+      #maindiv address a:active {
+        color: #fff;
+        text-decoration: line-through;
+        border: none;
+      }
+      #maindiv address {
+        font-size: 95%;
+        font-style: normal;
+        font-weight: bold;
+        text-decoration: none;
+        color: #BBB;
+        background-color: #781808;
+        padding: 3px 0px 0px;
+        margin: 0px;
+        width: 100%;
+        position: absolute;
+        bottom: -1px;
+        left: 0px;
+        display: block;
+        text-align: right;
+      }
       #maindiv .important {
         font-size: 95%;
-        font-family: Verdana;
+        font-family: Verdana, Tahoma, Arial, sans-serif;
         text-align: left;
         background-color: #F1F1F1;
         border-top: solid 1px #aaa;
@@ -105,70 +159,25 @@
         text-indent: 0px;
         margin: 5px 0 10px 0;
       }
-      #maindiv .important ol {
-        margin: -10px 0 0 20px;
+      #maindiv ul {
+        margin: -10px 0 0 30px;
+        margin-left: 35px;
+      }
+      #maindiv ol {
+        margin: -10px 0 0 35px;
+        margin-left: 40px;
       }
       #maindiv .important ul {
         margin: -10px 0 0 15px;
       }
-      #maindiv p {
-        font-size: 100%;
-        font-style: normal;
-        line-height: 150%;
-        padding: 0px;
-        margin: 10px auto;
-        width: 90%;
-        display: block;
-      }
-      #maindiv address {
-        font-size: 95%;
-        font-style: normal;
-        font-weight: bold;
-        text-decoration: none;
-        color: #BBB;
-        background-color: #781808;
-        padding: 3px 0px 0px;
-        margin: 0px;
-        width: 100%;
-        position: absolute;
-        bottom: -1px;
-        left: 0px;
-        display: block;
-        text-align: right;
-      }
-      #maindiv address a:active {
-        color: #fff;
-        text-decoration: line-through;
-        border: none;
-      }
-      #maindiv address a:focus,
-      #maindiv address a:hover {
-        text-decoration: none;
-        color: #F1F1F1;
-        border: 0;
-      }
-      #maindiv address a:link,
-      #maindiv address a:visited {
-        font-weight: bold;
-        text-decoration: underline;
-        background-color: transparent;
-        color: #eaeaea !important;
-        padding-right: 5px;
-        padding-left: 6px;
-      }
-      #maindiv ol {
-        margin: -10px 0 0 35px;
-        *margin-left: 70px;
-      }
-      #maindiv ol li {
-        line-height: 150%;
-      }
-      #maindiv ul {
-        margin: -10px 0 0 30px;
-        *margin-left: 65px;
+      #maindiv .important ol {
+        margin: -10px 0 0 20px;
       }
       #maindiv ul li {
         list-style-type: square;
+        line-height: 150%;
+      }
+      #maindiv ol li {
         line-height: 150%;
       }
       .t1 {
@@ -177,27 +186,26 @@
         text-align: right;
         clear: right;
         float: left;
-        *float: none;
-        *margin-left: 65px;
         line-height: 22px;
       }
       .t2 {
         text-align: left;
         width: 73%;
         float: right;
-        *float: none;
         line-height: 22px;
       }
-      a:hover,
-      a:active {
-        color: #222;
-        border-bottom: 1px solid black;
+      hr {
+        margin: 10px 0 10px 0;
+        padding: 0;
+        height: 1px;
+        border: 0;
+        color: #aaa;
+        background-color: #aaa;
       }
-      a:link,
-      a:visited {
-        color: #781808;
-        font-weight: bold;
-        text-decoration: none;
+      hr.floatfix {
+        clear: both;
+        color: #e8e8e6;
+        background-color: #e8e8e6;
       }
       h1 {
         font-size: 225%;
@@ -205,22 +213,6 @@
         padding: 5px 0 5px 0;
         margin: 0;
         width: 100%;
-      }
-      h2 {
-        display: block;
-        font-family: Verdana, Trebuchet MS, Arial, serif;
-        text-align: left;
-        text-indent: 30px;
-        padding: 0px;
-        margin: 20px 0 0 0;
-        border-bottom: dotted 2px #d0d0d0;
-        border-top: dotted 2px #d0d0d0;
-        background: #deded9;
-        font-size: 160%;
-      }
-      h2::first-letter {
-        color: #781808;
-        background-color: transparent;
       }
       h3,
       h4,
@@ -251,1120 +243,965 @@
         border-bottom: solid 1px #bbb;
         border-top: solid 1px #bbb;
       }
-      hr {
-        margin: 10px 0 10px 0;
-        padding: 0;
-        height: 1px;
-        border: 0;
-        color: #aaa;
-        background-color: #aaa;
+      a:link {
+        color: #781808;
+        font-weight: bold;
+        text-decoration: none;
       }
-      hr.floatfix {
-        clear: both;
-        color: #e8e8e6;
-        background-color: #e8e8e6;
-        *margin: 0;
-        *padding: 0;
+      a:visited {
+        color: #781808;
       }
-      ul.c1 {margin-left: 32px;}
-    -->
-    /*]]>*/
+      a:hover,
+      a:active {
+        color: #222;
+        border-bottom: 1px solid black;
+      }
+	  #maindiv .indent {
+		padding-left: 20px;
+      }
+	  #maindiv .indentmore {
+		padding-left: 40px;
+      }
     </style>
-    <title>
-      Spellhold Studios - BAM Batcher
-    </title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="moingif/shsweb.ico" rel="icon" type="image/bmp" />
+    <title>Spellhold Studios - BAM Batcher</title>
+    <link rel="icon" href="data:image/vnd.microsoft.icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAJkA////APz8/AD9/f0AJCSnABUVoQDw8PkA0tLtALe34gAPD58AgYHNAHh4yQAqKqoA8/P6ABsbpAAMDJ4AMzOtALS04QADA5oAycnpAPz8/gAYGKMAOTmwAM/P7ADV1e4A9vb7ANvb8QBOTrgAh4fPAFFRuQBXV7wAHh6lAGNjwQDMzOsAS0u3AKWl2wCQkNMAiorQAMPD5wCrq90AWlq9ABISoAC6uuMACQmdAMbG6ADY2O8A5+f1AGlpwwA2Nq8A4eHzAFRUuwBycscArq7fACEhpgAtLasAPDyxAGxsxAC+vuQA5OT0AEJCswCWltUAp6fbAMDA5gB1dcgAJyepAO3t+AD5+f0AU1O5AFlZvACvr98AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwEBAQgAAAAeJj4UDgwBAgMBAQEkAAAADy0GLg8FAQIDAQEBIhAfEgAAEAUAAA0CAwEBBjMHDTgMAAAVFgAhAgMBARgxCAcBCDcABBgAPAIDAQY6BAAOIiEIBQALKxYCAwENNgAQMABAEx8ACSQFOQMBJxwdBy8AAAsjNQARAQIDAQsHHCkdKiUEQgwACgECAwEoBAAAHgEBOyUAAAoBAgMZDgAAAAAgGg8AAAARAQIDGwAJAAAAAAAAAAAEGSwCPQUXFwkAAAAAAAAABBsaAkM0AQETFQAAAAAACQEBAQJEFAEBAUEKID8jMhIBAQECRQEBAQEBAQEBASYABgEBAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D">
   </head>
   <body>
     <div id="wrap">
-      <a name="top" id="top"></a>
       <div id="header">
-        <h1>
-          BAM Batcher
-        </h1><strong>A utility for the Infinity Engine</strong>
-        <hr />
+        <a id="top"></a>
+        <h1>BAM Batcher</h1>
+        <strong>A utility for the Infinity Engine</strong>
+        <hr>
         <p class="about">
           Author: Miloch
         </p>
         <p class="about">
-          <a href="http://www.shsforums.net/index.php?showforum=536">Modding
-          Tools Forum</a> &#8226; Version 1
+          <a href="http://www.shsforums.net/topic/42359-release-bam-batcher/">Forum</a> &#8226;
+          <a href="https://github.com/Sampsca/BAM-Batcher/releases">Download on GitHub</a> &#8226;
+          Version 2.2
         </p>
-        <hr />
+        <hr>
         <p class="menu">
-          <a href="#intro">Introduction</a> &middot; <a href=
-          "#installation">Installation</a> &middot; <a href=
-          "#compon">Components</a> &middot; <a href="#faq">FAQ</a> &middot;
-          <a href="#bams">BAMs</a> &middot; <a href="#credits">Credits</a>
-          &middot; <a href="#version">Version History</a>
+          <a href="#intro">Introduction</a> &middot;
+          <a href="#installation">Installation</a> &middot;
+          <a href="#compon">Components</a> &middot;
+          <a href="#faq">FAQ</a> &middot;
+          <a href="#bams">BAMs</a> &middot;
+          <a href="#credits">Credits</a> &middot;
+          <a href="#version">Version History</a>
         </p>
       </div>
       <div id="maindiv">
+
         <!-- ================== I n t r o d u c t i o n ================== -->
-        <a name="intro" id="intro"></a>
+        <a id="intro"></a>
         <div class="content">
-          <h2>
-            Introduction
-          </h2>
-          <p>
-            This tool handles mass-manipulation of BAMs, a feature that other
-            tools like <a href="http://www.teambg.eu/?page=tools&amp;cat=32">BAM
-            Workshop</a> and <a href=
-            "http://www.gibberlings3.net/tools/dltcep.php"><acronym title=
-            "Dragonlance Total Conversion Editor Pro">DLTCEP</acronym></a> do
-            not (currently) provide. <a href=
-            "http://forums.pocketplane.net/index.php/topic,25153.msg314249.html#msg314249">
-            Near Infinity</a>'s Mass Exporter feature will only decompress BAMs
-            (not dissemble or assemble them) and then only if you want to
-            decompress all BAMs in the game (not a wise move). BAM Batcher
-            includes the following subcomponents:<br />
-            <ol>
-              <li><a href="#suba1">Convert BAMs to BMPs</a></li>
-              <li><a href="#suba2">Convert BMPs to inventory BAMs</a></li>
-              <li><a href="#suba3">Convert BMPs to spell BAMs</a></li>
-              <li><a href="#suba4">Convert BMPs to description BAMs</a></li>
-              <li><a href="#suba5">Fix inventory BAM coordinates</a></li>
-              <li><a href="#suba6">Fix spell BAM coordinates</a></li>
-              <li><a href="#suba7">Fix description BAM coordinates</a></li>
-              <li><a href="#suba8">Decompress BAMs</a></li>
-              <li><a href="#suba9">Compress BAMs</a></li>
-              <li><a href="#suba10">List BAMs and dimensions</a></li>
-              <li><a href="#suba11">List BMPs and dimensions</a></li>
-              <li><a href="#suba12">List GIFs and dimensions</a></li>
+          <h2>Introduction</h2>
+          <p>This tool handles mass-manipulation of BAMs, a feature that other tools like <a href="http://www.shsforums.net/topic/57564-bamworkshop/">BAM Workshop</a> and <a href="https://sourceforge.net/projects/gemrb/files/Utilities/"><abbr title="Dragonlance Total Conversion Editor Pro">DLTCEP</abbr></a> do not (currently) provide. <a href="http://www.shsforums.net/topic/45358-nearinfinity/">Near Infinity</a>'s Mass Exporter feature will only decompress or dissemble BAMs, and then only if you want to do it to all BAMs in the game (not a wise move). BAM Batcher includes the following subcomponents:<br></p>
+          <ol>
+            <li><a href="#suba1">Convert BAMs to BMPs</a></li>
+            <li><a href="#suba2">Convert BMPs to inventory BAMs</a></li>
+            <li><a href="#suba3">Convert BMPs to spell BAMs</a></li>
+            <li><a href="#suba4">Convert BMPs to description BAMs</a></li>
+            <li><a href="#suba5">Fix inventory BAM coordinates</a></li>
+            <li><a href="#suba6">Fix spell BAM coordinates</a></li>
+            <li><a href="#suba7">Fix description BAM coordinates</a></li>
+            <li><a href="#suba8">Decompress BAMs</a></li>
+            <li><a href="#suba9">Compress BAMs</a></li>
+            <li><a href="#suba10">List BAMs and dimensions</a></li>
+            <li><a href="#suba11">List BMPs and dimensions</a></li>
+            <li><a href="#suba12">List GIFs and dimensions</a></li>
+            <li><a href="#suba13">Repalette BAMs from a BMP</a></li>
+            <li><a href="#suba14">Convert BMPs to paperdoll BAMs</a></li>
+          </ol>
+          <p>In addition, this mod includes the long-lost <a href="#moin">Moinesse's BAMs</a> as a separate component with two options forinstallation:</p>
+          <ol>
+            <li><a href="#subb1">BAMs only</a></li>
+            <li><a href="#subb2">BAMs with test items</a></li>
             </ol>
-          </p>
-          <p>
-            In addition, this mod includes the long-lost <a href="#moin">
-            Moinesse's BAMs</a> as a separate component with two options for
-            installation:<br />
-            <ol>
-              <li><a href="#subb1">BAMs only</a></li>
-              <li><a href="#subb2">BAMs with test items</a></li>
-            </ol>
-          </p>
-          <p>
-            All components are <strong>modding tools</strong> - the average
-            player should not consider installing these, though they can greatly
-            help modders who work with BAMs (graphical animations). A short
-            description of each component follows below.
-          </p>
-          <p>
-            <strong>Please read</strong> the instructions below before using
-            this tool. It is quite easy, and a little bit of literacy might
-            save you a lot of hardship or misunderstanding.
-          </p>
+          <p>All components are <strong>modding tools</strong> - the average player should not consider installing these, though they can greatly help modders who work with BAMs (graphical animations). A short description of each component follows below.</p>
+          <p><strong>Please read</strong> the instructions below before using this tool. It is quite easy, and a little bit of literacy might save you a lot of hardship or misunderstanding.</p>
           <address>
-            <span class="footer">BAM Batcher &gt; Introduction</span> 
-            &#8226;<a href="#top">Back to top</a>
+            <span class="footer">BAM Batcher &gt; Introduction</span> &#8226;<a href="#top">Back To Top</a>
           </address>
         </div>
+
         <!-- ================== I n s t a l l a t i o n ================== -->
-        <a name="installation" id="installation"></a>
+        <a id="installation"></a>
         <div class="content">
-          <h2>
-            Installation
-          </h2>
+          <h2>Installation</h2>
+          <p>Extract this utility to your game folder. The main component makes no changes to your actual game or <abbr title="Weimer Dialogue Utility">WeiDU</abbr> log, so you can run it as many times as you wish.</p>
+          <p>You can extract files from the archive using <a href="http://www.rarlab.com/download.htm">WinRAR</a>, <a href="http://www.7-zip.org/">7-Zip</a> or another file compression utility that handles .rar files.</p>
+          <p>Run <strong>setup-bambatch.exe</strong> in your game folder to use the utility.</p>
           <p>
-            Extract this utility to your game folder. The main component makes
-            no changes to your actual game or <acronym title=
-            "Weimer Dialogue Utility">WeiDU</acronym> log, so you can run it as
-            many times as you wish.
+            <strong>Mac OS X</strong>
+            <br>
+            Extract the contents of the mod to your game folder. On successful extraction, there should be a /bambatch subfolder in your game folder. Download the OS X version of <a href="http://weidu.org/~thebigg/"><abbr title="Weimer Dialogue Utility">WeiDU</abbr></a> (or copy another mod's launcher) and rename it <strong>setup-bambatch</strong>. Put this and the <strong>setup-bambatch.command</strong> file within the /bambatch subfolder in your main game folder. To use, double-click on <strong>setup-bambatch.command</strong> and follow the instructions on screen.
           </p>
           <p>
-            You can extract files from the archive using <a href=
-            "http://www.rarlab.com/download.htm">WinRAR</a>, <a href=
-            "http://www.zipgenius.it/ita/?page_id=12">ZipGenius</a> or another
-            file compression utility that handles .rar files.
+            <strong>Linux</strong>
+            <br>
+            Extract the contents of the archive to your game folder. Download the latest Linux version of <a href="http://weidu.org/~thebigg/"><abbr title="Weimer Dialogue Utility">WeiDU</abbr></a> and copy WeiDU and WeInstall to /usr/bin. Then open a terminal and cd to your game directory.
           </p>
-          <p>
-            Run <strong>setup-bambatch.exe</strong> in your game folder to
-            use the utility.
-          </p>
-          <p>
-            <strong>Mac OS X</strong><br />
-            Extract the contents of the mod to your game folder. On successful
-            extraction, there should be a /bambatch subfolder in your game
-            folder. Download the OS X version of <a href=
-            "http://weidu.org/~thebigg/"><acronym title=
-            "Weimer Dialogue Utility">WeiDU</acronym></a> (or copy another mod's
-            launcher) and rename it <strong>setup-bambatch</strong>. Put this
-            and the <strong>setup-bambatch.command</strong> file within the
-            /bambatch subfolder in your main game folder. To use, double-click on
-            <strong>setup-bambatch.command</strong> and follow the instructions
-            on screen.
-          </p>
-          <p>
-            <strong>Linux</strong><br />
-            Extract the contents of the archive to your game folder. Download
-            the latest Linux version of <a href=
-            "http://weidu.org/~thebigg/"><acronym title=
-            "Weimer Dialogue Utility">WeiDU</acronym></a> and copy WeiDU and
-            WeInstall to /usr/bin. Then open a terminal and cd to your
-            game directory.
-          </p>
-          <p>
-            Run <strong>WeInstall setup-bambatch</strong> in your game folder to
-            use the tool.
-          </p>
+          <p>Run <strong>WeInstall setup-bambatch</strong> in your game folder to use the tool.</p>
           <address>
-            <span class="footer">BAM Batcher &gt; Installation</span> 
-            &#8226;<a href="#top">Back to top</a>
+            <span class="footer">BAM Batcher &gt; Installation</span> <a href="#top">Back To Top</a>
           </address>
         </div>
-        <!-- =================== C o m p o n e n t s ==================== -->
-        <a name="compon" id="compon"></a>
+        
+        <!-- ================== C o m p o n e n t s ================== -->
+        <a id="compon"></a>
         <div class="content">
-          <h2>
-            Components
-          </h2>
+          <h2>Components</h2>
+          <p>There are two main components. Each component has subcomponents as detailed below.</p>
+          <h3>BAM Batcher</h3>
           <p>
-            There are two main components. Each component has subcomponents as
-            detailed below.
-          </p>
-          <h3>
-            BAM Batcher
-          </h3>
-          <p>
-            <a name="suba1" id="suba1"></a>
-            <strong>1. Convert BAMs to BMPs</strong><br />
-            This option will attempt to extract all frames from the BAMs in the
-            /bambatch/bam folder. It will save these as BMPs to the
-            /bambatch/bmp folder. It will place a number after the filename
-            indicating the BAM frame number.
+            <a id="suba1"></a>
+            <strong>1. Convert BAMs to BMPs</strong>
+            <br>
+            This option will attempt to extract all frames from the BAMs in the /bambatch/bam folder. It will save these as BMPs to the /bambatch/bmp folder. It will place a number after the filename indicating the BAM frame number.
           </p>
           <p>
-            You can also use this option to extract bitmaps from BAMs directly
-            in the game. This only requires modification of the first COPY
-            statement after the subcomponent (currently around line 10) in
-            setup-bambatch.tp2:<br />
+            You can also use this option to extract bitmaps from BAMs directly in the game. This only requires modification of the first COPY statement after the subcomponent (currently around line 10) in setup-bambatch.tp2:
+            <br>
             COPY - ~bambatch/bam~ ~bambatch/bam~
           </p>
           <p>
-            To extract all frames from the female elven bard animation, comment
-            out the line above (put // in front of it) and type below it:<br />
+            To extract all frames from the female elven bard animation, comment out the line above (put // in front of it) and type below it:
+            <br>
             COPY_EXISTING_REGEXP GLOB ~^cefb.+\.bam~ ~bambatch/bam~
           </p>
+          <p>It is probably not smart to use this for large quantities of BAMs (like all of them in the game). However, it should work for just about any type of BAM (including compressed and run-length encoded frames).</p>
           <p>
-            It is probably not smart to use this for large quantities of BAMs
-            (like all of them in the game). However, it should work for just
-            about any type of BAM (including compressed and run-length encoded
-            frames).
+            <a id="suba2"></a>
+            <strong>2. Convert BMPs to inventory BAMs</strong>
+            <br>
+            This option will attempt to assemble similarly-named bitmaps in the /bambatch/invlarge and /bambatch/invsmall folders. It will save these as inventory BAMs to the /bambatch/bam folder. The filenames <strong>must</strong> have the same name with the exception of the last character, which must be the letter 'l' for large icon frames and 's' for small frames. See the relevant folders for examples (iamul01l.bmp and iamul01s.bmp). Inventory icons have the large icon (maximum of 64 pixels) centered (half each dimension) and the small icon (maximum of 32 pixels) offset for its difference from the 32-pixel maximum (usually a negative number).
           </p>
           <p>
-            <a name="suba2" id="suba2"></a>
-            <strong>2. Convert BMPs to inventory BAMs</strong><br />
-            This option will attempt to assemble similarly-named bitmaps in the
-            /bambatch/invlarge and /bambatch/invsmall folders. It will save
-            these as inventory BAMs to the /bambatch/bam folder. The filenames
-            <strong>must</strong> have the same name with the exception of the
-            last character, which must be the letter 'l' for large icon frames
-            and 's' for small frames. See the relevant folders for examples
-            (iamul01l.bmp and iamul01s.bmp). Inventory icons have the large icon 
-            (maximum of 64 pixels) centered (half each dimension) and the small
-            icon (maximum of 32 pixels) offset for its difference from the
-            32-pixel maximum (usually a negative number).
+            Both large and small frames must also use the exact same 256-color palette. If not, the small icon will be forced to the large icon's palette (since BAMs have only one palette) which may otherwise produce unwanted results.
           </p>
           <p>
-            Both large and small frames must also use the exact same 256-color
-            palette. If not, the small icon will be forced to the large icon's
-            palette (since BAMs have only one palette) which may otherwise
-            produce unwanted results.
+            <a id="suba3"></a>
+            <strong>3. Convert BMPs to spell BAMs</strong>
+            <br>
+            This option will attempt to assemble bitmaps in the /bambatch/spell folder. It will save these as spell BAMs to the /bambatch/bam folder. Spell icons are a maximum of 32 pixels and are offset from the difference from the 32-pixel maximum.
           </p>
           <p>
-            <a name="suba3" id="suba3"></a>
-            <strong>3. Convert BMPs to spell BAMs</strong><br />
-            This option will attempt to assemble bitmaps in the /bambatch/spell
-            folder. It will save these as spell BAMs to the /bambatch/bam
-            folder. Spell icons are a maximum of 32 pixels and are offset from
-            the difference from the 32-pixel maximum.
+            <a id="suba4"></a>
+            <strong>4. Convert BMPs to description BAMs</strong>
+            <br>
+            This option will attempt to assemble bitmaps in the /bambatch/desc folder. It will save these as description BAMs to the /bambatch/bam folder. Description BAMs won't display properly if wider than ~166 pixels, though they can be somewhat larger in height than width.  They are centered (offsets are half each dimension).
+          </p>
+          <p>Note: Since description BAMs have a single centered frame, this option will also work for ground icons and many other "miscellaneous" BAMs. Neither this nor other options will work for assembling creature animations, which require special attention to make sure the creature's feet are centered in each frame.</p>
+          <p>
+            <a id="suba5"></a>
+            <strong>5. Fix inventory BAM coordinates</strong>
+            <br>
+            This option will attempt to fix an inventory BAM in the /bambatch/bam folder whose X and Y coordinates are not properly offset (as described above in option 2). It is not necessary if you've used the option above, which will format the coordinates properly. The only stipulation is that the large inventory icon frame needs to be wider than the small icon (as it should be, since it includes at least a shadow).
           </p>
           <p>
-            <a name="suba4" id="suba4"></a>
-            <strong>4. Convert BMPs to description BAMs</strong><br />
-            This option will attempt to assemble bitmaps in the /bambatch/desc
-            folder. It will save these as description BAMs to the /bambatch/bam
-            folder. Description BAMs won't display properly if wider than ~166
-            pixels, though they can be somewhat larger in height than width.
-            They are centered (offsets are half each dimension).
+            <a id="suba6"></a>
+            <strong>6. Fix spell BAM coordinates</strong>
+            <br>
+            This option will attempt to fix a spell BAM in the /bambatch/bam folder whose X and Y coordinates are not properly offset (as described above in option 3). It is not necessary if you've used the option above, which will format the coordinates properly.
           </p>
           <p>
-            Note: Since description BAMs have a single centered frame, this
-            option will also work for ground icons and many other
-            "miscellaneous" BAMs. Neither this nor other options will work for
-            assembling creature animations, which require special attention to
-            make sure the creature's feet are centered in each frame.
+            <a id="suba7"></a>
+            <strong>7. Fix description BAM coordinates</strong>
+            <br>
+            This option will attempt to fix a description, ground or miscellaneous BAM in the /bambatch/bam folder whose X and Y coordinates are not properly offset (as described above in option 4). It is not necessary if you've used the option above, which will format the coordinates properly.
+          </p>
+          <p>Note: The formatter will not work correctly for description BAMs quartered with four frames in the BG1 style. You will need to set those coordinates manually, which should be as follows:</p>
+          <div class="indent">
+            <p>
+              Frame 0: offset by entire dimensions of the frame<br>
+              Frame 1: offset by zero horizontally, full dimensions vertically<br>
+              Frame 2: offset by full dimensions horizontally, zero vertically<br>
+              Frame 3: offset by zero both horizontally and vertically
+            </p>
+          </div>
+          <p>
+            <a id="suba8"></a>
+            <strong>8. Decompress BAMs</strong>
+            <br>
+            This option will decompress BAMs in the /bambatch/bam folder. It will have no effect on BAMs that are already decompressed (and will tell you so).
           </p>
           <p>
-            <a name="suba5" id="suba5"></a>
-            <strong>5. Fix inventory BAM coordinates</strong><br />
-            This option will attempt to fix an inventory BAM in the
-            /bambatch/bam folder whose X and Y coordinates are not properly
-            offset (as described above in option 2). It is not necessary if
-            you've used the option above, which will format the coordinates
-            properly. The only stipulation is that the large inventory icon
-            frame needs to be wider than the small icon (as it should be, since
-            it includes at least a shadow).
+            <a id="suba9"></a>
+            <strong>9. Compress BAMs</strong>
+            <br>
+            This option will compress BAMs in the /bambatch/bam folder. It will have no effect on BAMs that are already compressed (and will tell you so). It is not necessary if you've used the conversion or fixing options above, which will compress the BAMs automatically (as are most BAMs in the game).
           </p>
           <p>
-            <a name="suba6" id="suba6"></a>
-            <strong>6. Fix spell BAM coordinates</strong><br />
-            This option will attempt to fix a spell BAM in the /bambatch/bam
-            folder whose X and Y coordinates are not properly offset (as
-            described above in option 3). It is not necessary if you've used
-            the option above, which will format the coordinates properly.
+            <a id="suba10"></a>
+            <strong>10. List BAMs and dimensions</strong>
+            <br>
+            This option outputs a list of all BAMs in the /bambatch/bam folder to the file /bambatch/backup/bam_list.txt. It will list each BAM, frame number, and the width and height of each frame. You can modify this to work with in-game BAMs as described above in subcomponent 1.
           </p>
           <p>
-            <a name="suba7" id="suba7"></a>
-            <strong>7. Fix description BAM coordinates</strong><br />
-            This option will attempt to fix a description, ground or
-            miscellaneous BAM in the /bambatch/bam folder whose X and Y
-            coordinates are not properly offset (as described above in option
-            4). It is not necessary if you've used the option above, which will
-            format the coordinates properly.
+            <a id="suba11"></a>
+            <strong>11. List BMPs and dimensions</strong>
+            <br>
+            This option outputs a list of all bitmaps in the /bambatch/bmp folder to the file /bambatch/backup/bmp_list.txt. It will list each bitmap followed by its width and height.
           </p>
           <p>
-            Note: The formatter will not work correctly for description BAMs
-            quartered with four frames in the BG1 style. You will need to set
-            those coordinates manually, which should be as follows:
+            <a id="suba12"></a>
+            <strong>12. List GIFs and dimensions</strong>
+            <br>
+            This option generates the <abbr title="Hypertext Markup Language">HTML</abbr> code used to display the images in this very readme and outputs it to the file /bambatch/backup/gif_list.txt. You can modify it for use in your own mod's readme (or any other HTML documents).
           </p>
           <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;Frame 0: offset by entire dimensions of
-            the frame<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;Frame 1: offset by zero horizontally, full
-            dimensions vertically<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;Frame 2: offset by full dimensions
-            horizontally, zero vertically<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;Frame 3: offset by zero both horizontally and
-            vertically
+            <a id="suba13"></a>
+            <strong>13. Repalette BAMs from a BMP</strong>
+            <br>
+            This option will attempt to repalette BAMs in the /bambatch/bam folder.  It will take the palette from the 8-bit, 256-color bitmap in the /bambatch/palette folder.  The name of the BMP must match the first six (6) characters of the BAM file(s) you want to repalette.  For example, you might have MBERG1.bam and MBERG1E.bam in the /bambatch/bam folder, and a bitmap named MBERG1.bmp in the /bambatch/palette folder.  BAM file will be edited in place.
           </p>
           <p>
-            <a name="suba8" id="suba8"></a>
-            <strong>8. Decompress BAMs</strong><br />
-            This option will decompress BAMs in the /bambatch/bam folder. It
-            will have no effect on BAMs that are already decompressed (and will
-            tell you so).
-          </p>
-          <p>
-            <a name="suba9" id="suba9"></a>
-            <strong>9. Compress BAMs</strong><br />
-            This option will decompress BAMs in the /bambatch/bam folder. It
-            will have no effect on BAMs that are already compressed (and will
-            tell you so). It is not necessary if you've used the conversion or
-            fixing options above, which will compress the BAMs automatically
-            (as are most BAMs in the game).
-          </p>
-          <p>
-            <a name="suba10" id="suba10"></a>
-            <strong>10. List BAMs and dimensions</strong><br />
-            This option outputs a list of all BAMs in the /bambatch/bam folder
-            to the file /bambatch/backup/bam_list.txt. It will list each BAM,
-            frame number and the width and height of each frame. You can modify
-            this to work with in-game BAMs as described above in subcomponent 1.
-          </p>
-          <p>
-            <a name="suba11" id="suba11"></a>
-            <strong>11. List BMPs and dimensions</strong><br />
-            This option outputs a list of all bitmaps in the /bambatch/bmp
-            folder to the file /bambatch/backup/bmp_list.txt. It will list each
-            bitmap followed by its width and height.
-          </p>
-          <p>
-            <a name="suba12" id="suba12"></a>
-            <strong>12. List GIFs and dimensions</strong><br />
-            This option generates the <acronym title=
-            "Hypertext Markup Language">HTML</acronym> code used to display the
-            images in this very readme and outputs it to the file
-            /bambatch/backup/gif_list.txt. You can modify it for use in your own
-            mod's readme (or any other HTML documents).
+            <a id="suba14"></a>
+            <strong>14. Convert BMPs to paperdoll BAMs</strong>
+            <br>
+            This option will attempt to assemble similarly-named bitmaps in the /bambatch/paperdolltop and /bambatch/paperdollbottom folders.  It will save these as paperdoll BAMs to the /bambatch/bam folder.  The filenames <strong>must</strong> have the same name with the exception of the last character, which must be the letter ‘t’ for the top frames and ‘b’ for the bottom frames.  See the relevant folders for examples (MGNLINVt.bmp and MGNLINVb.bmp).  Both BMPs <strong>must</strong> use <strong>exactly</strong> the same palette.  Each of these frames should have dimensions of 128x80 pixels in order for the frame offsets to be correct.  The frames in the resulting BAMs can then be trimmed using an external tool, such as <a href="http://www.shsforums.net/topic/57565-bam-resizer/">BAM Resizer</a>.
           </p>
           <h3>
-            <a name="moin" id="moin"></a>
+            <a id="moin"></a>
             Moinesse's BAMs
           </h3>
           <p>
-            <a name="subb1" id="subb1"></a>
-            <strong>1. BAMs only</strong><br />
-            This option will copy all BAMs from /bambatch/moinbam to your game
-            /override folder.
+            <a id="subb1"></a>
+            <strong>1. BAMs only</strong>
+            <br>
+            This option will copy all BAMs from /bambatch/moinbam to your game /override folder.
           </p>
           <p>
-            <a name="subb2" id="subb2"></a>
-            <strong>2. BAMs with test items</strong><br />
-            This option will copy all BAMs from /bambatch/moinbam to your game
-            /override folder. In addition, it will copy items based on the
-            source BAM also to the /override folder and patch them into a store.
-            In Tutu, this is the Candlekeep Inn (_inn2616.sto). In BG2 or BGT,
-            this is Min's Merchandise (shop01.sto), the merchant directly east
-            of the Circus Tent in Waukeen's Promenade. This allows you to see
-            how the BAMs will look in-game.<br /><br />
-            
-            Of course, the best option for this component is [N]ot to install
-            it, and to create your own items with the BAMs already referenced
-            in the inventory icon field (hex reference 0x3a). Then you can copy
-            the items with your own mod installer. See setup-sample.tp2 in the
-            /bambatch/tools folder for an example.<br /><br />
-            
-            You can see a list of all 179 BAMs and sample images <a href="#bams">
-            below</a>.
+            <a id="subb2"></a>
+            <strong>2. BAMs with test items</strong>
+            <br>
+            This option will copy all BAMs from /bambatch/moinbam to your game /override folder. In addition, it will copy items based on the source BAM also to the /override folder and patch them into a store.  In Tutu, this is the Candlekeep Inn (_inn2616.sto). In BG2 or BGT, this is Min's Merchandise (shop01.sto), the merchant directly east of the Circus Tent in Waukeen's Promenade. This allows you to see how the BAMs will look in-game.
+            <br>
+            <br>
+            Of course, the best option for this component is [N]ot to install it, and to create your own items with the BAMs already referenced in the inventory icon field (hex reference 0x3a). Then you can copy the items with your own mod installer. See setup-sample.tp2 in the /bambatch/tools folder for an example.
+            <br>
+            <br>
+            You can see a list of all 179 BAMs and sample images <a href="#bams">below</a>.
           </p>
           <h3>
-            <a name="moin" id="moin"></a>
             Tools
           </h3>
+          <p>The mod includes several utilities in the /tools subfolder that are not installed with either component.</p>
           <p>
-            The mod includes several utilities in the /tools subfolder that
-            are not installed with either component.
+            <strong>1. Paint Shop Pro palettes</strong>
+            <br>
+            I've included several PSP palettes I use for BAMs. These are probably convertable to Photoshop or another format (though offhand I can't tell you how to do that).
           </p>
+          <div class="indent">
+            <p>
+            BGDesc1.PspPalette - a standard palette for description BAMs<br>
+            BGDesc2.PspPalette - a somewhat modified version of the above palette<br>
+            BGDesc3.PspPalette - a subtler and darker description BAM palette<br>
+            BGIcons.PspPalette - a standard inventory BAM palette (used by Moinesse and others)<br>
+            BGScrollBlue.PspPalette - a palette for making blue scroll BAMs<br>
+            BGScrollRed.PspPalette - a palette for making red scroll BAMs<br>
+            BGScrollWhite.PspPalette - a palette for making white scroll BAMs<br>
+            BGSpellBlue.PspPalette - a palette for making blue spell icons<br>
+            BGSpellRed.PspPalette - a palette for making red scroll icons<br>
+            BGSpellWhite.PspPalette - a palette for making white scroll icons
+            </p>
+          </div>
           <p>
-            <strong>1. Paint Shop Pro palettes</strong><br />
-            I've included several PSP palettes I use for BAMs. These are probably
-            convertable to Photoshop or another format (though offhand I can't
-            tell you how to do that).<br /><br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGDesc1.PspPalette - a standard palette for description BAMs<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGDesc2.PspPalette - a somewhat modified version of the above palette<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGDesc3.PspPalette - a subtler and darker description BAM palette<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGIcons.PspPalette - a standard inventory BAM palette (used by Moinesse and others)<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGScrollBlue.PspPalette - a palette for making blue scroll BAMs<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGScrollRed.PspPalette - a palette for making red scroll BAMs<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGScrollWhite.PspPalette - a palette for making white scroll BAMs<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGSpellBlue.PspPalette - a palette for making blue spell icons<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGSpellRed.PspPalette - a palette for making red scroll icons<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;BGSpellWhite.PspPalette - a palette for making white scroll icons
+            <strong>2. Sample templates</strong><br>
+            These are files you can use as templates for making your own.
           </p>
-          <p>
-            <strong>2. Sample templates</strong><br />
-            These are files you can use as templates for making your own.<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;setup-sample.tp2 - a sample TP2 installer
-            for an item mod<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;spla-blu.bmp - a sample bitmap for a blue
-            spell scroll<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;spla-red.bmp - a sample bitmap for a red
-            spell scroll<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;spla-whi.bmp - a sample bitmap for a white
-            spell scroll<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;splb-blu.bmp - a sample bitmap for a blue
-            spellcasting icon<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;splb-red.bmp - a sample bitmap for a red
-            spellcasting icon<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;splb-whi.bmp - a sample bitmap for a white
-            spellcasting icon<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;splc-blu.bmp - a sample bitmap for a blue
-            spell book icon<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;splc-red.bmp - a sample bitmap for a red
-            spell book icon<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;splc-whi.bmp - a sample bitmap for a white
-            spell book icon<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;swatches.bmp - a palette used for on-the-fly
-            BAMs<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It includes the following colors:<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Brown - close to
-            default inventory screen background<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tan - close to
-            default description BAM background<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Near black - close
-            to large icon shadow<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pink - botched BAM
-            Workshop shadow color<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cyan - ground icon
-            outline<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teal - BAM Workshop
-            transparency color<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Green - default game
-            transparency color<br /><br />
-            Finally, the /tools folder contains a template (template.bam) for
-            making inventory icons with BAM Workshop. BAM Batcher makes BAM
-            Workshop somewhat obsolete for making multiple BAMs, but it can still
-            be useful for touching up single BAMs. To use this template with it,
-            just delete the single frame to fix palette issues, then import your
-            own bitmap frames.
-          </p>
+          <div class="indent">
+            <p>
+            setup-sample.tp2 - a sample TP2 installer for an item mod<br>
+            spla-blu.bmp - a sample bitmap for a blue spell scroll<br>
+            spla-red.bmp - a sample bitmap for a red spell scroll<br>
+            spla-whi.bmp - a sample bitmap for a white spell scroll<br>
+            splb-blu.bmp - a sample bitmap for a blue spellcasting icon<br>
+            splb-red.bmp - a sample bitmap for a red spellcasting icon<br>
+            splb-whi.bmp - a sample bitmap for a white spellcasting icon<br>
+            splc-blu.bmp - a sample bitmap for a blue spell book icon<br>
+            splc-red.bmp - a sample bitmap for a red spell book icon<br>
+            splc-whi.bmp - a sample bitmap for a white spell book icon<br>
+            swatches.bmp - a palette used for on-the-fly BAMs
+            </p>
+          </div>
+          <div class="indentmore">
+            <p>
+              It includes the following colors:<br>
+              Brown - close to default inventory screen background<br>
+              Tan - close to default description BAM background<br>
+              Near black - close to large icon shadow<br>
+              Pink - botched BAM Workshop shadow color<br>
+              Cyan - ground icon outline<br>
+              Teal - BAM Workshop transparency color<br>
+              Green - default game transparency color<br>
+            </p>
+          </div>
+          <p>Finally, the /tools folder contains a template (template.bam) for making inventory icons with BAM Workshop. BAM Batcher makes BAM Workshop somewhat obsolete for making multiple BAMs, but it can still be useful for touching up single BAMs. To use this template with it, just delete the single frame to fix palette issues, then import your own bitmap frames.</p>
           <address>
-            <span class="footer">BAM Batcher &gt; Components</span> 
-            &#8226;<a href="#top">Back to top</a>
+            <span class="footer">BAM Batcher &gt; Components</span> &#8226;<a href="#top">Back To Top</a>
           </address>
         </div>
-        <!-- =========================== F A Q ========================== -->
-        <a name="faq" id="faq"></a>
-        <div class="content">
-          <h2>
-            Frequently Asked Questions
-          </h2>
-          <p>
-            <strong>How do I rename files?</strong><br />
-            You may want to rename files output by the tool. For example, the
-            BAM to BMP conversion option labels bitmaps with a number
-            corresponding to their frame order in the BAM file. You may wish to
-            replace these with 'l' or 's' for easier identification as large or
-            small inventory icon frames.<br /><br />
-            
-            You can use a tool similar to the <a href="http://www.bulkrenameutility.co.uk/">
-            Bulk Rename Utility</a> or another that supports regular expressions
-            (regexp) - indeed, even <a href="http://weidu.org/~thebigg/"><acronym title=
-            "Weimer Dialogue Utility">WeiDU</acronym></a> itself. Bulk Rename
-            is quite easy, however. You can right-click on the bmp folder,
-            select <strong>Bulk Rename Here</strong> and enter the following
-            information in the relevant fields under <strong>RegEx</strong>:<br /><br />
-            
-            <em>If all frames ending in '0' correspond to large icons:</em><br />
-            <strong>Match</strong>: (^[a-z]+)([0-9]{2})(0$)<br />
-            <strong>Replace</strong>: \1\2l<br /><br />
-            
-            <em>If all frames ending in '1' correspond to small icons:</em><br />
-            <strong>Match</strong>: (^[a-z]+)([0-9]{2})(1$)<br />
-            <strong>Replace</strong>: \1\2s<br /><br />
-            
-            The above examples basically tell it to replace the first
-            alphabetical characters with themselves, the second two numbers with
-            themselves, and the last number with an 'l' or 's' as relevant.
-          </p>
-          <p>
-            <strong>How do I convert images from one format to another?</strong><br />
-            You may have a number of files saved as GIFs you wish to save as
-            bitmaps, or bitmaps you need to manipulate so they're in the right
-            format. Or you may want to convert your BMPs to GIFs to display them
-            online better. Most image editing programs can handle such
-            operations in batch mode.<br /><br />
-            
-            <em>In Paint Shop Pro</em><br />
-            Go to File > Batch Process, Browse and Select All the GIFs from a
-            whole folder. Then pick "New Type" under Save Mode and BMP as the
-            Type under Save Options and specify the output folder. For bitmaps,
-            make sure the Options are set to standard RGB coding (the default
-            for most programs) rather than Run length encoding.<br /><br />
-            
-            <em>In Photoshop</em><br />
-            Go to File > Automate > Conditional Mode Change. Choose Source Mode:
-            Bitmap and Target Mode: Indexed Color. The Batch menu option may
-            also be able to convert multiple files to another format.<br /><br />
-            
-            You'll also need to ensure your source bitmaps are in 256-color
-            8-bit format.<br /><br />
-            
-            <em>In Paint Shop Pro</em><br />
-            Go to Image > Decrease Color Depth > 256 Color palette. Choose
-            Optimized Octree, Error diffusion and Reduce color bleeding to
-            produce the best results.<br /><br />
-            
-            <em>In Photoshop</em><br />
-            Go to Image > Mode > Indexed Color. Choose Palette: Local
-            (Selective), Colors: 256, Dither: None. You may get better results
-            with other options, depending on the source image.<br /><br />
-            
-            If you don't have either program, even MS Paint can open most files
-            and Save As a 256 Color Bitmap, though this will likely produce
-            substandard results. You are better off downloading <a href=
-            "http://www.gimp.org/">GIMP</a> for free.
-          </p>
-          <p>
-            <strong>How do I make sure my bitmaps use the same palette?</strong><br />
-            Use the tips above to reduce your largest frame to 256 colors. Then:<br /><br />
 
-            <em>In Paint Shop Pro</em><br />
-            Go to Image > Palette > Save Palette. Name and save it, then switch
-            to the other image and go to Image > Palette > Load Palette and
-            choose Nearest color matching.<br /><br />
-            
-            <em>In Photoshop</em><br />
-            Go to Image > Mode > Color Table. Save and name it, then switch
-            to the other image and go to Image > Mode > Color Table and
-            Load it.
+
+        <!-- ================== F A Q ================== -->
+        <a id="faq"></a>
+        <div class="content">
+          <h2>Frequently Asked Questions</h2>
+          <p>
+            <strong>Q: How do I rename files?</strong>
+            <br>
+            A: You may want to rename files output by the tool. For example, the BAM to BMP conversion option labels bitmaps with a number corresponding to their frame order in the BAM file. You may wish to replace these with 'l' or 's' for easier identification as large or small inventory icon frames.
+            <br>
+            <br>
+            You can use a tool similar to the <a href="http://www.bulkrenameutility.co.uk/">Bulk Rename Utility</a> or another that supports regular expressions(regexp) - indeed, even <a href="http://weidu.org/~thebigg/"><abbr title="Weimer Dialogue Utility">WeiDU</abbr></a> itself. Bulk Rename is quite easy, however. You can right-click on the bmp folder, select <strong>Bulk Rename Here</strong> and enter the following information in the relevant fields under <strong>RegEx</strong>:
+            <br>
+            <br>
+            <em>If all frames ending in '0' correspond to large icons:</em>
+            <br>
+            <strong>Match</strong>: (^[a-z]+)([0-9]{2})(0$)
+            <br>
+            <strong>Replace</strong>: \1\2l
+            <br>
+            <br>
+            <em>If all frames ending in '1' correspond to small icons:</em>
+            <br>
+            <strong>Match</strong>: (^[a-z]+)([0-9]{2})(1$)
+            <br>
+            <strong>Replace</strong>: \1\2s
+            <br>
+            <br>
+            The above examples basically tell it to replace the first alphabetical characters with themselves, the second two numbers with themselves, and the last number with an 'l' or 's' as relevant.
           </p>
           <p>
-            <strong>Can I get that in-game background look like the icons below?</strong><br />
-            Yes, there is a line (currently around #113) in the .tp2 file you
-            can uncomment for that. Otherwise, exported bitmap backgrounds get
-            the default game transparency color (a bright green).
+            <br>
+            <strong>Q: How do I convert images from one format to another?</strong>
+            <br>
+            A: You may have a number of files saved as GIFs you wish to save as bitmaps, or bitmaps you need to manipulate so they're in the right format. Or you may want to convert your BMPs to GIFs to display them online better. Most image editing programs can handle such operations in batch mode.
+            <br>
+            <br>
+            <em>In Paint Shop Pro</em>
+            <br>
+            Go to File > Batch Process, Browse and Select All the GIFs from a whole folder. Then pick "New Type" under Save Mode and BMP as the Type under Save Options and specify the output folder. For bitmaps, make sure the Options are set to standard RGB coding (the default for most programs) rather than Run length encoding.
+            <br>
+            <br>
+            <em>In Photoshop</em><br>
+            Go to File > Automate > Conditional Mode Change. Choose Source Mode: Bitmap and Target Mode: Indexed Color. The Batch menu option may also be able to convert multiple files to another format.
+            <br>
+            <br>
+            You'll also need to ensure your source bitmaps are in 256-color 8-bit format.
+            <br>
+            <br>
+            <em>In Paint Shop Pro</em>
+            <br>
+            Go to Image > Decrease Color Depth > 256 Color palette. Choose Optimized Octree, Error diffusion and Reduce color bleeding to produce the best results.
+            <br>
+            <br>
+            <em>In Photoshop</em>
+            <br>
+            Go to Image > Mode > Indexed Color. Choose Palette: Local (Selective), Colors: 256, Dither: None. You may get better results with other options, depending on the source image.
+            <br>
+            <br>
+            If you don't have either program, even MS Paint can open most files and Save As a 256 Color Bitmap, though this will likely produce substandard results. You are better off downloading <a href="http://www.gimp.org/">GIMP</a> for free.
           </p>
           <p>
-            <strong>Why do some files take long to convert?</strong><br />
-            This can happen sometimes with run-length encoded BAM frames or
-            bitmaps that have too many transparent pixels. For this reason, crop
-            your bitmap as close as possible to the edges of the actual image.
-            Your files will be smaller and will convert more quickly without
-            losing any data. This usually isn't a problem for most game BAMs
-            which are formatted this way by default.
+            <br>
+            <strong>Q: How do I make sure my bitmaps use the same palette?</strong>
+            <br>
+            A: Use the tips above to reduce your largest frame to 256 colors. Then:
+            <br>
+            <br>
+            <em>In Paint Shop Pro</em>
+            <br>
+            Go to Image > Palette > Save Palette. Name and save it, then switch to the other image and go to Image > Palette > Load Palette and choose Nearest color matching.
+            <br>
+            <br>
+            <em>In Photoshop</em>
+            <br>
+            Go to Image > Mode > Color Table. Save and name it, then switch to the other image and go to Image > Mode > Color Table and Load it.
           </p>
           <p>
-            <strong>Can I undo changes I've made?</strong><br />
-            If you are not satisfied with the changes made (for example, by
-            fixing BAM coordinates), just restore the original files from your
-            backup subfolder. In any case, you should delete the files in your
-            backup folders regularly, as they may pile up. You do not need to
-            delete files with a numeric extension, however. <acronym title=
-            "Weimer Dialogue Utility">WeiDU</acronym> generates these
-            automatically.
+            <br>
+            <strong>Q: Can I get that in-game background look like the icons below?</strong>
+            <br>
+            A: Yes, there is a line (currently around #127) in the .tp2 file you can uncomment for that. Otherwise, exported bitmap backgrounds get the default game transparency color (a bright green).
           </p>
           <p>
-            <strong>What do I do if I get an error message when using this?</strong><br />
-            Make sure you've followed the instructions for what you're trying
-            to do. If it still happens, open the .tp2 file with a text editor,
-            fix the code and post the corrections ;). Oh, okay&hellip; if you're
-            not comfortable with fixing code, post the error message and the
-            source file you're using at shsforums.net.
+            <br>
+            <strong>Q: Why do some files take long to convert?</strong>
+            <br>
+            A: This can happen sometimes with run-length encoded BAM frames or bitmaps that have too many transparent pixels. For this reason, crop your bitmap as close as possible to the edges of the actual image. Your files will be smaller and will convert more quickly without losing any data. This usually isn't a problem for most game BAMs which are formatted this way by default.
           </p>
           <p>
-            <strong>Can I reassemble modified creature animations with this?</strong><br />
-            Not currently, since they're quite complex. They have several cycles,
-            each with separate frames, and none of them seem to have intuitive
-            X and Y offsets, so someone has to manually determine where they
-            should be. If someone can give me specifications for exact assembly
-            (or better yet, write the code for it), I can consider adding this.
+            <br>
+            <strong>Q: Can I undo changes I've made?</strong>
+            <br>
+            A: If you are not satisfied with the changes made (for example, by fixing BAM coordinates), just restore the original files from your backup subfolder. In any case, you should delete the files in your backup folders regularly, as they may pile up. You do not need to delete files with a numeric extension, however. <abbr title="Weimer Dialogue Utility">WeiDU</abbr> generates these automatically.
           </p>
           <p>
-            <strong>Can I translate this tool to another language?</strong><br />
-            Sure, and you can start with this readme. Seriously, that will be
-            the hard part. I didn't bother generating .tra files since there are
-            only a handful of strings for the installer.
+            <br>
+            <strong>Q: What do I do if I get an error message when using this?</strong>
+            <br>
+            A: Make sure you've followed the instructions for what you're trying to do. If it still happens, open the .tp2 file with a text editor, fix the code and post the corrections ;). Oh, okay &hellip; if you're not comfortable with fixing code, post the error message and the source file you're using at shsforums.net.
           </p>
           <p>
-            <strong>Do other mods use any of the BAMs below?</strong><br />
-            <a href="http://www.spellholdstudios.net/ie/aurora">Aurora's Shoes
-            and Boots</a> uses a modified version of mnboot02.bam for the
-            "Everyday Boots" (Green, Blue and Yellow) as well as the upgraded
-            Thrice-Armored Boots. It also uses a version of mnboot08.bam for the
-            Boots of Battle and its upgrade, the Boots of War. There may be
-            other mods, but it's doubtful, since these have not been publicly
-            available for some time (and weren't formatted correctly in the
-            first place). That shouldn't prevent other mods from using the same
-            BAMs though, since I modified them.
+            <br>
+            <strong>Q: Can I reassemble modified creature animations with this?</strong>
+            <br>
+            A: Not currently, since they're quite complex. They have several cycles, each with separate frames, and none of them seem to have intuitive X and Y offsets, so someone has to manually determine where they should be. If someone can give me specifications for exact assembly (or better yet, write the code for it), I can consider adding this.
           </p>
           <p>
-            <strong>This thing rules! Can I send you a bottle of something?</strong><br />
-            Aye, single-malt scotch preferably, but I'm easy.
+            <br>
+            <strong>Q: Can I translate this tool to another language?</strong>
+            <br>
+            A: Sure, and you can start with this readme. Seriously, that will be the hard part. I didn't bother generating .tra files since there are only a handful of strings for the installer.
           </p>
           <p>
-            <strong>This thing sucks! Can I send you a bottle of something?</strong><br />
-            See previous item (and no, you can't set it on fire :P).
+            <br>
+            <strong>Q: Do other mods use any of the BAMs below?</strong>
+            <br>
+            A: <a href="http://www.spellholdstudios.net/ie/aurora">Aurora's Shoes and Boots</a> uses a modified version of mnboot02.bam for the "Everyday Boots" (Green, Blue and Yellow) as well as the upgraded Thrice-Armored Boots. It also uses a version of mnboot08.bam for the Boots of Battle and its upgrade, the Boots of War. There may be other mods, but it's doubtful, since these have not been publicly available for some time (and weren't formatted correctly in the first place). That shouldn't prevent other mods from using the same BAMs though, since I modified them.
+          </p>
+          <p>
+            <br>
+            <strong>Q: This thing rules! Can I send you a bottle of something?</strong>
+            <br>
+            A: Aye, single-malt scotch preferably, but I'm easy.
+          </p>
+          <p>
+            <br>
+            <strong>Q: This thing sucks! Can I send you a bottle of something?</strong>
+            <br>
+            A: See previous item (and no, you can't set it on fire :P).
           </p>
           <address>
-            <span class="footer">BAM Batcher &gt; FAQ</span> &#8226;<a href=
-            "#top">Back to top</a>
+            <span class="footer">BAM Batcher &gt; FAQ</span> &#8226;<a href="#top">Back To Top</a>
           </address>
         </div>
-        <!-- ========================== B A M s ========================= -->
-        <a name="bams" id="bams"></a>
+        
+        <!-- ================== B A M s ================== -->
+        <a id="bams"></a>
         <div class="content">
-          <h2>
-            Moinesse's BAMs
-          </h2>
+          <h2>Moinesse's BAMs</h2>
+          <p>The second component of this utility includes BAMs that Moinesse originally created as mentioned above. I take no credit for the artwork in these BAMs, nor do I know if all the BAMs are Moinesse's original work or obtained from somewhere else (nor do I care :)).</p>
+          <p>I have fixed a number of technical things in the BAMs. I've filled in missing drop shadows on the large frames, formatted correct X and Y coordinates using the tool, filled in obvious missing pixels and cropped the frames to the actual image dimensions. If someone doesn't like that, too bad. I think there are some great BAMs here, but they weren't that helpful if they didn't work in the game.</p>
+          <p>The BAMs include the item categories below. Large and small icons form a pair within each BAM. The BAMs have the modder and item prefix as indicated, followed by a sequential number as displayed in the order below.</p>
           <p>
-            The second component of this utility includes BAMs that Moinesse
-            originally created as mentioned above. I take no credit for the
-            artwork in these BAMs, nor do I know if all the BAMs are Moinesse's
-            original work or obtained from somewhere else (nor do I care :)).
+            <strong>Amulets</strong> (mnamul##)
+            <br>
+            <img src="moingif/mnamul01l.gif" width="28" height="34" alt="mnamul01">
+            <img src="moingif/mnamul01s.gif" width="20" height="30" alt="mnamul01">
+            <img src="moingif/mnamul02l.gif" width="31" height="34" alt="mnamul02">
+            <img src="moingif/mnamul02s.gif" width="23" height="30" alt="mnamul02">
+            <img src="moingif/mnamul03l.gif" width="25" height="34" alt="mnamul03">
+            <img src="moingif/mnamul03s.gif" width="18" height="30" alt="mnamul03">
+            <img src="moingif/mnamul04l.gif" width="29" height="34" alt="mnamul04">
+            <img src="moingif/mnamul04s.gif" width="21" height="30" alt="mnamul04">
+            <img src="moingif/mnamul05l.gif" width="30" height="32" alt="mnamul05">
+            <img src="moingif/mnamul05s.gif" width="22" height="30" alt="mnamul05">
+            <img src="moingif/mnamul06l.gif" width="23" height="31" alt="mnamul06">
+            <img src="moingif/mnamul06s.gif" width="17" height="30" alt="mnamul06">
+            <img src="moingif/mnamul07l.gif" width="30" height="33" alt="mnamul07">
+            <img src="moingif/mnamul07s.gif" width="23" height="30" alt="mnamul07">
+            <img src="moingif/mnamul08l.gif" width="31" height="34" alt="mnamul08">
+            <img src="moingif/mnamul08s.gif" width="23" height="30" alt="mnamul08">
+            <img src="moingif/mnamul09l.gif" width="38" height="40" alt="mnamul09">
+            <img src="moingif/mnamul09s.gif" width="26" height="30" alt="mnamul09">
+            <img src="moingif/mnamul10l.gif" width="37" height="43" alt="mnamul10">
+            <img src="moingif/mnamul10s.gif" width="26" height="30" alt="mnamul10">
+            <img src="moingif/mnamul11l.gif" width="37" height="38" alt="mnamul11">
+            <img src="moingif/mnamul11s.gif" width="26" height="30" alt="mnamul11">
+            <img src="moingif/mnamul12l.gif" width="37" height="37" alt="mnamul12">
+            <img src="moingif/mnamul12s.gif" width="26" height="27" alt="mnamul12">
+            <img src="moingif/mnamul13l.gif" width="28" height="32" alt="mnamul13">
+            <img src="moingif/mnamul13s.gif" width="21" height="30" alt="mnamul13">
+            <img src="moingif/mnamul14l.gif" width="29" height="31" alt="mnamul14">
+            <img src="moingif/mnamul14s.gif" width="22" height="30" alt="mnamul14">
+            <img src="moingif/mnamul15l.gif" width="29" height="33" alt="mnamul15">
+            <img src="moingif/mnamul15s.gif" width="26" height="28" alt="mnamul15">
+            <img src="moingif/mnamul16l.gif" width="38" height="34" alt="mnamul16">
+            <img src="moingif/mnamul16s.gif" width="30" height="28" alt="mnamul16">
+            <img src="moingif/mnamul17l.gif" width="56" height="51" alt="mnamul17">
+            <img src="moingif/mnamul17s.gif" width="30" height="29" alt="mnamul17">
+            <img src="moingif/mnamul18l.gif" width="57" height="51" alt="mnamul18">
+            <img src="moingif/mnamul18s.gif" width="30" height="29" alt="mnamul18">
+            <img src="moingif/mnamul19l.gif" width="46" height="41" alt="mnamul19">
+            <img src="moingif/mnamul19s.gif" width="30" height="28" alt="mnamul19">
           </p>
           <p>
-            I have fixed a number of technical things in the BAMs. I've filled
-            in missing drop shadows on the large frames, formatted correct X and
-            Y coordinates using the tool, filled in obvious missing pixels and
-            cropped the frames to the actual image dimensions. If someone
-            doesn't like that, too bad. I think there are some great BAMs here,
-            but they weren't that helpful if they didn't work in the game.
+            <strong>Armor</strong> (mnarmr##)
+            <br>
+            <img src="moingif/mnarmr01l.gif" width="47" height="63" alt="mnarmr01">
+            <img src="moingif/mnarmr01s.gif" width="19" height="30" alt="mnarmr01">
+            <img src="moingif/mnarmr02l.gif" width="58" height="39" alt="mnarmr02">
+            <img src="moingif/mnarmr02s.gif" width="32" height="26" alt="mnarmr02">
+            <img src="moingif/mnarmr03l.gif" width="44" height="52" alt="mnarmr03">
+            <img src="moingif/mnarmr03s.gif" width="26" height="32" alt="mnarmr03">
+            <img src="moingif/mnarmr04l.gif" width="50" height="53" alt="mnarmr04">
+            <img src="moingif/mnarmr04s.gif" width="29" height="32" alt="mnarmr04">
+            <img src="moingif/mnarmr05l.gif" width="47" height="63" alt="mnarmr05">
+            <img src="moingif/mnarmr05s.gif" width="17" height="30" alt="mnarmr05">
+            <img src="moingif/mnarmr06l.gif" width="54" height="57" alt="mnarmr06">
+            <img src="moingif/mnarmr06s.gif" width="23" height="28" alt="mnarmr06">
+            <img src="moingif/mnarmr07l.gif" width="56" height="46" alt="mnarmr07">
+            <img src="moingif/mnarmr07s.gif" width="32" height="27" alt="mnarmr07">
+            <img src="moingif/mnarmr08l.gif" width="56" height="46" alt="mnarmr08">
+            <img src="moingif/mnarmr08s.gif" width="32" height="27" alt="mnarmr08">
+            <img src="moingif/mnarmr09l.gif" width="44" height="63" alt="mnarmr09">
+            <img src="moingif/mnarmr09s.gif" width="23" height="31" alt="mnarmr09">
+            <img src="moingif/mnarmr10l.gif" width="47" height="64" alt="mnarmr10">
+            <img src="moingif/mnarmr10s.gif" width="19" height="30" alt="mnarmr10">
+            <img src="moingif/mnarmr11l.gif" width="47" height="64" alt="mnarmr11">
+            <img src="moingif/mnarmr11s.gif" width="19" height="30" alt="mnarmr11">
+            <img src="moingif/mnarmr12l.gif" width="54" height="54" alt="mnarmr12">
+            <img src="moingif/mnarmr12s.gif" width="22" height="26" alt="mnarmr12">
+            <img src="moingif/mnarmr13l.gif" width="55" height="54" alt="mnarmr13">
+            <img src="moingif/mnarmr13s.gif" width="22" height="26" alt="mnarmr13">
+            <img src="moingif/mnarmr14l.gif" width="55" height="49" alt="mnarmr14">
+            <img src="moingif/mnarmr14s.gif" width="22" height="24" alt="mnarmr14">
+            <img src="moingif/mnarmr15l.gif" width="54" height="44" alt="mnarmr15">
+            <img src="moingif/mnarmr15s.gif" width="32" height="27" alt="mnarmr15">
+            <img src="moingif/mnarmr16l.gif" width="53" height="59" alt="mnarmr16">
+            <img src="moingif/mnarmr16s.gif" width="25" height="29" alt="mnarmr16">
+            <img src="moingif/mnarmr17l.gif" width="50" height="61" alt="mnarmr17">
+            <img src="moingif/mnarmr17s.gif" width="24" height="30" alt="mnarmr17">
+            <img src="moingif/mnarmr18l.gif" width="63" height="62" alt="mnarmr18">
+            <img src="moingif/mnarmr18s.gif" width="30" height="30" alt="mnarmr18">
+            <img src="moingif/mnarmr19l.gif" width="62" height="61" alt="mnarmr19">
+            <img src="moingif/mnarmr19s.gif" width="29" height="30" alt="mnarmr19">
           </p>
           <p>
-            The BAMs include the item categories below. Large and small icons
-            form a pair within each BAM. The BAMs have the modder and item
-            prefix as indicated, followed by a sequential number as displayed
-            in the order below.
+            <strong>Axes</strong> (mnaxe##)
+            <br>
+            <img src="moingif/mnaxe01l.gif" width="64" height="59" alt="mnaxe01">
+            <img src="moingif/mnaxe01s.gif" width="31" height="29" alt="mnaxe01">
+            <img src="moingif/mnaxe02l.gif" width="63" height="64" alt="mnaxe02">
+            <img src="moingif/mnaxe02s.gif" width="29" height="31" alt="mnaxe02">
+            <img src="moingif/mnaxe03l.gif" width="56" height="47" alt="mnaxe03">
+            <img src="moingif/mnaxe03s.gif" width="26" height="23" alt="mnaxe03">
+            <img src="moingif/mnaxe04l.gif" width="64" height="63" alt="mnaxe04">
+            <img src="moingif/mnaxe04s.gif" width="31" height="31" alt="mnaxe04">
+            <img src="moingif/mnaxe05l.gif" width="25" height="62" alt="mnaxe05">
+            <img src="moingif/mnaxe05s.gif" width="12" height="31" alt="mnaxe05">
+            <img src="moingif/mnaxe06l.gif" width="31" height="64" alt="mnaxe06">
+            <img src="moingif/mnaxe06s.gif" width="15" height="31" alt="mnaxe06">
+            <img src="moingif/mnaxe07l.gif" width="30" height="63" alt="mnaxe07">
+            <img src="moingif/mnaxe07s.gif" width="13" height="30" alt="mnaxe07">
+            <img src="moingif/mnaxe08l.gif" width="33" height="63" alt="mnaxe08">
+            <img src="moingif/mnaxe08s.gif" width="15" height="31" alt="mnaxe08">
+            <img src="moingif/mnaxe09l.gif" width="44" height="63" alt="mnaxe09">
+            <img src="moingif/mnaxe09s.gif" width="20" height="31" alt="mnaxe09">
+            <img src="moingif/mnaxe10l.gif" width="39" height="62" alt="mnaxe10">
+            <img src="moingif/mnaxe10s.gif" width="18" height="31" alt="mnaxe10">
+            <img src="moingif/mnaxe11l.gif" width="34" height="30" alt="mnaxe11">
+            <img src="moingif/mnaxe11s.gif" width="30" height="29" alt="mnaxe11">
           </p>
           <p>
-            <strong>Amulets</strong> (mnamul##)<br />
-            <img width=28 height=34 src="moingif/mnamul01l.gif" alt="mnamul01" />
-            <img width=20 height=30 src="moingif/mnamul01s.gif" alt="mnamul01" />
-            <img width=31 height=34 src="moingif/mnamul02l.gif" alt="mnamul02" />
-            <img width=23 height=30 src="moingif/mnamul02s.gif" alt="mnamul02" />
-            <img width=25 height=34 src="moingif/mnamul03l.gif" alt="mnamul03" />
-            <img width=18 height=30 src="moingif/mnamul03s.gif" alt="mnamul03" />
-            <img width=29 height=34 src="moingif/mnamul04l.gif" alt="mnamul04" />
-            <img width=21 height=30 src="moingif/mnamul04s.gif" alt="mnamul04" />
-            <img width=30 height=32 src="moingif/mnamul05l.gif" alt="mnamul05" />
-            <img width=22 height=30 src="moingif/mnamul05s.gif" alt="mnamul05" />
-            <img width=23 height=31 src="moingif/mnamul06l.gif" alt="mnamul06" />
-            <img width=17 height=30 src="moingif/mnamul06s.gif" alt="mnamul06" />
-            <img width=30 height=33 src="moingif/mnamul07l.gif" alt="mnamul07" />
-            <img width=23 height=30 src="moingif/mnamul07s.gif" alt="mnamul07" />
-            <img width=31 height=34 src="moingif/mnamul08l.gif" alt="mnamul08" />
-            <img width=23 height=30 src="moingif/mnamul08s.gif" alt="mnamul08" />
-            <img width=38 height=40 src="moingif/mnamul09l.gif" alt="mnamul09" />
-            <img width=26 height=30 src="moingif/mnamul09s.gif" alt="mnamul09" />
-            <img width=37 height=43 src="moingif/mnamul10l.gif" alt="mnamul10" />
-            <img width=26 height=30 src="moingif/mnamul10s.gif" alt="mnamul10" />
-            <img width=37 height=38 src="moingif/mnamul11l.gif" alt="mnamul11" />
-            <img width=26 height=30 src="moingif/mnamul11s.gif" alt="mnamul11" />
-            <img width=37 height=37 src="moingif/mnamul12l.gif" alt="mnamul12" />
-            <img width=26 height=27 src="moingif/mnamul12s.gif" alt="mnamul12" />
-            <img width=28 height=32 src="moingif/mnamul13l.gif" alt="mnamul13" />
-            <img width=21 height=30 src="moingif/mnamul13s.gif" alt="mnamul13" />
-            <img width=29 height=31 src="moingif/mnamul14l.gif" alt="mnamul14" />
-            <img width=22 height=30 src="moingif/mnamul14s.gif" alt="mnamul14" />
-            <img width=29 height=33 src="moingif/mnamul15l.gif" alt="mnamul15" />
-            <img width=26 height=28 src="moingif/mnamul15s.gif" alt="mnamul15" />
-            <img width=38 height=34 src="moingif/mnamul16l.gif" alt="mnamul16" />
-            <img width=30 height=28 src="moingif/mnamul16s.gif" alt="mnamul16" />
-            <img width=56 height=51 src="moingif/mnamul17l.gif" alt="mnamul17" />
-            <img width=30 height=29 src="moingif/mnamul17s.gif" alt="mnamul17" />
-            <img width=57 height=51 src="moingif/mnamul18l.gif" alt="mnamul18" />
-            <img width=30 height=29 src="moingif/mnamul18s.gif" alt="mnamul18" />
-            <img width=46 height=41 src="moingif/mnamul19l.gif" alt="mnamul19" />
-            <img width=30 height=28 src="moingif/mnamul19s.gif" alt="mnamul19" />
+            <strong>Belts</strong> (mnbelt##)
+            <br>
+            <img src="moingif/mnbelt01l.gif" width="52" height="25" alt="mnbelt01">
+            <img src="moingif/mnbelt01s.gif" width="32" height="15" alt="mnbelt01">
+            <img src="moingif/mnbelt02l.gif" width="52" height="34" alt="mnbelt02">
+            <img src="moingif/mnbelt02s.gif" width="32" height="21" alt="mnbelt02">
+            <img src="moingif/mnbelt03l.gif" width="52" height="21" alt="mnbelt03">
+            <img src="moingif/mnbelt03s.gif" width="32" height="13" alt="mnbelt03">
+            <img src="moingif/mnbelt04l.gif" width="52" height="32" alt="mnbelt04">
+            <img src="moingif/mnbelt04s.gif" width="32" height="21" alt="mnbelt04">
+            <img src="moingif/mnbelt05l.gif" width="52" height="21" alt="mnbelt05">
+            <img src="moingif/mnbelt05s.gif" width="32" height="13" alt="mnbelt05">
+            <img src="moingif/mnbelt06l.gif" width="52" height="21" alt="mnbelt06">
+            <img src="moingif/mnbelt06s.gif" width="32" height="13" alt="mnbelt06">
+            <img src="moingif/mnbelt07l.gif" width="52" height="21" alt="mnbelt07">
+            <img src="moingif/mnbelt07s.gif" width="32" height="13" alt="mnbelt07">
+            <img src="moingif/mnbelt08l.gif" width="52" height="21" alt="mnbelt08">
+            <img src="moingif/mnbelt08s.gif" width="32" height="13" alt="mnbelt08">
+            <img src="moingif/mnbelt09l.gif" width="49" height="26" alt="mnbelt09">
+            <img src="moingif/mnbelt09s.gif" width="30" height="16" alt="mnbelt09">
+            <img src="moingif/mnbelt10l.gif" width="51" height="38" alt="mnbelt10">
+            <img src="moingif/mnbelt10s.gif" width="31" height="24" alt="mnbelt10">
+            <img src="moingif/mnbelt11l.gif" width="64" height="30" alt="mnbelt11">
+            <img src="moingif/mnbelt11s.gif" width="31" height="15" alt="mnbelt11">
+            <img src="moingif/mnbelt12l.gif" width="64" height="32" alt="mnbelt12">
+            <img src="moingif/mnbelt12s.gif" width="31" height="16" alt="mnbelt12">
+            <img src="moingif/mnbelt13l.gif" width="64" height="29" alt="mnbelt13">
+            <img src="moingif/mnbelt13s.gif" width="31" height="14" alt="mnbelt13">
+            <img src="moingif/mnbelt14l.gif" width="64" height="33" alt="mnbelt14">
+            <img src="moingif/mnbelt14s.gif" width="32" height="16" alt="mnbelt14">
           </p>
           <p>
-            <strong>Armor</strong> (mnarmr##)<br />
-            <img width=47 height=63 src="moingif/mnarmr01l.gif" alt="mnarmr01" />
-            <img width=19 height=30 src="moingif/mnarmr01s.gif" alt="mnarmr01" />
-            <img width=58 height=39 src="moingif/mnarmr02l.gif" alt="mnarmr02" />
-            <img width=32 height=26 src="moingif/mnarmr02s.gif" alt="mnarmr02" />
-            <img width=44 height=52 src="moingif/mnarmr03l.gif" alt="mnarmr03" />
-            <img width=26 height=32 src="moingif/mnarmr03s.gif" alt="mnarmr03" />
-            <img width=50 height=53 src="moingif/mnarmr04l.gif" alt="mnarmr04" />
-            <img width=29 height=32 src="moingif/mnarmr04s.gif" alt="mnarmr04" />
-            <img width=47 height=63 src="moingif/mnarmr05l.gif" alt="mnarmr05" />
-            <img width=17 height=30 src="moingif/mnarmr05s.gif" alt="mnarmr05" />
-            <img width=54 height=57 src="moingif/mnarmr06l.gif" alt="mnarmr06" />
-            <img width=23 height=28 src="moingif/mnarmr06s.gif" alt="mnarmr06" />
-            <img width=56 height=46 src="moingif/mnarmr07l.gif" alt="mnarmr07" />
-            <img width=32 height=27 src="moingif/mnarmr07s.gif" alt="mnarmr07" />
-            <img width=56 height=46 src="moingif/mnarmr08l.gif" alt="mnarmr08" />
-            <img width=32 height=27 src="moingif/mnarmr08s.gif" alt="mnarmr08" />
-            <img width=44 height=63 src="moingif/mnarmr09l.gif" alt="mnarmr09" />
-            <img width=23 height=31 src="moingif/mnarmr09s.gif" alt="mnarmr09" />
-            <img width=47 height=64 src="moingif/mnarmr10l.gif" alt="mnarmr10" />
-            <img width=19 height=30 src="moingif/mnarmr10s.gif" alt="mnarmr10" />
-            <img width=47 height=64 src="moingif/mnarmr11l.gif" alt="mnarmr11" />
-            <img width=19 height=30 src="moingif/mnarmr11s.gif" alt="mnarmr11" />
-            <img width=54 height=54 src="moingif/mnarmr12l.gif" alt="mnarmr12" />
-            <img width=22 height=26 src="moingif/mnarmr12s.gif" alt="mnarmr12" />
-            <img width=55 height=54 src="moingif/mnarmr13l.gif" alt="mnarmr13" />
-            <img width=22 height=26 src="moingif/mnarmr13s.gif" alt="mnarmr13" />
-            <img width=55 height=49 src="moingif/mnarmr14l.gif" alt="mnarmr14" />
-            <img width=22 height=24 src="moingif/mnarmr14s.gif" alt="mnarmr14" />
-            <img width=54 height=44 src="moingif/mnarmr15l.gif" alt="mnarmr15" />
-            <img width=32 height=27 src="moingif/mnarmr15s.gif" alt="mnarmr15" />
-            <img width=53 height=59 src="moingif/mnarmr16l.gif" alt="mnarmr16" />
-            <img width=25 height=29 src="moingif/mnarmr16s.gif" alt="mnarmr16" />
-            <img width=50 height=61 src="moingif/mnarmr17l.gif" alt="mnarmr17" />
-            <img width=24 height=30 src="moingif/mnarmr17s.gif" alt="mnarmr17" />
-            <img width=63 height=62 src="moingif/mnarmr18l.gif" alt="mnarmr18" />
-            <img width=30 height=30 src="moingif/mnarmr18s.gif" alt="mnarmr18" />
-            <img width=62 height=61 src="moingif/mnarmr19l.gif" alt="mnarmr19" />
-            <img width=29 height=30 src="moingif/mnarmr19s.gif" alt="mnarmr19" />
+            <strong>Blunts</strong> (mnblun##)
+            <br>
+            <img src="moingif/mnblun01l.gif" width="45" height="64" alt="mnblun01">
+            <img src="moingif/mnblun01s.gif" width="21" height="31" alt="mnblun01">
+            <img src="moingif/mnblun02l.gif" width="32" height="64" alt="mnblun02">
+            <img src="moingif/mnblun02s.gif" width="14" height="32" alt="mnblun02">
+            <img src="moingif/mnblun03l.gif" width="33" height="58" alt="mnblun03">
+            <img src="moingif/mnblun03s.gif" width="15" height="29" alt="mnblun03">
+            <img src="moingif/mnblun04l.gif" width="33" height="63" alt="mnblun04">
+            <img src="moingif/mnblun04s.gif" width="15" height="30" alt="mnblun04">
+            <img src="moingif/mnblun05l.gif" width="30" height="64" alt="mnblun05">
+            <img src="moingif/mnblun05s.gif" width="14" height="31" alt="mnblun05">
           </p>
           <p>
-            <strong>Axes</strong> (mnaxe##)<br />
-            <img width=64 height=59 src="moingif/mnaxe01l.gif" alt="mnaxe01" />
-            <img width=31 height=29 src="moingif/mnaxe01s.gif" alt="mnaxe01" />
-            <img width=63 height=64 src="moingif/mnaxe02l.gif" alt="mnaxe02" />
-            <img width=29 height=31 src="moingif/mnaxe02s.gif" alt="mnaxe02" />
-            <img width=56 height=47 src="moingif/mnaxe03l.gif" alt="mnaxe03" />
-            <img width=26 height=23 src="moingif/mnaxe03s.gif" alt="mnaxe03" />
-            <img width=64 height=63 src="moingif/mnaxe04l.gif" alt="mnaxe04" />
-            <img width=31 height=31 src="moingif/mnaxe04s.gif" alt="mnaxe04" />
-            <img width=25 height=62 src="moingif/mnaxe05l.gif" alt="mnaxe05" />
-            <img width=12 height=31 src="moingif/mnaxe05s.gif" alt="mnaxe05" />
-            <img width=31 height=64 src="moingif/mnaxe06l.gif" alt="mnaxe06" />
-            <img width=15 height=31 src="moingif/mnaxe06s.gif" alt="mnaxe06" />
-            <img width=30 height=63 src="moingif/mnaxe07l.gif" alt="mnaxe07" />
-            <img width=13 height=30 src="moingif/mnaxe07s.gif" alt="mnaxe07" />
-            <img width=33 height=63 src="moingif/mnaxe08l.gif" alt="mnaxe08" />
-            <img width=15 height=31 src="moingif/mnaxe08s.gif" alt="mnaxe08" />
-            <img width=44 height=63 src="moingif/mnaxe09l.gif" alt="mnaxe09" />
-            <img width=20 height=31 src="moingif/mnaxe09s.gif" alt="mnaxe09" />
-            <img width=39 height=62 src="moingif/mnaxe10l.gif" alt="mnaxe10" />
-            <img width=18 height=31 src="moingif/mnaxe10s.gif" alt="mnaxe10" />
-            <img width=34 height=30 src="moingif/mnaxe11l.gif" alt="mnaxe11" />
-            <img width=30 height=29 src="moingif/mnaxe11s.gif" alt="mnaxe11" />
+            <strong>Boots</strong> (mnboot##)
+            <br>
+            <img src="moingif/mnboot01l.gif" width="45" height="45" alt="mnboot01">
+            <img src="moingif/mnboot01s.gif" width="31" height="32" alt="mnboot01">
+            <img src="moingif/mnboot02l.gif" width="39" height="45" alt="mnboot02">
+            <img src="moingif/mnboot02s.gif" width="25" height="32" alt="mnboot02">
+            <img src="moingif/mnboot03l.gif" width="37" height="45" alt="mnboot03">
+            <img src="moingif/mnboot03s.gif" width="24" height="32" alt="mnboot03">
+            <img src="moingif/mnboot04l.gif" width="33" height="45" alt="mnboot04">
+            <img src="moingif/mnboot04s.gif" width="22" height="32" alt="mnboot04">
+            <img src="moingif/mnboot05l.gif" width="43" height="43" alt="mnboot05">
+            <img src="moingif/mnboot05s.gif" width="29" height="31" alt="mnboot05">
+            <img src="moingif/mnboot06l.gif" width="39" height="44" alt="mnboot06">
+            <img src="moingif/mnboot06s.gif" width="26" height="32" alt="mnboot06">
+            <img src="moingif/mnboot07l.gif" width="37" height="43" alt="mnboot07">
+            <img src="moingif/mnboot07s.gif" width="26" height="31" alt="mnboot07">
+            <img src="moingif/mnboot08l.gif" width="41" height="44" alt="mnboot08">
+            <img src="moingif/mnboot08s.gif" width="28" height="31" alt="mnboot08">
+            <img src="moingif/mnboot09l.gif" width="42" height="44" alt="mnboot09">
+            <img src="moingif/mnboot09s.gif" width="29" height="31" alt="mnboot09">
+            <img src="moingif/mnboot10l.gif" width="41" height="44" alt="mnboot10">
+            <img src="moingif/mnboot10s.gif" width="28" height="31" alt="mnboot10">
+            <img src="moingif/mnboot11l.gif" width="41" height="45" alt="mnboot11">
+            <img src="moingif/mnboot11s.gif" width="28" height="32" alt="mnboot11">
+            <img src="moingif/mnboot12l.gif" width="41" height="45" alt="mnboot12">
+            <img src="moingif/mnboot12s.gif" width="28" height="32" alt="mnboot12">
+            <img src="moingif/mnboot13l.gif" width="45" height="59" alt="mnboot13">
+            <img src="moingif/mnboot13s.gif" width="21" height="29" alt="mnboot13">
+            <img src="moingif/mnboot14l.gif" width="29" height="64" alt="mnboot14">
+            <img src="moingif/mnboot14s.gif" width="13" height="31" alt="mnboot14">
+            <img src="moingif/mnboot15l.gif" width="63" height="56" alt="mnboot15">
+            <img src="moingif/mnboot15s.gif" width="29" height="27" alt="mnboot15">
+            <img src="moingif/mnboot16l.gif" width="62" height="62" alt="mnboot16">
+            <img src="moingif/mnboot16s.gif" width="30" height="30" alt="mnboot16">
           </p>
           <p>
-            <strong>Belts</strong> (mnbelt##)<br />
-            <img width=52 height=25 src="moingif/mnbelt01l.gif" alt="mnbelt01" />
-            <img width=32 height=15 src="moingif/mnbelt01s.gif" alt="mnbelt01" />
-            <img width=52 height=34 src="moingif/mnbelt02l.gif" alt="mnbelt02" />
-            <img width=32 height=21 src="moingif/mnbelt02s.gif" alt="mnbelt02" />
-            <img width=52 height=21 src="moingif/mnbelt03l.gif" alt="mnbelt03" />
-            <img width=32 height=13 src="moingif/mnbelt03s.gif" alt="mnbelt03" />
-            <img width=52 height=32 src="moingif/mnbelt04l.gif" alt="mnbelt04" />
-            <img width=32 height=21 src="moingif/mnbelt04s.gif" alt="mnbelt04" />
-            <img width=52 height=21 src="moingif/mnbelt05l.gif" alt="mnbelt05" />
-            <img width=32 height=13 src="moingif/mnbelt05s.gif" alt="mnbelt05" />
-            <img width=52 height=21 src="moingif/mnbelt06l.gif" alt="mnbelt06" />
-            <img width=32 height=13 src="moingif/mnbelt06s.gif" alt="mnbelt06" />
-            <img width=52 height=21 src="moingif/mnbelt07l.gif" alt="mnbelt07" />
-            <img width=32 height=13 src="moingif/mnbelt07s.gif" alt="mnbelt07" />
-            <img width=52 height=21 src="moingif/mnbelt08l.gif" alt="mnbelt08" />
-            <img width=32 height=13 src="moingif/mnbelt08s.gif" alt="mnbelt08" />
-            <img width=49 height=26 src="moingif/mnbelt09l.gif" alt="mnbelt09" />
-            <img width=30 height=16 src="moingif/mnbelt09s.gif" alt="mnbelt09" />
-            <img width=51 height=38 src="moingif/mnbelt10l.gif" alt="mnbelt10" />
-            <img width=31 height=24 src="moingif/mnbelt10s.gif" alt="mnbelt10" />
-            <img width=64 height=30 src="moingif/mnbelt11l.gif" alt="mnbelt11" />
-            <img width=31 height=15 src="moingif/mnbelt11s.gif" alt="mnbelt11" />
-            <img width=64 height=32 src="moingif/mnbelt12l.gif" alt="mnbelt12" />
-            <img width=31 height=16 src="moingif/mnbelt12s.gif" alt="mnbelt12" />
-            <img width=64 height=29 src="moingif/mnbelt13l.gif" alt="mnbelt13" />
-            <img width=31 height=14 src="moingif/mnbelt13s.gif" alt="mnbelt13" />
-            <img width=64 height=33 src="moingif/mnbelt14l.gif" alt="mnbelt14" />
-            <img width=32 height=16 src="moingif/mnbelt14s.gif" alt="mnbelt14" />
+            <strong>Bows</strong> (mnbow##)
+            <br>
+            <img src="moingif/mnbow01l.gif" width="45" height="43" alt="mnbow01">
+            <img src="moingif/mnbow01s.gif" width="31" height="31" alt="mnbow01">
+            <img src="moingif/mnbow02l.gif" width="31" height="63" alt="mnbow02">
+            <img src="moingif/mnbow02s.gif" width="26" height="31" alt="mnbow02">
+            <img src="moingif/mnbow03l.gif" width="29" height="64" alt="mnbow03">
+            <img src="moingif/mnbow03s.gif" width="23" height="37" alt="mnbow03">
+            <img src="moingif/mnbow04l.gif" width="31" height="63" alt="mnbow04">
+            <img src="moingif/mnbow04s.gif" width="25" height="32" alt="mnbow04">
+            <img src="moingif/mnbow05l.gif" width="64" height="63" alt="mnbow05">
+            <img src="moingif/mnbow05s.gif" width="31" height="31" alt="mnbow05">
+            <img src="moingif/mnbow06l.gif" width="62" height="61" alt="mnbow06">
+            <img src="moingif/mnbow06s.gif" width="30" height="30" alt="mnbow06">
           </p>
           <p>
-            <strong>Blunts</strong> (mnblun##)<br />
-            <img width=45 height=64 src="moingif/mnblun01l.gif" alt="mnblun01" />
-            <img width=21 height=31 src="moingif/mnblun01s.gif" alt="mnblun01" />
-            <img width=32 height=64 src="moingif/mnblun02l.gif" alt="mnblun02" />
-            <img width=14 height=32 src="moingif/mnblun02s.gif" alt="mnblun02" />
-            <img width=33 height=58 src="moingif/mnblun03l.gif" alt="mnblun03" />
-            <img width=15 height=29 src="moingif/mnblun03s.gif" alt="mnblun03" />
-            <img width=33 height=63 src="moingif/mnblun04l.gif" alt="mnblun04" />
-            <img width=15 height=30 src="moingif/mnblun04s.gif" alt="mnblun04" />
-            <img width=30 height=64 src="moingif/mnblun05l.gif" alt="mnblun05" />
-            <img width=14 height=31 src="moingif/mnblun05s.gif" alt="mnblun05" />
+            <strong>Crossbows</strong> (mnxbow##)
+            <br>
+            <img src="moingif/mnxbow01l.gif" width="47" height="44" alt="mnxbow01">
+            <img src="moingif/mnxbow01s.gif" width="32" height="31" alt="mnxbow01">
+            <img src="moingif/mnxbow02l.gif" width="64" height="43" alt="mnxbow02">
+            <img src="moingif/mnxbow02s.gif" width="32" height="32" alt="mnxbow02">
+            <img src="moingif/mnxbow03l.gif" width="64" height="64" alt="mnxbow03">
+            <img src="moingif/mnxbow03s.gif" width="31" height="31" alt="mnxbow03">
           </p>
           <p>
-            <strong>Boots</strong> (mnboot##)<br />
-            <img width=45 height=45 src="moingif/mnboot01l.gif" alt="mnboot01" />
-            <img width=31 height=32 src="moingif/mnboot01s.gif" alt="mnboot01" />
-            <img width=39 height=45 src="moingif/mnboot02l.gif" alt="mnboot02" />
-            <img width=25 height=32 src="moingif/mnboot02s.gif" alt="mnboot02" />
-            <img width=37 height=45 src="moingif/mnboot03l.gif" alt="mnboot03" />
-            <img width=24 height=32 src="moingif/mnboot03s.gif" alt="mnboot03" />
-            <img width=33 height=45 src="moingif/mnboot04l.gif" alt="mnboot04" />
-            <img width=22 height=32 src="moingif/mnboot04s.gif" alt="mnboot04" />
-            <img width=43 height=43 src="moingif/mnboot05l.gif" alt="mnboot05" />
-            <img width=29 height=31 src="moingif/mnboot05s.gif" alt="mnboot05" />
-            <img width=39 height=44 src="moingif/mnboot06l.gif" alt="mnboot06" />
-            <img width=26 height=32 src="moingif/mnboot06s.gif" alt="mnboot06" />
-            <img width=37 height=43 src="moingif/mnboot07l.gif" alt="mnboot07" />
-            <img width=26 height=31 src="moingif/mnboot07s.gif" alt="mnboot07" />
-            <img width=41 height=44 src="moingif/mnboot08l.gif" alt="mnboot08" />
-            <img width=28 height=31 src="moingif/mnboot08s.gif" alt="mnboot08" />
-            <img width=42 height=44 src="moingif/mnboot09l.gif" alt="mnboot09" />
-            <img width=29 height=31 src="moingif/mnboot09s.gif" alt="mnboot09" />
-            <img width=41 height=44 src="moingif/mnboot10l.gif" alt="mnboot10" />
-            <img width=28 height=31 src="moingif/mnboot10s.gif" alt="mnboot10" />
-            <img width=41 height=45 src="moingif/mnboot11l.gif" alt="mnboot11" />
-            <img width=28 height=32 src="moingif/mnboot11s.gif" alt="mnboot11" />
-            <img width=41 height=45 src="moingif/mnboot12l.gif" alt="mnboot12" />
-            <img width=28 height=32 src="moingif/mnboot12s.gif" alt="mnboot12" />
-            <img width=45 height=59 src="moingif/mnboot13l.gif" alt="mnboot13" />
-            <img width=21 height=29 src="moingif/mnboot13s.gif" alt="mnboot13" />
-            <img width=29 height=64 src="moingif/mnboot14l.gif" alt="mnboot14" />
-            <img width=13 height=31 src="moingif/mnboot14s.gif" alt="mnboot14" />
-            <img width=63 height=56 src="moingif/mnboot15l.gif" alt="mnboot15" />
-            <img width=29 height=27 src="moingif/mnboot15s.gif" alt="mnboot15" />
-            <img width=62 height=62 src="moingif/mnboot16l.gif" alt="mnboot16" />
-            <img width=30 height=30 src="moingif/mnboot16s.gif" alt="mnboot16" />
+            <strong>Daggers</strong> (mndagg##) and "Claws" (mnclaw##)
+            <br>
+            <img src="moingif/mndagg01l.gif" width="40" height="64" alt="mndagg01">
+            <img src="moingif/mndagg01s.gif" width="18" height="31" alt="mndagg01">
+            <img src="moingif/mnclaw01l.gif" width="43" height="64" alt="mnclaw01">
+            <img src="moingif/mnclaw01s.gif" width="20" height="30" alt="mnclaw01">
+            <img src="moingif/mnclaw02l.gif" width="34" height="64" alt="mnclaw02">
+            <img src="moingif/mnclaw02s.gif" width="15" height="31" alt="mnclaw02">
           </p>
           <p>
-            <strong>Bows</strong> (mnbow##)<br />
-            <img width=45 height=43 src="moingif/mnbow01l.gif" alt="mnbow01" />
-            <img width=31 height=31 src="moingif/mnbow01s.gif" alt="mnbow01" />
-            <img width=31 height=63 src="moingif/mnbow02l.gif" alt="mnbow02" />
-            <img width=26 height=31 src="moingif/mnbow02s.gif" alt="mnbow02" />
-            <img width=29 height=64 src="moingif/mnbow03l.gif" alt="mnbow03" />
-            <img width=23 height=37 src="moingif/mnbow03s.gif" alt="mnbow03" />
-            <img width=31 height=63 src="moingif/mnbow04l.gif" alt="mnbow04" />
-            <img width=25 height=32 src="moingif/mnbow04s.gif" alt="mnbow04" />
-            <img width=64 height=63 src="moingif/mnbow05l.gif" alt="mnbow05" />
-            <img width=31 height=31 src="moingif/mnbow05s.gif" alt="mnbow05" />
-            <img width=62 height=61 src="moingif/mnbow06l.gif" alt="mnbow06" />
-            <img width=30 height=30 src="moingif/mnbow06s.gif" alt="mnbow06" />
+            <strong>Gloves</strong> (mnglov##)
+            <br>
+            <img src="moingif/mnglov01l.gif" width="45" height="44" alt="mnglov01">
+            <img src="moingif/mnglov01s.gif" width="31" height="31" alt="mnglov01">
+            <img src="moingif/mnglov02l.gif" width="31" height="42" alt="mnglov02">
+            <img src="moingif/mnglov02s.gif" width="20" height="30" alt="mnglov02">
+            <img src="moingif/mnglov03l.gif" width="36" height="43" alt="mnglov03">
+            <img src="moingif/mnglov03s.gif" width="24" height="31" alt="mnglov03">
+            <img src="moingif/mnglov04l.gif" width="42" height="43" alt="mnglov04">
+            <img src="moingif/mnglov04s.gif" width="28" height="31" alt="mnglov04">
+            <img src="moingif/mnglov05l.gif" width="58" height="58" alt="mnglov05">
+            <img src="moingif/mnglov05s.gif" width="27" height="28" alt="mnglov05">
+            <img src="moingif/mnglov06l.gif" width="58" height="58" alt="mnglov06">
+            <img src="moingif/mnglov06s.gif" width="27" height="29" alt="mnglov06">
+            <img src="moingif/mnglov07l.gif" width="55" height="63" alt="mnglov07">
+            <img src="moingif/mnglov07s.gif" width="26" height="31" alt="mnglov07">
+            <img src="moingif/mnglov08l.gif" width="62" height="61" alt="mnglov08">
+            <img src="moingif/mnglov08s.gif" width="30" height="30" alt="mnglov08">
+            <img src="moingif/mnglov09l.gif" width="64" height="64" alt="mnglov09">
+            <img src="moingif/mnglov09s.gif" width="31" height="32" alt="mnglov09">
+            <img src="moingif/mnglov10l.gif" width="63" height="63" alt="mnglov10">
+            <img src="moingif/mnglov10s.gif" width="30" height="31" alt="mnglov10">
           </p>
           <p>
-            <strong>Crossbows</strong> (mnxbow##)<br />
-            <img width=47 height=44 src="moingif/mnxbow01l.gif" alt="mnxbow01" />
-            <img width=32 height=31 src="moingif/mnxbow01s.gif" alt="mnxbow01" />
-            <img width=64 height=43 src="moingif/mnxbow02l.gif" alt="mnxbow02" />
-            <img width=32 height=32 src="moingif/mnxbow02s.gif" alt="mnxbow02" />
-            <img width=64 height=64 src="moingif/mnxbow03l.gif" alt="mnxbow03" />
-            <img width=31 height=31 src="moingif/mnxbow03s.gif" alt="mnxbow03" />
+            <strong>Helms</strong> (mnhelm##)
+            <br>
+            <img src="moingif/mnhelm01l.gif" width="39" height="60" alt="mnhelm01">
+            <img src="moingif/mnhelm01s.gif" width="18" height="29" alt="mnhelm01">
+            <img src="moingif/mnhelm02l.gif" width="36" height="56" alt="mnhelm02">
+            <img src="moingif/mnhelm02s.gif" width="16" height="28" alt="mnhelm02">
+            <img src="moingif/mnhelm03l.gif" width="51" height="51" alt="mnhelm03">
+            <img src="moingif/mnhelm03s.gif" width="24" height="25" alt="mnhelm03">
+            <img src="moingif/mnhelm04l.gif" width="57" height="61" alt="mnhelm04">
+            <img src="moingif/mnhelm04s.gif" width="27" height="30" alt="mnhelm04">
           </p>
           <p>
-            <strong>Daggers</strong> (mndagg##) and "Claws" (mnclaw##)<br />
-            <img width=40 height=64 src="moingif/mndagg01l.gif" alt="mndagg01" />
-            <img width=18 height=31 src="moingif/mndagg01s.gif" alt="mndagg01" />
-            <img width=43 height=64 src="moingif/mnclaw01l.gif" alt="mnclaw01" />
-            <img width=20 height=30 src="moingif/mnclaw01s.gif" alt="mnclaw01" />
-            <img width=34 height=64 src="moingif/mnclaw02l.gif" alt="mnclaw02" />
-            <img width=15 height=31 src="moingif/mnclaw02s.gif" alt="mnclaw02" />
+            <strong>Miscellany</strong> (mn----##)
+            <br>
+            <img src="moingif/mnbird01l.gif" width="57" height="34" alt="mnbird01">
+            <img src="moingif/mnbird01s.gif" width="27" height="17" alt="mnbird01">
+            <img src="moingif/mnbook01l.gif" width="57" height="40" alt="mnbook01">
+            <img src="moingif/mnbook01s.gif" width="31" height="28" alt="mnbook01">
+            <img src="moingif/mnbook02l.gif" width="54" height="32" alt="mnbook02">
+            <img src="moingif/mnbook02s.gif" width="28" height="20" alt="mnbook02">
+            <img src="moingif/mncup01l.gif" width="18" height="28" alt="mncup01">
+            <img src="moingif/mncup01s.gif" width="15" height="27" alt="mncup01">
+            <img src="moingif/mngift01l.gif" width="60" height="42" alt="mngift01">
+            <img src="moingif/mngift01s.gif" width="28" height="20" alt="mngift01">
+            <img src="moingif/mncher01l.gif" width="44" height="37" alt="mncher01">
+            <img src="moingif/mncher01s.gif" width="20" height="18" alt="mncher01">
+            <img src="moingif/mnrose01l.gif" width="27" height="52" alt="mnrose01">
+            <img src="moingif/mnrose01s.gif" width="24" height="32" alt="mnrose01">
+            <img src="moingif/mnrose02l.gif" width="54" height="53" alt="mnrose02">
+            <img src="moingif/mnrose02s.gif" width="25" height="26" alt="mnrose02">
+            <img src="moingif/mnrose03l.gif" width="44" height="55" alt="mnrose03">
+            <img src="moingif/mnrose03s.gif" width="21" height="28" alt="mnrose03">
           </p>
           <p>
-            <strong>Gloves</strong> (mnglov##)<br />
-            <img width=45 height=44 src="moingif/mnglov01l.gif" alt="mnglov01" />
-            <img width=31 height=31 src="moingif/mnglov01s.gif" alt="mnglov01" />
-            <img width=31 height=42 src="moingif/mnglov02l.gif" alt="mnglov02" />
-            <img width=20 height=30 src="moingif/mnglov02s.gif" alt="mnglov02" />
-            <img width=36 height=43 src="moingif/mnglov03l.gif" alt="mnglov03" />
-            <img width=24 height=31 src="moingif/mnglov03s.gif" alt="mnglov03" />
-            <img width=42 height=43 src="moingif/mnglov04l.gif" alt="mnglov04" />
-            <img width=28 height=31 src="moingif/mnglov04s.gif" alt="mnglov04" />
-            <img width=58 height=58 src="moingif/mnglov05l.gif" alt="mnglov05" />
-            <img width=27 height=28 src="moingif/mnglov05s.gif" alt="mnglov05" />
-            <img width=58 height=58 src="moingif/mnglov06l.gif" alt="mnglov06" />
-            <img width=27 height=29 src="moingif/mnglov06s.gif" alt="mnglov06" />
-            <img width=55 height=63 src="moingif/mnglov07l.gif" alt="mnglov07" />
-            <img width=26 height=31 src="moingif/mnglov07s.gif" alt="mnglov07" />
-            <img width=62 height=61 src="moingif/mnglov08l.gif" alt="mnglov08" />
-            <img width=30 height=30 src="moingif/mnglov08s.gif" alt="mnglov08" />
-            <img width=64 height=64 src="moingif/mnglov09l.gif" alt="mnglov09" />
-            <img width=31 height=32 src="moingif/mnglov09s.gif" alt="mnglov09" />
-            <img width=63 height=63 src="moingif/mnglov10l.gif" alt="mnglov10" />
-            <img width=30 height=31 src="moingif/mnglov10s.gif" alt="mnglov10" />
+            <strong>Rings</strong> (mnring##)
+            <br>
+            <img src="moingif/mnring01l.gif" width="32" height="26" alt="mnring01">
+            <img src="moingif/mnring01s.gif" width="21" height="18" alt="mnring01">
+            <img src="moingif/mnring02l.gif" width="32" height="26" alt="mnring02">
+            <img src="moingif/mnring02s.gif" width="21" height="19" alt="mnring02">
+            <img src="moingif/mnring03l.gif" width="32" height="27" alt="mnring03">
+            <img src="moingif/mnring03s.gif" width="21" height="19" alt="mnring03">
+            <img src="moingif/mnring04l.gif" width="32" height="22" alt="mnring04">
+            <img src="moingif/mnring04s.gif" width="21" height="16" alt="mnring04">
+            <img src="moingif/mnring05l.gif" width="32" height="26" alt="mnring05">
+            <img src="moingif/mnring05s.gif" width="21" height="19" alt="mnring05">
+            <img src="moingif/mnring06l.gif" width="29" height="22" alt="mnring06">
+            <img src="moingif/mnring06s.gif" width="18" height="16" alt="mnring06">
+            <img src="moingif/mnring07l.gif" width="29" height="21" alt="mnring07">
+            <img src="moingif/mnring07s.gif" width="18" height="16" alt="mnring07">
+            <img src="moingif/mnring08l.gif" width="32" height="27" alt="mnring08">
+            <img src="moingif/mnring08s.gif" width="20" height="19" alt="mnring08">
+            <img src="moingif/mnring09l.gif" width="32" height="18" alt="mnring09">
+            <img src="moingif/mnring09s.gif" width="21" height="13" alt="mnring09">
+            <img src="moingif/mnring10l.gif" width="29" height="26" alt="mnring10">
+            <img src="moingif/mnring10s.gif" width="19" height="17" alt="mnring10">
+            <img src="moingif/mnring11l.gif" width="27" height="20" alt="mnring11">
+            <img src="moingif/mnring11s.gif" width="17" height="15" alt="mnring11">
+            <img src="moingif/mnring12l.gif" width="23" height="22" alt="mnring12">
+            <img src="moingif/mnring12s.gif" width="15" height="16" alt="mnring12">
+            <img src="moingif/mnring13l.gif" width="27" height="17" alt="mnring13">
+            <img src="moingif/mnring13s.gif" width="18" height="12" alt="mnring13">
+            <img src="moingif/mnring14l.gif" width="26" height="28" alt="mnring14">
+            <img src="moingif/mnring14s.gif" width="17" height="20" alt="mnring14">
+            <img src="moingif/mnring15l.gif" width="28" height="29" alt="mnring15">
+            <img src="moingif/mnring15s.gif" width="18" height="21" alt="mnring15">
+            <img src="moingif/mnring16l.gif" width="32" height="28" alt="mnring16">
+            <img src="moingif/mnring16s.gif" width="20" height="20" alt="mnring16">
+            <img src="moingif/mnring17l.gif" width="30" height="26" alt="mnring17">
+            <img src="moingif/mnring17s.gif" width="19" height="19" alt="mnring17">
+            <img src="moingif/mnring18l.gif" width="31" height="28" alt="mnring18">
+            <img src="moingif/mnring18s.gif" width="20" height="20" alt="mnring18">
+            <img src="moingif/mnring19l.gif" width="31" height="28" alt="mnring19">
+            <img src="moingif/mnring19s.gif" width="20" height="20" alt="mnring19">
+            <img src="moingif/mnring20l.gif" width="31" height="29" alt="mnring20">
+            <img src="moingif/mnring20s.gif" width="20" height="21" alt="mnring20">
+            <img src="moingif/mnring21l.gif" width="30" height="27" alt="mnring21">
+            <img src="moingif/mnring21s.gif" width="19" height="19" alt="mnring21">
+            <img src="moingif/mnring22l.gif" width="28" height="29" alt="mnring22">
+            <img src="moingif/mnring22s.gif" width="18" height="21" alt="mnring22">
+            <img src="moingif/mnring23l.gif" width="30" height="26" alt="mnring23">
+            <img src="moingif/mnring23s.gif" width="19" height="19" alt="mnring23">
           </p>
           <p>
-            <strong>Helms</strong> (mnhelm##)<br />
-            <img width=39 height=60 src="moingif/mnhelm01l.gif" alt="mnhelm01" />
-            <img width=18 height=29 src="moingif/mnhelm01s.gif" alt="mnhelm01" />
-            <img width=36 height=56 src="moingif/mnhelm02l.gif" alt="mnhelm02" />
-            <img width=16 height=28 src="moingif/mnhelm02s.gif" alt="mnhelm02" />
-            <img width=51 height=51 src="moingif/mnhelm03l.gif" alt="mnhelm03" />
-            <img width=24 height=25 src="moingif/mnhelm03s.gif" alt="mnhelm03" />
-            <img width=57 height=61 src="moingif/mnhelm04l.gif" alt="mnhelm04" />
-            <img width=27 height=30 src="moingif/mnhelm04s.gif" alt="mnhelm04" />
+            <strong>Robes</strong> (mnrobe##)
+            <br>
+            <img src="moingif/mnrobe01l.gif" width="40" height="64" alt="mnrobe01">
+            <img src="moingif/mnrobe01s.gif" width="19" height="32" alt="mnrobe01">
+            <img src="moingif/mnrobe02l.gif" width="37" height="53" alt="mnrobe02">
+            <img src="moingif/mnrobe02s.gif" width="21" height="32" alt="mnrobe02">
+            <img src="moingif/mnrobe03l.gif" width="44" height="63" alt="mnrobe03">
+            <img src="moingif/mnrobe03s.gif" width="31" height="32" alt="mnrobe03">
+            <img src="moingif/mnrobe04l.gif" width="39" height="63" alt="mnrobe04">
+            <img src="moingif/mnrobe04s.gif" width="27" height="31" alt="mnrobe04">
+            <img src="moingif/mnrobe05l.gif" width="37" height="61" alt="mnrobe05">
+            <img src="moingif/mnrobe05s.gif" width="25" height="31" alt="mnrobe05">
+            <img src="moingif/mnrobe06l.gif" width="37" height="64" alt="mnrobe06">
+            <img src="moingif/mnrobe06s.gif" width="27" height="32" alt="mnrobe06">
+            <img src="moingif/mnrobe07l.gif" width="35" height="62" alt="mnrobe07">
+            <img src="moingif/mnrobe07s.gif" width="24" height="31" alt="mnrobe07">
+            <img src="moingif/mnrobe08l.gif" width="35" height="63" alt="mnrobe08">
+            <img src="moingif/mnrobe08s.gif" width="24" height="31" alt="mnrobe08">
+            <img src="moingif/mnrobe09l.gif" width="43" height="63" alt="mnrobe09">
+            <img src="moingif/mnrobe09s.gif" width="30" height="31" alt="mnrobe09">
+            <img src="moingif/mnrobe10l.gif" width="35" height="64" alt="mnrobe10">
+            <img src="moingif/mnrobe10s.gif" width="32" height="32" alt="mnrobe10">
+            <img src="moingif/mnrobe11l.gif" width="41" height="64" alt="mnrobe11">
+            <img src="moingif/mnrobe11s.gif" width="25" height="32" alt="mnrobe11">
+            <img src="moingif/mnrobe12l.gif" width="37" height="63" alt="mnrobe12">
+            <img src="moingif/mnrobe12s.gif" width="28" height="32" alt="mnrobe12">
+            <img src="moingif/mnrobe13l.gif" width="38" height="64" alt="mnrobe13">
+            <img src="moingif/mnrobe13s.gif" width="27" height="32" alt="mnrobe13">
+            <img src="moingif/mnrobe14l.gif" width="40" height="62" alt="mnrobe14">
+            <img src="moingif/mnrobe14s.gif" width="25" height="32" alt="mnrobe14">
           </p>
           <p>
-            <strong>Miscellany</strong> (mn----##)<br />
-            <img width=57 height=34 src="moingif/mnbird01l.gif" alt="mnbird01" />
-            <img width=27 height=17 src="moingif/mnbird01s.gif" alt="mnbird01" />
-            <img width=57 height=40 src="moingif/mnbook01l.gif" alt="mnbook01" />
-            <img width=31 height=28 src="moingif/mnbook01s.gif" alt="mnbook01" />
-            <img width=54 height=32 src="moingif/mnbook02l.gif" alt="mnbook02" />
-            <img width=28 height=20 src="moingif/mnbook02s.gif" alt="mnbook02" />
-            <img width=18 height=28 src="moingif/mncup01l.gif" alt="mncup01" />
-            <img width=15 height=27 src="moingif/mncup01s.gif" alt="mncup01" />
-            <img width=60 height=42 src="moingif/mngift01l.gif" alt="mngift01" />
-            <img width=28 height=20 src="moingif/mngift01s.gif" alt="mngift01" />
-            <img width=44 height=37 src="moingif/mncher01l.gif" alt="mncher01" />
-            <img width=20 height=18 src="moingif/mncher01s.gif" alt="mncher01" />
-            <img width=27 height=52 src="moingif/mnrose01l.gif" alt="mnrose01" />
-            <img width=24 height=32 src="moingif/mnrose01s.gif" alt="mnrose01" />
-            <img width=54 height=53 src="moingif/mnrose02l.gif" alt="mnrose02" />
-            <img width=25 height=26 src="moingif/mnrose02s.gif" alt="mnrose02" />
-            <img width=44 height=55 src="moingif/mnrose03l.gif" alt="mnrose03" />
-            <img width=21 height=28 src="moingif/mnrose03s.gif" alt="mnrose03" />
+            <strong>Shields</strong> (mnshld##)
+            <br>
+            <img src="moingif/mnshld01l.gif" width="37" height="64" alt="mnshld01">
+            <img src="moingif/mnshld01s.gif" width="17" height="31" alt="mnshld01">
+            <img src="moingif/mnshld02l.gif" width="28" height="61" alt="mnshld02">
+            <img src="moingif/mnshld02s.gif" width="12" height="29" alt="mnshld02">
+            <img src="moingif/mnshld03l.gif" width="31" height="64" alt="mnshld03">
+            <img src="moingif/mnshld03s.gif" width="13" height="31" alt="mnshld03">
+            <img src="moingif/mnshld04l.gif" width="34" height="61" alt="mnshld04">
+            <img src="moingif/mnshld04s.gif" width="15" height="29" alt="mnshld04">
+            <img src="moingif/mnshld05l.gif" width="43" height="58" alt="mnshld05">
+            <img src="moingif/mnshld05s.gif" width="20" height="29" alt="mnshld05">
+            <img src="moingif/mnshld06l.gif" width="45" height="62" alt="mnshld06">
+            <img src="moingif/mnshld06s.gif" width="21" height="31" alt="mnshld06">
+            <img src="moingif/mnshld07l.gif" width="33" height="54" alt="mnshld07">
+            <img src="moingif/mnshld07s.gif" width="15" height="27" alt="mnshld07">
           </p>
           <p>
-            <strong>Rings</strong> (mnring##)<br />
-            <img width=32 height=26 src="moingif/mnring01l.gif" alt="mnring01" />
-            <img width=21 height=18 src="moingif/mnring01s.gif" alt="mnring01" />
-            <img width=32 height=26 src="moingif/mnring02l.gif" alt="mnring02" />
-            <img width=21 height=19 src="moingif/mnring02s.gif" alt="mnring02" />
-            <img width=32 height=27 src="moingif/mnring03l.gif" alt="mnring03" />
-            <img width=21 height=19 src="moingif/mnring03s.gif" alt="mnring03" />
-            <img width=32 height=22 src="moingif/mnring04l.gif" alt="mnring04" />
-            <img width=21 height=16 src="moingif/mnring04s.gif" alt="mnring04" />
-            <img width=32 height=26 src="moingif/mnring05l.gif" alt="mnring05" />
-            <img width=21 height=19 src="moingif/mnring05s.gif" alt="mnring05" />
-            <img width=29 height=22 src="moingif/mnring06l.gif" alt="mnring06" />
-            <img width=18 height=16 src="moingif/mnring06s.gif" alt="mnring06" />
-            <img width=29 height=21 src="moingif/mnring07l.gif" alt="mnring07" />
-            <img width=18 height=16 src="moingif/mnring07s.gif" alt="mnring07" />
-            <img width=32 height=27 src="moingif/mnring08l.gif" alt="mnring08" />
-            <img width=20 height=19 src="moingif/mnring08s.gif" alt="mnring08" />
-            <img width=32 height=18 src="moingif/mnring09l.gif" alt="mnring09" />
-            <img width=21 height=13 src="moingif/mnring09s.gif" alt="mnring09" />
-            <img width=29 height=26 src="moingif/mnring10l.gif" alt="mnring10" />
-            <img width=19 height=17 src="moingif/mnring10s.gif" alt="mnring10" />
-            <img width=27 height=20 src="moingif/mnring11l.gif" alt="mnring11" />
-            <img width=17 height=15 src="moingif/mnring11s.gif" alt="mnring11" />
-            <img width=23 height=22 src="moingif/mnring12l.gif" alt="mnring12" />
-            <img width=15 height=16 src="moingif/mnring12s.gif" alt="mnring12" />
-            <img width=27 height=17 src="moingif/mnring13l.gif" alt="mnring13" />
-            <img width=18 height=12 src="moingif/mnring13s.gif" alt="mnring13" />
-            <img width=26 height=28 src="moingif/mnring14l.gif" alt="mnring14" />
-            <img width=17 height=20 src="moingif/mnring14s.gif" alt="mnring14" />
-            <img width=28 height=29 src="moingif/mnring15l.gif" alt="mnring15" />
-            <img width=18 height=21 src="moingif/mnring15s.gif" alt="mnring15" />
-            <img width=32 height=28 src="moingif/mnring16l.gif" alt="mnring16" />
-            <img width=20 height=20 src="moingif/mnring16s.gif" alt="mnring16" />
-            <img width=30 height=26 src="moingif/mnring17l.gif" alt="mnring17" />
-            <img width=19 height=19 src="moingif/mnring17s.gif" alt="mnring17" />
-            <img width=31 height=28 src="moingif/mnring18l.gif" alt="mnring18" />
-            <img width=20 height=20 src="moingif/mnring18s.gif" alt="mnring18" />
-            <img width=31 height=28 src="moingif/mnring19l.gif" alt="mnring19" />
-            <img width=20 height=20 src="moingif/mnring19s.gif" alt="mnring19" />
-            <img width=31 height=29 src="moingif/mnring20l.gif" alt="mnring20" />
-            <img width=20 height=21 src="moingif/mnring20s.gif" alt="mnring20" />
-            <img width=30 height=27 src="moingif/mnring21l.gif" alt="mnring21" />
-            <img width=19 height=19 src="moingif/mnring21s.gif" alt="mnring21" />
-            <img width=28 height=29 src="moingif/mnring22l.gif" alt="mnring22" />
-            <img width=18 height=21 src="moingif/mnring22s.gif" alt="mnring22" />
-            <img width=30 height=26 src="moingif/mnring23l.gif" alt="mnring23" />
-            <img width=19 height=19 src="moingif/mnring23s.gif" alt="mnring23" />
+            <strong>Shuriken</strong> and other "Exotics" (mnshur##)
+            <br>
+            <img src="moingif/mnshur01l.gif" width="64" height="64" alt="mnshur01">
+            <img src="moingif/mnshur01s.gif" width="31" height="32" alt="mnshur01">
+            <img src="moingif/mnshur02l.gif" width="39" height="64" alt="mnshur02">
+            <img src="moingif/mnshur02s.gif" width="17" height="30" alt="mnshur02">
+            <img src="moingif/mnshur03l.gif" width="42" height="64" alt="mnshur03">
+            <img src="moingif/mnshur03s.gif" width="19" height="32" alt="mnshur03">
+            <img src="moingif/mnshur04l.gif" width="55" height="54" alt="mnshur04">
+            <img src="moingif/mnshur04s.gif" width="30" height="30" alt="mnshur04">
           </p>
           <p>
-            <strong>Robes</strong> (mnrobe##)<br />
-            <img width=40 height=64 src="moingif/mnrobe01l.gif" alt="mnrobe01" />
-            <img width=19 height=32 src="moingif/mnrobe01s.gif" alt="mnrobe01" />
-            <img width=37 height=53 src="moingif/mnrobe02l.gif" alt="mnrobe02" />
-            <img width=21 height=32 src="moingif/mnrobe02s.gif" alt="mnrobe02" />
-            <img width=44 height=63 src="moingif/mnrobe03l.gif" alt="mnrobe03" />
-            <img width=31 height=32 src="moingif/mnrobe03s.gif" alt="mnrobe03" />
-            <img width=39 height=63 src="moingif/mnrobe04l.gif" alt="mnrobe04" />
-            <img width=27 height=31 src="moingif/mnrobe04s.gif" alt="mnrobe04" />
-            <img width=37 height=61 src="moingif/mnrobe05l.gif" alt="mnrobe05" />
-            <img width=25 height=31 src="moingif/mnrobe05s.gif" alt="mnrobe05" />
-            <img width=37 height=64 src="moingif/mnrobe06l.gif" alt="mnrobe06" />
-            <img width=27 height=32 src="moingif/mnrobe06s.gif" alt="mnrobe06" />
-            <img width=35 height=62 src="moingif/mnrobe07l.gif" alt="mnrobe07" />
-            <img width=24 height=31 src="moingif/mnrobe07s.gif" alt="mnrobe07" />
-            <img width=35 height=63 src="moingif/mnrobe08l.gif" alt="mnrobe08" />
-            <img width=24 height=31 src="moingif/mnrobe08s.gif" alt="mnrobe08" />
-            <img width=43 height=63 src="moingif/mnrobe09l.gif" alt="mnrobe09" />
-            <img width=30 height=31 src="moingif/mnrobe09s.gif" alt="mnrobe09" />
-            <img width=35 height=64 src="moingif/mnrobe10l.gif" alt="mnrobe10" />
-            <img width=32 height=32 src="moingif/mnrobe10s.gif" alt="mnrobe10" />
-            <img width=41 height=64 src="moingif/mnrobe11l.gif" alt="mnrobe11" />
-            <img width=25 height=32 src="moingif/mnrobe11s.gif" alt="mnrobe11" />
-            <img width=37 height=63 src="moingif/mnrobe12l.gif" alt="mnrobe12" />
-            <img width=28 height=32 src="moingif/mnrobe12s.gif" alt="mnrobe12" />
-            <img width=38 height=64 src="moingif/mnrobe13l.gif" alt="mnrobe13" />
-            <img width=27 height=32 src="moingif/mnrobe13s.gif" alt="mnrobe13" />
-            <img width=40 height=62 src="moingif/mnrobe14l.gif" alt="mnrobe14" />
-            <img width=25 height=32 src="moingif/mnrobe14s.gif" alt="mnrobe14" />
+            <strong>Staves</strong> (mnstaf##)
+            <br>
+            <img src="moingif/mnstaf01l.gif" width="63" height="62" alt="mnstaf01">
+            <img src="moingif/mnstaf01s.gif" width="27" height="32" alt="mnstaf01">
+            <img src="moingif/mnstaf02l.gif" width="33" height="64" alt="mnstaf02">
+            <img src="moingif/mnstaf02s.gif" width="16" height="32" alt="mnstaf02">
+            <img src="moingif/mnstaf03l.gif" width="30" height="64" alt="mnstaf03">
+            <img src="moingif/mnstaf03s.gif" width="15" height="32" alt="mnstaf03">
+            <img src="moingif/mnstaf04l.gif" width="64" height="60" alt="mnstaf04">
+            <img src="moingif/mnstaf04s.gif" width="32" height="30" alt="mnstaf04">
+            <img src="moingif/mnstaf05l.gif" width="64" height="64" alt="mnstaf05">
+            <img src="moingif/mnstaf05s.gif" width="32" height="32" alt="mnstaf05">
+            <img src="moingif/mnstaf06l.gif" width="34" height="63" alt="mnstaf06">
+            <img src="moingif/mnstaf06s.gif" width="16" height="32" alt="mnstaf06">
           </p>
           <p>
-            <strong>Shields</strong> (mnshld##)<br />
-            <img width=37 height=64 src="moingif/mnshld01l.gif" alt="mnshld01" />
-            <img width=17 height=31 src="moingif/mnshld01s.gif" alt="mnshld01" />
-            <img width=28 height=61 src="moingif/mnshld02l.gif" alt="mnshld02" />
-            <img width=12 height=29 src="moingif/mnshld02s.gif" alt="mnshld02" />
-            <img width=31 height=64 src="moingif/mnshld03l.gif" alt="mnshld03" />
-            <img width=13 height=31 src="moingif/mnshld03s.gif" alt="mnshld03" />
-            <img width=34 height=61 src="moingif/mnshld04l.gif" alt="mnshld04" />
-            <img width=15 height=29 src="moingif/mnshld04s.gif" alt="mnshld04" />
-            <img width=43 height=58 src="moingif/mnshld05l.gif" alt="mnshld05" />
-            <img width=20 height=29 src="moingif/mnshld05s.gif" alt="mnshld05" />
-            <img width=45 height=62 src="moingif/mnshld06l.gif" alt="mnshld06" />
-            <img width=21 height=31 src="moingif/mnshld06s.gif" alt="mnshld06" />
-            <img width=33 height=54 src="moingif/mnshld07l.gif" alt="mnshld07" />
-            <img width=15 height=27 src="moingif/mnshld07s.gif" alt="mnshld07" />
-          </p>
-          <p>
-            <strong>Shuriken</strong> and other "Exotics" (mnshur##)<br />
-            <img width=64 height=64 src="moingif/mnshur01l.gif" alt="mnshur01" />
-            <img width=31 height=32 src="moingif/mnshur01s.gif" alt="mnshur01" />
-            <img width=39 height=64 src="moingif/mnshur02l.gif" alt="mnshur02" />
-            <img width=17 height=30 src="moingif/mnshur02s.gif" alt="mnshur02" />
-            <img width=42 height=64 src="moingif/mnshur03l.gif" alt="mnshur03" />
-            <img width=19 height=32 src="moingif/mnshur03s.gif" alt="mnshur03" />
-            <img width=55 height=54 src="moingif/mnshur04l.gif" alt="mnshur04" />
-            <img width=30 height=30 src="moingif/mnshur04s.gif" alt="mnshur04" />
-          </p>
-          <p>
-            <strong>Staves</strong> (mnstaf##)<br />
-            <img width=63 height=62 src="moingif/mnstaf01l.gif" alt="mnstaf01" />
-            <img width=27 height=32 src="moingif/mnstaf01s.gif" alt="mnstaf01" />
-            <img width=33 height=64 src="moingif/mnstaf02l.gif" alt="mnstaf02" />
-            <img width=16 height=32 src="moingif/mnstaf02s.gif" alt="mnstaf02" />
-            <img width=30 height=64 src="moingif/mnstaf03l.gif" alt="mnstaf03" />
-            <img width=15 height=32 src="moingif/mnstaf03s.gif" alt="mnstaf03" />
-            <img width=64 height=60 src="moingif/mnstaf04l.gif" alt="mnstaf04" />
-            <img width=32 height=30 src="moingif/mnstaf04s.gif" alt="mnstaf04" />
-            <img width=64 height=64 src="moingif/mnstaf05l.gif" alt="mnstaf05" />
-            <img width=32 height=32 src="moingif/mnstaf05s.gif" alt="mnstaf05" />
-            <img width=34 height=63 src="moingif/mnstaf06l.gif" alt="mnstaf06" />
-            <img width=16 height=32 src="moingif/mnstaf06s.gif" alt="mnstaf06" />
-          </p>
-          <p>
-            <strong>Swords</strong> (mnswrd##)<br />
-            <img width=64 height=64 src="moingif/mnswrd01l.gif" alt="mnswrd01" />
-            <img width=32 height=32 src="moingif/mnswrd01s.gif" alt="mnswrd01" />
-            <img width=47 height=64 src="moingif/mnswrd02l.gif" alt="mnswrd02" />
-            <img width=31 height=22 src="moingif/mnswrd02s.gif" alt="mnswrd02" />
-            <img width=60 height=64 src="moingif/mnswrd03l.gif" alt="mnswrd03" />
-            <img width=32 height=32 src="moingif/mnswrd03s.gif" alt="mnswrd03" />
-            <img width=57 height=64 src="moingif/mnswrd04l.gif" alt="mnswrd04" />
-            <img width=30 height=32 src="moingif/mnswrd04s.gif" alt="mnswrd04" />
-            <img width=64 height=63 src="moingif/mnswrd05l.gif" alt="mnswrd05" />
-            <img width=32 height=32 src="moingif/mnswrd05s.gif" alt="mnswrd05" />
-            <img width=63 height=61 src="moingif/mnswrd06l.gif" alt="mnswrd06" />
-            <img width=32 height=32 src="moingif/mnswrd06s.gif" alt="mnswrd06" />
+            <strong>Swords</strong> (mnswrd##)
+            <br>
+            <img src="moingif/mnswrd01l.gif" width="64" height="64" alt="mnswrd01">
+            <img src="moingif/mnswrd01s.gif" width="32" height="32" alt="mnswrd01">
+            <img src="moingif/mnswrd02l.gif" width="47" height="64" alt="mnswrd02">
+            <img src="moingif/mnswrd02s.gif" width="31" height="22" alt="mnswrd02">
+            <img src="moingif/mnswrd03l.gif" width="60" height="64" alt="mnswrd03">
+            <img src="moingif/mnswrd03s.gif" width="32" height="32" alt="mnswrd03">
+            <img src="moingif/mnswrd04l.gif" width="57" height="64" alt="mnswrd04">
+            <img src="moingif/mnswrd04s.gif" width="30" height="32" alt="mnswrd04">
+            <img src="moingif/mnswrd05l.gif" width="64" height="63" alt="mnswrd05">
+            <img src="moingif/mnswrd05s.gif" width="32" height="32" alt="mnswrd05">
+            <img src="moingif/mnswrd06l.gif" width="63" height="61" alt="mnswrd06">
+            <img src="moingif/mnswrd06s.gif" width="32" height="32" alt="mnswrd06">
           </p>
           <address>
-            <span class="footer">BAM Batcher &gt; BAMs</span> &#8226;<a href=
-            "#top">Back to top</a>
+            <span class="footer">BAM Batcher &gt; BAMs</span> &#8226;<a href="#top">Back To Top</a>
           </address>
         </div>
-        <!-- ======================= C r e d i t s ====================== -->
-        <a name="credits" id="credits"></a>
+
+
+        <!-- ================== C r e d i t s ================== -->
+        <a id="credits"></a>
         <div class="content">
-          <h2>
-            Credits
-          </h2>
-          <h5>
-            Programs/tools used in creation:
-          </h5><br />
-          <ul class="version-list c1">
+          <h2>Credits</h2>
+          <h5>Programs/tools used in creation:</h5>
+          <br>
+          <ul>
             <li>
-              <a href="http://www.teambg.eu/?page=tools&amp;cat=32">BAM
-              Workshop</a> by Glenn Flansburg
+              <a href="http://www.shsforums.net/topic/57564-bamworkshop/">BAMWorkshop</a> by Glenn Flansburg
             </li>
             <li>
-              <a href=
-              "http://www.gibberlings3.net/tools/dltcep.php"><acronym title=
-              "Dragonlance Total Conversion Editor Pro">DLTCEP</acronym></a> by
-              Avenger
+              <a href="https://sourceforge.net/projects/gemrb/files/Utilities/">
+                <abbr title="Dragonlance Total Conversion Editor Pro">DLTCEP</abbr>
+              </a> by Avenger
             </li>
             <li>
-              <a href="http://www.editpadpro.com/editpadclassic.html">EditPad
-              Classic</a> by Jan Goyvaerts
+              <a href="http://www.editpadlite.com/editpadclassic.html">EditPad Classic</a> by Jan Goyvaerts
             </li>
             <li>
-              <a href="http://iesdp.gibberlings3.net/"><acronym title=
-              "Infinity Engine Structures Description Project">IESDP</acronym></a>
-              maintained by igi (really would not have been possible without this)
+              <a href="https://gibberlings3.github.io/iesdp/">
+                <abbr title="Infinity Engine Structures Description Project">IESDP</abbr>
+              </a> maintained by igi (really would not have been possible without this)
             </li>
             <li>
-              <a href=
-              "http://www.shsforums.net/index.php?s=&showtopic=9109&view=findpost&p=132120">
-              Moinesse's BAMs</a> by Moinesse
+              <a href="http://www.shsforums.net/topic/9109-new-bams-and-paperdolls-for-bg2/#entry132120">Moinesse's BAMs</a> by Moinesse
             </li>
             <li>
-              <a href=
-              "http://forums.pocketplane.net/index.php/topic,25153.msg314249.html#msg314249">
-              Near Infinity</a> by Jon Olav Hauglid and others
+              <a href="http://www.shsforums.net/topic/45358-nearinfinity/">Near Infinity</a> by Jon Olav Hauglid and others
             </li>
             <li>
               <a href="http://www.pspad.com/en/">PSPad</a> by Jan Fiala
             </li>
             <li>
-              <a href="http://weidu.org/main.html#weidu"><acronym title=
-              "Weimer Dialogue Utility">WeiDU</acronym></a> by Wes Weimer and
-              the bigg
+              <a href="http://forums.pocketplane.net/index.php/board,44.0.html">
+                <abbr title="Weimer Dialogue Utility">WeiDU</abbr>
+              </a> by Wes Weimer, the bigg, and others.
             </li>
           </ul>
-          <p>
-            BAM Batcher is copyright &copy; 2009 by Miloch. This work (including
-            all code and documentation) is licensed under the <a href=
-            "http://en.wikipedia.org/wiki/WTFPL">WTFPL</a>. You just do WTF you
-            want with it. While I won't stop you from making a mod with
-            super-power-granting +10 items using these BAMs, I will probably
-            ridicule you (or if I don't, someone else will). These are classy
-            BAMs - make a classy mod with them :).
-          </p>
+          <p>BAM Batcher is copyright &copy; 2009 by Miloch. This work (including all code and documentation) is licensed under the <a href="http://en.wikipedia.org/wiki/WTFPL">WTFPL</a>. You just do WTF you want with it. While I won't stop you from making a mod with super-power-granting +10 items using these BAMs, I will probably ridicule you (or if I don't, someone else will). These are classy BAMs - make a classy mod with them :).</p>
           <address>
-            <span class="footer">BAM Batcher &gt; License</span> &#8226;<a href=
-            "#top">Back to top</a>
+            <span class="footer">BAM Batcher &gt; Credits</span> &#8226;<a href="#top">Back To Top</a>
           </address>
         </div>
-        <!-- ============== V e r s i o n   H i s t o r y =============== -->
-        <a name="version" id="version"></a>
+
+        <!-- ================== V e r s i o n   H i s t o r y ================== -->
+        <a id="version"></a>
         <div class="content">
-          <h2>
-            Version History
-          </h2>
-          <h6>
-            Version 1: 12 Sept 2009
-          </h6>
+          <h2>Version history</h2>
+          <h6>Version 2.2: 15 May 2017</h6>
           <ul>
-            <li>Initial release
-            </li>
+            <li>Include more palette resources in tools folder</li>
+            <li>Update repalette BAMs component</li>
+            <li>Update Readme</li>
+          </ul>
+          <h6>Version 2.1: 11 May 2017</h6>
+          <ul>
+            <li>Added "Convert BMPs to paperdoll BAMs" component</li>
+          </ul>
+          <h6>Version 2.0: 22 Jan 2017</h6>
+          <ul>
+            <li>Added Kwiat_W's spell BAM fix (19 March 2010)</li>
+            <li>Added pro5's small frame fix (05 December 2013)</li>
+            <li>Added Miloch's 'Repalette BAMs from a BMP' component (12 January 2014)</li>
+            <li>Added Argent77's RLE fix (15 October 2016)</li>
+            <li>Added Sam.'s BMP Version 4 fix</li>
+            <li>Updated WeiDU to Version 240</li>
+            <li>Updated 'List GIFs and dimensions' component for HTML5 compliance and bumped Version to v2</li>
+          </ul>
+          <h6>Version 1.0: 12 Sep 2009</h6>
+          <ul>
+            <li>Initial release</li>
           </ul>
           <address>
-            <span class="footer">BAM Batcher &gt; Version History</span> 
-            &#8226;<a href="#top">Back to top</a>
+            <span class="footer">BAM Batcher &gt; Version History</span> &#8226;<a href="#top">Back To Top</a>
           </address>
         </div>
+
       </div>
     </div>
   </body>
