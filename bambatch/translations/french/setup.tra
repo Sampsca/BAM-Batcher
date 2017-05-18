@@ -1,0 +1,139 @@
+@0     = ~Convertir des fichiers BAM en BMP~
+@1     = ~BAM Batcher~
+@2     = ~Conversion en cours de %SOURCE_FILE% en fichier BMP ...~
+@3     = ~Conversion en cours de l'image %f1% (non compressee) : lecture de la taille de la donnee %ds% a partir de l'adresse %fd% ...~
+@4     = ~Conversion en cours de l'image %f1% (compressee) : lecture de la taille de la donnee %ds% a partir de l'adresse %fd% ...~
+@5     = ~Image %f1% non traitee - dimension non valide.~
+@6     = ~Convertir des fichiers BMP en fichiers BAM d'icone d'inventaire d'objet~
+@7     = ~Conversion en cours de l'image %bs%.bmp en fichier BAM...~
+@8     = ~L'image bmp %bs% n'est pas au format 8-bit ou est compressee. Veuillez verifier le fichier source.~
+@9     = ~Le fichier %SOURCE_FILE% n'est pas un fichier BMP - Veuillez le verifier.~
+@10    = ~Conversion en cours de l'image %bf%s.bmp en fichier BAM...~
+@11    = ~L'image bmp %bf%s n'est pas au format 8-bit ou est compressee. Veuillez verifier le fichier source.~
+@12    = ~la petite image de l'icone %bf%s n'existe pas - Veuillez verifier vos fichiers.~
+@13    = ~Convertir des fichiers BMP en fichiers BAM d'icone de sort~
+@14    = ~Convertir des fichiers BMP en fichiers BAM d'icone de description d'objet~
+@15    = ~Regler la position des fichiers BAM d'icone d'inventaire~
+@16    = ~Le fichier %SOURCE_FILE% contient %fc% images (les BAM d'inventaire en necessite 2) - Verifiez le fichier source.~
+@17    = ~Le fichier %SOURCE_FILE% contient 2 images de largeur identique - Verifiez le fichier source.~
+@18    = ~La coordonnee horizontale (X = %sx%) de la petite image du fichier %SOURCE_FILE% a ete changee en %sw%.~
+@19    = ~La coordonnee verticale (Y = %sy%) de la petite image du fichier %SOURCE_FILE% a ete changee en %sh%.~
+@20    = ~La coordonnee horizontale (X = %lx%) de la grande image du fichier %SOURCE_FILE% a ete changee en %lw%.~
+@21    = ~La coordonnee verticale (Y = %ly%) de la grande image du fichier %SOURCE_FILE% a ete changee en %lh%.~
+@22    = ~Regler la position des fichiers BAM d'icone de sort~
+@23    = ~Le fichier %SOURCE_FILE% contient %fc% images (les icones de sorts en necessitent une seule) - Verifiez le fichier source.~
+@43    = ~Le fichier %SOURCE_FILE% contient %fc% images (les icones de description en necessitent une seule) - Verifiez le fichier source.~
+@24    = ~La coordonnee horizontale (X = %sx%) du fichier %SOURCE_FILE% a ete changee en %sw%.~
+@25    = ~La coordonnee verticale (Y = %sy%) du fichier %SOURCE_FILE% a ete changee en %sh%.~
+@26    = ~Regler la position des fichiers BAM d'icone de description d'objet~
+@27    = ~Decompresser des fichiers BAM~
+@28    = ~Le fichier %SOURCE_FILE% n'est pas un fichier BAM compresse.~
+@29    = ~Compresser des fichiers BAM~
+@30    = ~Le fichier %SOURCE_FILE% n'est pas un fichier BAM decompresse.~
+@31    = ~Etablir une liste de fichiers BAM et de leur dimension~
+@32    = ~Etablir une liste de fichiers BMP et de leur dimension~
+@33    = ~Etablir une liste de fichiers GIF et de leur dimension~
+@34    = ~Changer la palette de fichiers BAM a partir d'un fichier BMP~
+@35    = ~%tpath%%tpal%.bmp n'est pas un fichier valide BMP decompresse.~
+@36    = ~Le fichier %tpath%%tpal%.bmp n'existe pas.~
+@37    = ~Convertir des fichiers BMP en fichiers BAM de paperdoll~
+@38    = ~Conversion en cours de %bf%t.bmp en fichier BAM...~
+@39    = ~Le fichier BMP %bf%t n'existe pas - Verifier vos fichiers.~
+@40    = ~Installer uniquement les fichiers BAM~
+@41    = ~Collection de BAM de Moinesse~
+@42    = ~Installer les fichiers BAM avec leurs objets de test~
+
+
+// WeiDU prompts
+@-1000= "Le mod %TP2_FILE_NAME% contient"
+@-1001= "composants optionnels distincts.
+Pour gagner du temps, vous pouvez choisir ce que vous souhaitez faire d'eux
+au niveau general plutot que de repondre aux questions pour chacun.
+"
+@-1002= "Que faut-il faire de tous les composants qui NE sont PAS ENCORE installes ?
+Les [I]nstaller, les [S]auter, dem[A]nder pour chacun ? "
+@-1003= "Que faut-il faire de tous les composants qui sont DEJA installes ?
+Les [R]einstaller, les s[U]pprimer, les [S]auter, dem[A]nder pour chacun ? "
+
+@-1004= "S'IL VOUS PLAIT, envoyez par e-mail le fichier"
+@-1005= "a"
+
+@-1006= "Installer le composant ["
+@-1007= "] ?
+[R]einstaller, co[N]server, s[U]pprimer ou [Q]uitter ? "
+@-1008= "] ?
+[I]nstaller, [N]e pas installer ou [Q]uitter ? "
+
+@-1009= "Entrez une partie du nom du module : "
+
+@-1010= "Reinstallation du composant ["
+@-1011= "] "
+@-1012= "Reinstallation dans la langue"
+
+@-1013= "Suppression de l'ancienne installation de ["
+@-1014= "] au prealable..."
+@-1015= "SUPPRESSION REUSSIE DE L'ANCIEN"
+
+@-1016= "Installation en cours"
+@-1017= "ERREUR pendant l'installation de ["
+@-1018= "], retour a l'etat anterieur"
+@-1019= "INSTALLATION REUSSIE"
+@-1020= "Saute"
+@-1021= "Suppression de ["
+@-1022= "] (composant #"
+@-1023= ")"
+@-1024= "SUPPRESSION REUSSIE DE ["
+
+@-1025= "] ?
+[R]einstaller, co[N]server, s[U]pprimer, [Q]uitter ou choisir un parmi :"
+@-1026= "] ?
+[N]e pas installer, [Q]uitter ou choisir un parmi :"
+@-1027= " (installe actuellement)"
+
+@-1028= "Souhaitez-vous afficher les composants de ["
+@-1029= "] ?
+[Y]Oui, [N]on ? "
+
+@-1030= "] ?
+choisir un parmi :"
+@-1031= "] ?
+[R]einstaller, co[N]server, [Q]uitter ou choisir un parmi :"
+@-1032= "INSTALLATION ECHOUEE A CAUSE D'ERREURS"
+@-1033= "INSTALLATION AVEC DES ALERTES"
+@-1034= "Souhaitez-vous afficher les instructions (ReadMe) ? [Y]Oui [N]on"
+@-1035= "Dans la langue"
+
+@-1036= "Saute le GROUPE ["
+@-1037= "] pour cause d'absence des pre-requis."
+
+@-1038= "dem[A]nder pour chaque composant, tout [S]auter, ou choisir une selection pre-definie :"
+@-1039= "dem[A]nder pour chaque composant, [R]einstaller la configuration courante, tout s[U]pprimer, tout [S]auter, ou choisir une selection pre-definie :"
+
+@-1040= "
+Veuillez choisir la langue dans laquelle vous souhaitez jouer au jeu.
+Si par la suite vous desirez jouer au jeu dans une langue differente, il vous
+faudra editer le fichier weidu.conf et reinstaller vos mods.
+"
+@-1041= "Tcheque"
+@-1042= "Allemand"
+@-1043= "Anglais"
+@-1044= "Espagnol"
+@-1045= "Francais"
+@-1046= "Italien"
+@-1047= "Polonais"
+@-1048= "Portugais"
+@-1049= "Turc"
+@-1050= "Japonais"
+@-1051= "Coreen"
+@-1052= "Chinois simplifie"
+@-1053= "Russe"
+@-1054= "Ukrainien"
+
+@-1060= "
+Ce jeu est disponible en plusieurs langues mais WeiDU ne sait pas laquelle a ete choisie quand ce mod a ete installe.
+
+Veuillez indiquer quelle langue du jeu a ete utilisee quand vous avez installe ce mod. Votre choix servira jusqu'a ce que WeiDU s'arrete mais ne sera pas memorise.
+"
+@-1061= "
+Utilisation de"
+@-1062= " et "

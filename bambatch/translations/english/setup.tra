@@ -9,7 +9,7 @@
 @8     = ~Bitmap %bs% is not 8-bit or is compressed. Please check source file.~
 @9     = ~%SOURCE_FILE% is not a valid bitmap - check the file.~
 @10    = ~Converting %bf%s.bmp to a BAM ...~
-@11    = ~Bitmap %bs% is not 8-bit or is compressed - check the file.~
+@11    = ~Bitmap %bf%s is not 8-bit or is compressed - check the file.~
 @12    = ~Small bitmap %bf%s does not exist - check your files.~
 @13    = ~Convert BMPs to spell BAMs~
 @14    = ~Convert BMPs to description BAMs~
@@ -41,3 +41,4 @@
 @40    = ~BAMs only~
 @41    = ~Moinesse's BAMs~
 @42    = ~BAMs with test items~
+@43    = ~%SOURCE_FILE% has %fc% frames (description BAMs need 1) - check source file.~

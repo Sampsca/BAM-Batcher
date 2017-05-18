@@ -1,8 +1,10 @@
 BACKUP ~bambatch/backup~
 AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
-VERSION ~v2.2.1~
+VERSION ~v2.2.2~
+README ~bambatch/bambatch-readme-%LANGUAGE%.html~ ~bambatch/bambatch-readme-english.html~
 
 LANGUAGE ~English~ ~english~ ~bambatch/translations/english/setup.tra~
+LANGUAGE ~Francais (traduction : Gwendolyne)~ ~french~ ~bambatch/translations/french/setup.tra~
 
 //! Convert BAMs to BMPs /////////////////////////////////////////////////////
 BEGIN @0 /* Convert BAMs to BMPs */
@@ -277,7 +279,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
           END
         END
       END ELSE BEGIN
-        PATCH_PRINT @11 /* Bitmap %bs% is not 8-bit or is compressed - check the file. */
+        PATCH_PRINT @11 /* Bitmap %bf%s is not 8-bit or is compressed - check the file. */
       END
     BUT_ONLY
 
@@ -655,7 +657,7 @@ COPY ~bambatch/bam~ ~bambatch/bam~
   END
   READ_SHORT 0x8 fc //Frame count
   PATCH_IF (fc != 1) BEGIN
-    PATCH_PRINT @23 /* %SOURCE_FILE% has %fc% frames (spell BAMs need 1) - check source file. */
+    PATCH_PRINT @43 /* %SOURCE_FILE% has %fc% frames (description BAMs need 1) - check source file. */
   END ELSE BEGIN
     READ_LONG 0xc fn //Frame entry offset
     READ_SHORT fn qw //Raw width
