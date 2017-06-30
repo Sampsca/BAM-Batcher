@@ -1,6 +1,6 @@
 BACKUP ~bambatch/backup~
 AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
-VERSION ~v2.2.2~
+VERSION ~v2.3.0~
 README ~bambatch/bambatch-readme-%LANGUAGE%.html~ ~bambatch/bambatch-readme-english.html~
 
 LANGUAGE ~English~ ~english~ ~bambatch/translations/english/setup.tra~
@@ -1019,6 +1019,18 @@ ACTION_BASH_FOR ~bambatch/paperdollbottom~ ~^.+\.bmp$~ BEGIN
   END ELSE BEGIN
     PRINT @39 /* Small bitmap %bf%t does not exist - check your files. */
   END
+END
+
+//! Convert inventory BAMs to EE //////////////////////////////////////////
+BEGIN @44 /* Convert inventory BAMs to EE */
+SUBCOMPONENT @1 /* BAM Batcher */
+NO_LOG_RECORD
+
+INCLUDE ~bambatch\lib\gw_convert_inventory_bam_to_ee.tpa~
+ACTION_BASH_FOR ~bambatch/bam~ ~^.+\.bam$~ BEGIN
+  COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
+    LPF ~gw_convert_inventory_bam_to_ee~ END
+  BUT_ONLY
 END
 
 //! Moinesse's BAMs (BAMs only) /////////////////////////////////////////////

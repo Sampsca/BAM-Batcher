@@ -22,7 +22,6 @@
 @21    = ~La coordonnee verticale (Y = %ly%) de la grande image du fichier %SOURCE_FILE% a ete changee en %lh%.~
 @22    = ~Regler la position des fichiers BAM d'icone de sort~
 @23    = ~Le fichier %SOURCE_FILE% contient %fc% images (les icones de sorts en necessitent une seule) - Verifiez le fichier source.~
-@43    = ~Le fichier %SOURCE_FILE% contient %fc% images (les icones de description en necessitent une seule) - Verifiez le fichier source.~
 @24    = ~La coordonnee horizontale (X = %sx%) du fichier %SOURCE_FILE% a ete changee en %sw%.~
 @25    = ~La coordonnee verticale (Y = %sy%) du fichier %SOURCE_FILE% a ete changee en %sh%.~
 @26    = ~Regler la position des fichiers BAM d'icone de description d'objet~
@@ -42,7 +41,8 @@
 @40    = ~Installer uniquement les fichiers BAM~
 @41    = ~Collection de BAM de Moinesse~
 @42    = ~Installer les fichiers BAM avec leurs objets de test~
-
+@43    = ~Le fichier %SOURCE_FILE% contient %fc% images (les icones de description en necessitent une seule) - Verifiez le fichier source.~
+@44    = ~Convertir des fichiers BAM d'inventaire au format EE~
 
 // WeiDU prompts
 @-1000= "Le mod %TP2_FILE_NAME% contient"

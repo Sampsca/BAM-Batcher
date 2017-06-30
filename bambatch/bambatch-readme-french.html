@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8">
     <style type="text/css">
@@ -279,7 +279,7 @@
         <p class="about">
           <a href="http://www.shsforums.net/topic/42359-release-bam-batcher/">Forum</a> &#8226;
           <a href="https://github.com/Sampsca/BAM-Batcher/releases">Téléchargement dans GitHub</a> &#8226;
-          Version 2.2
+          Version 2.3
         </p>
         <hr>
         <p class="menu">
@@ -315,6 +315,7 @@
             <li><a href="#suba12">Établir une liste de fichiers GIF et de leur dimension.</a></li>
             <li><a href="#suba13">Changer la palette de fichiers BAM à partir d'un fichier BMP.</a></li>
             <li><a href="#suba14">Convertir des fichiers BMP en fichiers BAM de paperdoll.</a></li>
+            <li><a href="#suba15">Convertir des fichiers BAM d'inventaire au format EE</a></li>
           </ol><br>
           <p>De plus, ce mod comprend un composant supplémentaire indépendant, <a href="#moin">la Collection de BAM de Moinesse</a>, perdue depuis longtemps, avec deux options d'installation :<br><br></p>
           <ol>
@@ -463,6 +464,12 @@
             <strong>14. Convertir des fichiers BMP en fichiers BAM de paperdoll.</strong>
             <br>
             Ce sous-composant convertit des couples de fichiers BMP présents dans les répertoires /bambatch/paperdolltop et /bambatch/paperdollbottom, puis les sauvegarde en fichiers BAM de paperdoll (avatar affiché dans l'écran des personnages) dans le répertoire /bambatch/bam. Les fichiers BMP <strong>doivent</strong> porter le même nom à l'exception de leur dernier caractère, qui doit être impérativement la lettre "t" pour l'image de la partie supérieure ("<em>top</em>") et "b" pour celle de la partie inférieure ("<em>bottom</em>"). À titre d'exemple, consultez les répertoires adéquats (fichiers MGNLINVt.bmp et MGNLINVb.bmp). Les deux fichiers BMP <strong>doivent</strong> utiliser <strong>exactement</strong> la même palette. Chaque image doit avoir une dimension de 128 x 80 pixels pour pouvoir régler correctement sa position. Les images des fichiers BAM générés peuvent êtres rabotées ("<em>trimmed</em>") à l'aide d'un autre logiciel, comme <a href="http://www.shsforums.net/topic/57565-bam-resizer/">BAM Resizer</a>.
+          </p>
+          <p>
+            <a id="suba15"></a>
+            <strong>15. Convertir des fichiers BAM d'inventaire au format EE.</strong>
+            <br>
+            Ce sous-composant permet de modifier les fichiers BAM d'icônes d'inventaire présents dans le répertoire /bambatch/bam afin que les jeux améliorés (EE) affichent à la fois leurs grandes et leurs petites icônes. Ces fichiers doivent impérativement comporter deux séquences, la première représentant la grande icône et la seconde la petite. Les fichiers BAM répondant à ces caractéristiques sont modifiés et sauvegardés dans le répertoire /bambatch/bam, écrasant les originaux. Au besoin, vous pouvez récupérer les fichiers originaux dans le sous-répertoire backup.
           </p>
 		  <br>
           <h3>
@@ -1184,6 +1191,13 @@
         <a id="version"></a>
         <div class="content">
           <h2>Historique des versions</h2>
+          <h6>Version 2.3 : 30 Juin 2017</h6>
+          <ul>
+            <li>Traification du setup-bambatch.tp2.</li>
+            <li>Ajout de la traduction française.</li>
+            <li>Ajout du composant "Convertir des fichiers BAM d'inventaire au format EE".</li>
+            <li>Mise à jour du fichier Readme.</li>
+          </ul>
           <h6>Version 2.2 : 15 Mai 2017</h6>
           <ul>
             <li>Ajout de palettes supplémentaires dans le répertoire tools.</li>

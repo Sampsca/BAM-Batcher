@@ -279,7 +279,7 @@
         <p class="about">
           <a href="http://www.shsforums.net/topic/42359-release-bam-batcher/">Forum</a> &#8226;
           <a href="https://github.com/Sampsca/BAM-Batcher/releases">Download on GitHub</a> &#8226;
-          Version 2.2
+          Version 2.3
         </p>
         <hr>
         <p class="menu">
@@ -314,6 +314,7 @@
             <li><a href="#suba12">List GIFs and dimensions</a></li>
             <li><a href="#suba13">Repalette BAMs from a BMP</a></li>
             <li><a href="#suba14">Convert BMPs to paperdoll BAMs</a></li>
+            <li><a href="#suba15">Convert inventory BAMs to EE</a></li>
           </ol>
           <p>In addition, this mod includes the long-lost <a href="#moin">Moinesse's BAMs</a> as a separate component with two options forinstallation:</p>
           <ol>
@@ -463,6 +464,12 @@
             <strong>14. Convert BMPs to paperdoll BAMs</strong>
             <br>
             This option will attempt to assemble similarly-named bitmaps in the /bambatch/paperdolltop and /bambatch/paperdollbottom folders.  It will save these as paperdoll BAMs to the /bambatch/bam folder.  The filenames <strong>must</strong> have the same name with the exception of the last character, which must be the letter ‘t’ for the top frames and ‘b’ for the bottom frames.  See the relevant folders for examples (MGNLINVt.bmp and MGNLINVb.bmp).  Both BMPs <strong>must</strong> use <strong>exactly</strong> the same palette.  Each of these frames should have dimensions of 128x80 pixels in order for the frame offsets to be correct.  The frames in the resulting BAMs can then be trimmed using an external tool, such as <a href="http://www.shsforums.net/topic/57565-bam-resizer/">BAM Resizer</a>.
+          </p>
+          <p>
+            <a id="suba15"></a>
+            <strong>15. Convert inventory BAMs to EE</strong>
+            <br>
+            This option will attempt to modify traditional inventory BAMs in the /bambatch/bam folder so that both the large and small icons are utilized by the EE games.  The inventory BAM must have two sequences, the first containing the "large" inventory icon frame and the second containing the "small" inventory icon frame to be processed.  Inventory icon BAMs in the /bambatch/bam folder that meet these requirements are patched and saved back to the /bambatch/bam folder, overwriting the original.  Note that a backup of the original BAMs can be found in the /bambatch/backup folder as usual.
           </p>
           <h3>
             <a id="moin"></a>
@@ -1178,6 +1185,13 @@
         <a id="version"></a>
         <div class="content">
           <h2>Version history</h2>
+          <h6>Version 2.3: 30 June 2017</h6>
+          <ul>
+            <li>Traify setup-bambatch.tp2</li>
+            <li>Add French translation</li>
+            <li>Added "Convert inventory BAMs to EE" component</li>
+            <li>Update Readme</li>
+          </ul>
           <h6>Version 2.2: 15 May 2017</h6>
           <ul>
             <li>Include more palette resources in tools folder</li>
