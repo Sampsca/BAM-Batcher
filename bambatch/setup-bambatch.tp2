@@ -1,6 +1,6 @@
 BACKUP ~bambatch/backup~
 AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
-VERSION ~v2.3.0~
+VERSION ~v2.3.1~
 README ~bambatch/bambatch-readme-%LANGUAGE%.html~ ~bambatch/bambatch-readme-english.html~
 
 LANGUAGE ~English~ ~english~ ~bambatch/translations/english/setup.tra~
@@ -490,40 +490,41 @@ COPY - ~bambatch/desc~ ~bambatch/desc~
           END
         END
       END
-    END ELSE BEGIN
+      INNER_ACTION BEGIN
+	    ACTION_IF qw > 0 BEGIN
+          COPY ~bambatch/hdr-desc.bam~ ~bambatch/bam/%bs%.bam~
+            READ_LONG 0xc fn //Frame entry offset
+            WRITE_SHORT fn qw //Frame width
+            WRITE_SHORT (fn + 2) qh //Frame height
+            WRITE_SHORT (fn + 4) sw //X coordinate
+            WRITE_SHORT (fn + 6) sh //Y coordinate
+            READ_LONG (fn + 8) fd //Frame data offset
+            READ_LONG 0x10 pf //Palette offset
+            WRITE_ASCIIE pf ~%pt%~ #1024 //Palette
+            READ_LONG pf p0
+            PATCH_IF p0 = 0x9797 BEGIN
+              WRITE_LONG pf 0xff00 //Fix cyan transparency to green
+            END
+            READ_LONG (pf + 4) p1
+            PATCH_IF p1 = 0xff6597 BEGIN
+              WRITE_LONG (pf + 4) 0x080808 //Fix pink shadow to dark grey
+            END
+            INSERT_BYTES fd (jl)
+            WRITE_ASCIIE fd ~%fj%~ //Small frame data
+            COMPRESS_REPLACE_FILE 0 (fd + jl) 9
+            INSERT_BYTES 0x0 0xc
+            WRITE_ASCII 0x0 ~BAMCV1  ~ //Signature
+            WRITE_LONG 0x8 (fd + jl) //Data length
+          BUT_ONLY
+        END
+	  END 
+	END ELSE BEGIN
       PATCH_PRINT @11 /* Bitmap %bs% is not 8-bit or is compressed - check the file. */
     END
   END ELSE BEGIN
     PATCH_PRINT @9 /* %SOURCE_FILE% is not a valid bitmap - check the file. */
   END
 BUT_ONLY
-
-ACTION_IF qw > 0 BEGIN
-  COPY ~bambatch/hdr-desc.bam~ ~bambatch/bam/%bs%.bam~
-    READ_LONG 0xc fn //Frame entry offset
-    WRITE_SHORT fn qw //Frame width
-    WRITE_SHORT (fn + 2) qh //Frame height
-    WRITE_SHORT (fn + 4) sw //X coordinate
-    WRITE_SHORT (fn + 6) sh //Y coordinate
-    READ_LONG (fn + 8) fd //Frame data offset
-    READ_LONG 0x10 pf //Palette offset
-    WRITE_ASCIIE pf ~%pt%~ #1024 //Palette
-    READ_LONG pf p0
-    PATCH_IF p0 = 0x9797 BEGIN
-      WRITE_LONG pf 0xff00 //Fix cyan transparency to green
-    END
-    READ_LONG (pf + 4) p1
-    PATCH_IF p1 = 0xff6597 BEGIN
-      WRITE_LONG (pf + 4) 0x080808 //Fix pink shadow to dark grey
-    END
-    INSERT_BYTES fd (jl)
-    WRITE_ASCIIE fd ~%fj%~ //Small frame data
-    COMPRESS_REPLACE_FILE 0 (fd + jl) 9
-    INSERT_BYTES 0x0 0xc
-    WRITE_ASCII 0x0 ~BAMCV1  ~ //Signature
-    WRITE_LONG 0x8 (fd + jl) //Data length
-  BUT_ONLY
-END
 
 //! Fix inventory BAM coordinates ///////////////////////////////////////////
 BEGIN @15 /* Fix inventory BAM coordinates */
