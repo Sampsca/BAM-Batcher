@@ -1,6 +1,6 @@
 BACKUP ~bambatch/backup~
 AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
-VERSION ~v2.3.1~
+VERSION ~v2.3.2~
 README ~bambatch/bambatch-readme-%LANGUAGE%.html~ ~bambatch/bambatch-readme-english.html~
 
 LANGUAGE ~English~ ~english~ ~bambatch/translations/english/setup.tra~
@@ -1031,6 +1031,56 @@ INCLUDE ~bambatch\lib\gw_convert_inventory_bam_to_ee.tpa~
 ACTION_BASH_FOR ~bambatch/bam~ ~^.+\.bam$~ BEGIN
   COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
     LPF ~gw_convert_inventory_bam_to_ee~ END
+  BUT_ONLY
+END
+
+//! Fix BAMWorkshop colors //////////////////////////////////////////
+BEGIN @45 /* Fix BAMWorkshop colors */
+SUBCOMPONENT @1 /* BAM Batcher */
+NO_LOG_RECORD
+
+ACTION_BASH_FOR ~bambatch/bam~ ~^.+\.bam$~ BEGIN
+  COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
+    READ_ASCII 0x0 sg (4)    // Signature
+    READ_ASCII 0x0 sn (3)    // Short signature
+	PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN // Decompress if needed.
+      READ_LONG 0x8 dl                // Uncompressed data length
+      DECOMPRESS_INTO_VAR 0xc (SOURCE_SIZE - 0xc) dl contents
+    END ELSE BEGIN
+      dl = SOURCE_SIZE                // Uncompressed data length
+      READ_ASCII 0 contents (dl)
+    END
+	SET proceed = 0
+	INNER_PATCH_SAVE contents "%contents%" BEGIN
+	  PATCH_IF (~%sn%~ STRING_EQUAL_CASE ~BAM~ = 1) BEGIN
+	    READ_LONG 0x10 pf //Palette offset
+	    READ_LONG pf p0
+	    PATCH_IF (p0 = 0x9797) BEGIN
+	      WRITE_LONG pf 0xff00 //Fix cyan transparency to green
+		  proceed = 1
+	    END
+	    READ_LONG (pf + 4) p1
+	    PATCH_IF (p1 = 0xff6597) OR (p1 = 0x080808) BEGIN
+	      WRITE_LONG (pf + 4) 0x000000 //Fix pink and dark grey shadow to black
+		  proceed = 1
+	    END
+	  END
+	  PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) AND (proceed = 1) BEGIN
+		COMPRESS_REPLACE_FILE 0 dl 9
+		INSERT_BYTES 0x0 0xc
+		WRITE_ASCII 0x0 ~BAMCV1  ~
+		WRITE_LONG 0x8 dl
+		dl += 0xc // Compressed data length
+	  END
+    END
+	PATCH_IF (proceed = 1) BEGIN
+	  PATCH_IF (SOURCE_SIZE > dl) BEGIN
+	    DELETE_BYTES 0 (SOURCE_SIZE - dl)
+      END ELSE PATCH_IF (SOURCE_SIZE < dl) BEGIN
+        INSERT_BYTES 0 (dl - SOURCE_SIZE)
+      END
+      WRITE_ASCIIE 0 "%contents%"
+    END
   BUT_ONLY
 END
 

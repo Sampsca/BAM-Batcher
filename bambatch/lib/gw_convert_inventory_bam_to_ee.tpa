@@ -1,5 +1,5 @@
 DEFINE_PATCH_FUNCTION ~gw_convert_inventory_bam_to_ee~ BEGIN
-
+// http://gibberlings3.net/forums/index.php?showtopic=28823&p=254149
 // Read BAM
 // ---------
     READ_ASCII 0x0 sg (4)    // Signature
