@@ -279,7 +279,7 @@
         <p class="about">
           <a href="http://www.shsforums.net/topic/42359-release-bam-batcher/">Forum</a> &#8226;
           <a href="https://github.com/Sampsca/BAM-Batcher/releases">Download on GitHub</a> &#8226;
-          Version 2.3
+          Version 2.4
         </p>
         <hr>
         <p class="menu">
@@ -315,6 +315,7 @@
             <li><a href="#suba13">Repalette BAMs from a BMP</a></li>
             <li><a href="#suba14">Convert BMPs to paperdoll BAMs</a></li>
             <li><a href="#suba15">Convert inventory BAMs to EE</a></li>
+            <li><a href="#suba16">Fix BAMWorkshop colors</a></li>
           </ol>
           <p>In addition, this mod includes the long-lost <a href="#moin">Moinesse's BAMs</a> as a separate component with two options forinstallation:</p>
           <ol>
@@ -364,24 +365,13 @@
             This option will attempt to extract all frames from the BAMs in the /bambatch/bam folder. It will save these as BMPs to the /bambatch/bmp folder. It will place a number after the filename indicating the BAM frame number.
           </p>
           <p>
-            You can also use this option to extract bitmaps from BAMs directly in the game. This only requires modification of the first COPY statement after the subcomponent (currently around line 14) in setup-bambatch.tp2:
-            <br>
-            COPY - ~bambatch/bam~ ~bambatch/bam~
-          </p>
-          <p>
-            To extract all frames from the female elven bard animation, comment out the line above (put // in front of it) and type below it:
-            <br>
-            COPY_EXISTING_REGEXP GLOB ~^cefb.+\.bam~ ~bambatch/bam~
-          </p>
-          <p>It is probably not smart to use this for large quantities of BAMs (like all of them in the game). However, it should work for just about any type of BAM (including compressed and run-length encoded frames).</p>
-          <p>
             <a id="suba2"></a>
             <strong>2. Convert BMPs to inventory BAMs</strong>
             <br>
             This option will attempt to assemble similarly-named bitmaps in the /bambatch/invlarge and /bambatch/invsmall folders. It will save these as inventory BAMs to the /bambatch/bam folder. The filenames <strong>must</strong> have the same name with the exception of the last character, which must be the letter 'l' for large icon frames and 's' for small frames. See the relevant folders for examples (iamul01l.bmp and iamul01s.bmp). Inventory icons have the large icon (maximum of 64 pixels) centered (half each dimension) and the small icon (maximum of 32 pixels) offset for its difference from the 32-pixel maximum (usually a negative number).
           </p>
           <p>
-            Both large and small frames must also use the exact same 256-color palette. If not, the small icon will be forced to the large icon's palette (since BAMs have only one palette) which may otherwise produce unwanted results.
+            As of version 2.4, the large and small frames are no longer required to use the exact same 256-color palette.  However, it is recommended to keep the total number of different colors used to around 256, or at least make sure both frames use similar colors.  The reason for this is that once the first 256 colors are used, additional colors will simply be remapped to the "nearest-neighbor" color already in the palette.  If the palette contains teal and pink for the transparent and shadow colors (as set by BAMWorkshop), these colors will automatically be corrected to green and black.  After this check is performed, the first two palette entries (which are reserved for the transparent and shadow colors) will be set as green and black respectively.  Any pixels using these two colors will be remapped to use these palette entries.  The original behavior of this component can be restored by changing the line "OUTER_SET UnifyPalette = 1" to "OUTER_SET UnifyPalette = 0" in setup-bambatch.tp2.
           </p>
           <p>
             <a id="suba3"></a>
@@ -470,6 +460,12 @@
             <strong>15. Convert inventory BAMs to EE</strong>
             <br>
             This option will attempt to modify traditional inventory BAMs in the /bambatch/bam folder so that both the large and small icons are utilized by the EE games.  The inventory BAM must have two sequences, the first containing the "large" inventory icon frame and the second containing the "small" inventory icon frame to be processed.  Inventory icon BAMs in the /bambatch/bam folder that meet these requirements are patched and saved back to the /bambatch/bam folder, overwriting the original.  Note that a backup of the original BAMs can be found in the /bambatch/backup folder as usual.
+          </p>
+          <p>
+            <a id="suba16"></a>
+            <strong>16. Fix BAMWorkshop colors</strong>
+            <br>
+            This option will fix any teal Transparent and pink Shodow colors (set by BAMWorkshop) found in the BAMs in the /bambatch/bam folder so that they use the proper green and black colors used by the game engine.
           </p>
           <h3>
             <a id="moin"></a>
@@ -634,7 +630,7 @@
             <br>
             <strong>Q: Can I get that in-game background look like the icons below?</strong>
             <br>
-            A: Yes, there is a line (currently around #131) in the .tp2 file you can uncomment for that. Otherwise, exported bitmap backgrounds get the default game transparency color (a bright green).
+            A: Yes, there is a line (currently around #133) in the .tp2 file you can uncomment for that. Otherwise, exported bitmap backgrounds get the default game transparency color (a bright green).
           </p>
           <p>
             <br>
@@ -1185,6 +1181,14 @@
         <a id="version"></a>
         <div class="content">
           <h2>Version history</h2>
+          <h6>Version 2.4: 22 October 2017</h6>
+          <ul>
+            <li>Modify "Convert BMPs to inventory BAMs" to no longer require identical palettes in small and large frames</li>
+            <li>Modify "Convert BAMs to BMPs" to properly handle multiple BAMs</li>
+            <li>Added 'Fix BAMWorkshop colors' component</li>
+            <li>Fix 'Convert BMPs to description BAMs' to properly handle multiple images at a time</li>
+            <li>Update Readme</li>
+          </ul>
           <h6>Version 2.3: 30 June 2017</h6>
           <ul>
             <li>Traify setup-bambatch.tp2</li>

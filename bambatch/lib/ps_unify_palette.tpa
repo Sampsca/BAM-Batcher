@@ -1,0 +1,243 @@
+//////////////////////////////////////////////////////////////////////////////////
+////////////////////////////     ps_unify_palette     ////////////////////////////
+////////////////////////////          v0.0.1          ////////////////////////////
+//////////////////////////// Copyright (c) 2017 Sam.  ////////////////////////////
+////////////////////////////          WTFPL           ////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////    ps_unify_palette    /////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+// This is a WeiDU action function that repalettes two bitmaps to use a common palette.
+//   Colors will be stored in the new palette in the order they are used in the frames (unless you reserve the special Trans and Shadow colors using the options below).
+//     When the palette is full, additional colors will simply be remapped to the "nearest neighbor" color already in the palette.  For this reason, keeping the total
+//     number of colors used between the two images to around 256, or at least making sure they use similar colors, will produce the best results.  This function is not
+//     designed to be a substitute for a full fledged quantization and dithering engine.
+//   Options:
+//     Set INT_VAR FixColors to 1 to fix bad palette colors such as those used by BAMWorkshop.  Default is ON.
+//     Set INT_VAR ReorderReserved to 1 to ensure the special 'reserved' Transparent and Shadow colors (green and black) are in the first 2 palette entrirs.  Default is ON.
+//////////////////////////////////////////////////////////////////////////////////
+DEFINE_ACTION_FUNCTION ps_unify_palette INT_VAR FixColors = 1 ReorderReserved = 1 STR_VAR Palette1 = "" Palette2 = ""  Raster1 = "" Raster2 = "" RET Palette1 Raster1 Raster2 BEGIN
+  OUTER_INNER_PATCH_SAVE Palette1 ~%Palette1%~ BEGIN // Store Palette1 in LUT
+    ct1 = (BUFFER_LENGTH / 4)
+    PATCH_IF (ct1 >= 2) AND (FixColors >= 1) BEGIN
+      READ_LONG 0 p0
+	  PATCH_IF (p0 = 0x9797) BEGIN
+	    WRITE_LONG 0 0xff00 //Fix cyan transparency to green
+	  END
+	  READ_LONG 4 p1
+	  PATCH_IF (p1 = 0xff6597) OR (p1 = 0x080808) BEGIN
+	    WRITE_LONG 4 0x000000 //Fix pink and dark grey shadow to black
+	  END
+    END
+    FOR (p1 = 0; p1 < ct1; ++p1) BEGIN
+      READ_LONG (p1 * 4) PaletteEntry
+	  SPRINT EVAL ~pta%p1%~ ~%PaletteEntry%~ // Store palette entry in LUT
+    END
+  END
+  OUTER_INNER_PATCH_SAVE Palette2 ~%Palette2%~ BEGIN // Store Palette2 in LUT
+    ct2 = (BUFFER_LENGTH / 4)
+    PATCH_IF (ct2 >= 2) AND (FixColors >= 1) BEGIN
+      READ_LONG 0 p0
+	  PATCH_IF (p0 = 0x9797) BEGIN
+	    WRITE_LONG 0 0xff00 //Fix cyan transparency to green
+	  END
+	  READ_LONG 4 p1
+	  PATCH_IF (p1 = 0xff6597) OR (p1 = 0x080808) BEGIN
+	    WRITE_LONG 4 0x000000 //Fix pink and dark grey shadow to black
+	  END
+    END
+    FOR (p2 = 0; p2 < ct2; ++p2) BEGIN
+      READ_LONG (p2 * 4) PaletteEntry
+	  SPRINT EVAL ~ptb%p2%~ ~%PaletteEntry%~ // Store palette entry in LUT
+    END
+  END
+  OUTER_INNER_PATCH ~%Raster1%~ BEGIN // Store Raster1 pixel data in LUT
+    ct3 = (BUFFER_LENGTH)
+    FOR (r1 = 0; r1 < ct3; ++r1) BEGIN
+      READ_BYTE (r1) Pixel
+      SPRINT Color EVAL "%pta%Pixel%%"
+	  SPRINT EVAL ~rda%r1%~ ~%Color%~ // Store pixel data in LUT
+    END
+  END
+  OUTER_INNER_PATCH ~%Raster2%~ BEGIN // Store Raster2 pixel data in LUT
+    ct4 = (BUFFER_LENGTH)
+    FOR (r2 = 0; r2 < ct4; ++r2) BEGIN
+      READ_BYTE (r2) Pixel
+      SPRINT Color EVAL "%ptb%Pixel%%"
+	  SPRINT EVAL ~rdb%r2%~ ~%Color%~ // Store pixel data in LUT
+    END
+  END
+  OUTER_SET PaletteCt = 0
+  ACTION_IF (ReorderReserved >= 1) BEGIN
+    OUTER_SPRINT EVAL ~Palette%PaletteCt%~ ~65280~ // Set PaletteEntry0 to Green
+    OUTER_SET PaletteCt += 1
+    OUTER_SPRINT EVAL ~Palette%PaletteCt%~ ~0~ // Set PaletteEntry1 to Black
+    OUTER_SET PaletteCt += 1
+  END
+  OUTER_FOR (r1 = 0; r1 < ct3; ++r1) BEGIN // Raster1 data loop
+    OUTER_SPRINT Color EVAL "%rda%r1%%" // Retrieve color of that pixel
+    OUTER_SET Success = 0
+    OUTER_FOR (pal = 0; pal < PaletteCt; ++pal) BEGIN // Loop through current palette
+      OUTER_SPRINT PEone EVAL "%Palette%pal%%" // Retrieve color of this PaletteEntry
+      ACTION_IF (Color = PEone) BEGIN // The color we want is already in the palette
+        OUTER_SPRINT EVAL ~rda%r1%~ ~%pal%~ // Set the pixel to use this PaletteEntry
+        OUTER_SET Success = 1
+        OUTER_SET pal = 10000 // Break out of palette loop
+      END
+    END
+    ACTION_IF (Success != 1) AND (PaletteCt < 256) BEGIN // The color we wanted was not already in the palette but there is room in the palette for more colors
+      OUTER_SPRINT EVAL ~Palette%PaletteCt%~ ~%Color%~ // Set next PaletteEntry to the pixel's color
+      OUTER_SPRINT EVAL ~rda%r1%~ ~%PaletteCt%~ // Set the pixel to use this PaletteEntry
+      OUTER_SET PaletteCt += 1
+      OUTER_SET Success = 1
+    END
+    ACTION_IF (Success != 1) BEGIN // The color we wanted is not in the palette and the palette is already full
+      OUTER_SET aa1 = ((Color >> 24) & 0xff) // high-order (leftmost) byte: bits 24-31
+      OUTER_SET rr1 = ((Color >> 16) & 0xff) // next byte, counting from left: bits 16-23
+      OUTER_SET gg1 = ((Color >>  8) & 0xff) // next byte, bits 8-15
+      OUTER_SET bb1 = (Color         & 0xff) // low-order byte: bits 0-7
+      OUTER_SET NNdist = 1000000
+      OUTER_SET NNval = 0
+      OUTER_FOR (pal = 0; pal < 256; ++pal) BEGIN // Palette loop
+        OUTER_SPRINT PEone EVAL "%Palette%pal%%"
+        OUTER_SET aa2 = ((PEone >> 24) & 0xff) // high-order (leftmost) byte: bits 24-31
+        OUTER_SET rr2 = ((PEone >> 16) & 0xff) // next byte, counting from left: bits 16-23
+        OUTER_SET gg2 = ((PEone >>  8) & 0xff) // next byte, bits 8-15
+        OUTER_SET bb2 = (PEone         & 0xff) // low-order byte: bits 0-7
+        OUTER_SET dist = ((aa2 - aa1) * (aa2 - aa1) + (rr2 - rr1) * (rr2 - rr1) + (gg2 - gg1) * (gg2 - gg1) + (bb2 - bb1) * (bb2 - bb1))
+        ACTION_IF (dist < NNdist) BEGIN
+          OUTER_SET NNdist = dist
+          OUTER_SET NNval = pal
+        END
+      END
+      OUTER_SPRINT EVAL ~rda%r1%~ ~%NNval%~ // Set the pixel to use the PaletteEntry closest to the desired color
+      OUTER_SET Success = 1
+      OUTER_SET root = dist ** (1 2)
+      PRINT ~The closest color to %Color% was at PaletteEntry %NNval% at a Euclidean distance of %root%.~
+    END
+  END
+  OUTER_FOR (r2 = 0; r2 < ct4; ++r2) BEGIN // Raster2 data loop
+    OUTER_SPRINT Color EVAL "%rdb%r2%%" // Retrieve color of that pixel
+    OUTER_SET Success = 0
+    OUTER_FOR (pal = 0; pal < PaletteCt; ++pal) BEGIN // Loop through current palette
+      OUTER_SPRINT PEone EVAL "%Palette%pal%%" // Retrieve color of this PaletteEntry
+      ACTION_IF (Color = PEone) BEGIN // The color we want is already in the palette
+        OUTER_SPRINT EVAL ~rdb%r2%~ ~%pal%~ // Set the pixel to use this PaletteEntry
+        OUTER_SET Success = 1
+        OUTER_SET pal = 10000 // Break out of palette loop
+      END
+    END
+    ACTION_IF (Success != 1) AND (PaletteCt < 256) BEGIN // The color we wanted was not already in the palette but there is room in the palette for more colors
+      OUTER_SPRINT EVAL ~Palette%PaletteCt%~ ~%Color%~ // Set next PaletteEntry to the pixel's color
+      OUTER_SPRINT EVAL ~rdb%r2%~ ~%PaletteCt%~ // Set the pixel to use this PaletteEntry
+      OUTER_SET PaletteCt += 1
+      OUTER_SET Success = 1
+    END
+    ACTION_IF (Success != 1) BEGIN // The color we wanted is not in the palette and the palette is already full
+      OUTER_SET aa1 = ((Color >> 24) & 0xff) // high-order (leftmost) byte: bits 24-31
+      OUTER_SET rr1 = ((Color >> 16) & 0xff) // next byte, counting from left: bits 16-23
+      OUTER_SET gg1 = ((Color >>  8) & 0xff) // next byte, bits 8-15
+      OUTER_SET bb1 = (Color         & 0xff) // low-order byte: bits 0-7
+      OUTER_SET NNdist = 1000000
+      OUTER_SET NNval = 0
+      OUTER_FOR (pal = 0; pal < 256; ++pal) BEGIN // Palette loop
+        OUTER_SPRINT PEone EVAL "%Palette%pal%%"
+        OUTER_SET aa2 = ((PEone >> 24) & 0xff) // high-order (leftmost) byte: bits 24-31
+        OUTER_SET rr2 = ((PEone >> 16) & 0xff) // next byte, counting from left: bits 16-23
+        OUTER_SET gg2 = ((PEone >>  8) & 0xff) // next byte, bits 8-15
+        OUTER_SET bb2 = (PEone         & 0xff) // low-order byte: bits 0-7
+        OUTER_SET dist = ((aa2 - aa1) * (aa2 - aa1) + (rr2 - rr1) * (rr2 - rr1) + (gg2 - gg1) * (gg2 - gg1) + (bb2 - bb1) * (bb2 - bb1))
+        ACTION_IF (dist < NNdist) BEGIN
+          OUTER_SET NNdist = dist
+          OUTER_SET NNval = pal
+        END
+      END
+      OUTER_SPRINT EVAL ~rdb%r2%~ ~%NNval%~ // Set the pixel to use the PaletteEntry closest to the desired color
+      OUTER_SET Success = 1
+      OUTER_SET root = dist ** (1 2)
+      PRINT @46 /* The closest color to %Color% was at PaletteEntry %NNval% at a Euclidean distance of %root%. */
+    END
+  END
+  OUTER_INNER_PATCH_SAVE Palette1 ~%Palette1%~ BEGIN
+    sz = (BUFFER_LENGTH)
+    DELETE_BYTES 0 sz
+    INSERT_BYTES 0 1024
+    FOR (pal = 0; pal < PaletteCt; ++pal) BEGIN
+      SPRINT PaletteEntry EVAL "%Palette%pal%%" // Get palette entry from LUT
+      WRITE_LONG (pal * 4) PaletteEntry
+    END
+  END
+  OUTER_INNER_PATCH_SAVE Raster1 ~%Raster1%~ BEGIN
+    sz = (BUFFER_LENGTH)
+    FOR (r1 = 0; r1 < sz; ++r1) BEGIN
+      SPRINT Pixel EVAL "%rda%r1%%" // Set pixel from LUT
+      WRITE_BYTE (r1) Pixel
+    END
+  END
+  OUTER_INNER_PATCH_SAVE Raster2 ~%Raster2%~ BEGIN
+    sz = (BUFFER_LENGTH)
+    FOR (r2 = 0; r2 < sz; ++r2) BEGIN
+      SPRINT Pixel EVAL "%rdb%r2%%" // Set pixel from LUT
+      WRITE_BYTE (r2) Pixel
+    END
+  END
+  LAF ps_RLE_frame STR_VAR Frame = EVAL "%Raster1%" RET Raster1 = RLEData END
+  LAF ps_RLE_frame STR_VAR Frame = EVAL "%Raster2%" RET Raster2 = RLEData END
+END
+
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////    ps_RLE_frame    ///////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+// This is a WeiDU action function that RLEs a bitmap frame.
+//////////////////////////////////////////////////////////////////////////////////
+DEFINE_ACTION_FUNCTION ps_RLE_frame INT_VAR RLEColorIndex = 0 MaxRLERun = 254 STR_VAR Frame = "" RET RLEData BytesSaved BEGIN
+  OUTER_INNER_PATCH z BEGIN
+    WRITE_BYTE 0 (RLEColorIndex)
+    READ_ASCII 0 RLEColorIndexII (1) //Read ASCII value of RLEColorIndex
+    WRITE_BYTE 0 (MaxRLERun)
+    READ_ASCII 0 MaxRLERunII (1) //Read ASCII value of MaxRLERun
+  END
+  OUTER_INNER_PATCH ~%Frame%~ BEGIN
+    SPRINT RLEData ~~
+    compressedCharCount = 0
+    NewBytes = 0
+    sz = (BUFFER_LENGTH)
+    FOR (b1 = 0; b1 < sz; ++b1) BEGIN
+      READ_BYTE b1 Byte
+      READ_ASCII b1 ByteII (1)
+      PATCH_IF (Byte = RLEColorIndex) BEGIN
+        compressedCharCount += 1
+        PATCH_IF (compressedCharCount > MaxRLERun) BEGIN
+          SPRINT RLEData ~%RLEData%%RLEColorIndexII%%MaxRLERunII%~
+          NewBytes += 2
+          compressedCharCount = 0
+        END
+      END ELSE BEGIN
+        PATCH_IF (compressedCharCount > 0) BEGIN
+          compressedCharCount -= 1
+          INNER_PATCH z BEGIN
+            WRITE_BYTE 0 (compressedCharCount)
+            READ_ASCII 0 compressedCharCountII (1) //Read ASCII value of compressedCharCount
+          END
+          SPRINT RLEData ~%RLEData%%RLEColorIndexII%%compressedCharCountII%~
+          NewBytes += 2
+          compressedCharCount = 0
+        END
+        SPRINT RLEData ~%RLEData%%ByteII%~
+        NewBytes += 1
+      END
+    END
+    PATCH_IF (compressedCharCount > 0) BEGIN
+      compressedCharCount -= 1
+      INNER_PATCH z BEGIN
+        WRITE_BYTE 0 (compressedCharCount)
+        READ_ASCII 0 compressedCharCountII (1) //Read ASCII value of compressedCharCount
+      END
+      SPRINT RLEData ~%RLEData%%RLEColorIndexII%%compressedCharCountII%~
+      NewBytes += 2
+    END
+    BytesSaved = (sz - NewBytes)
+  END
+END

@@ -44,6 +44,7 @@
 @43    = ~Le fichier %SOURCE_FILE% contient %fc% images (les icones de description en necessitent une seule) - Verifiez le fichier source.~
 @44    = ~Convertir des fichiers BAM d'inventaire au format EE~
 @45    = ~Fix BAMWorkshop colors~
+@46    = ~The closest color to %Color% was at PaletteEntry %NNval% at a Euclidean distance of %root%.~
 
 // WeiDU prompts
 @-1000= "Le mod %TP2_FILE_NAME% contient"

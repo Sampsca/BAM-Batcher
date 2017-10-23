@@ -44,3 +44,4 @@
 @43    = ~%SOURCE_FILE% has %fc% frames (description BAMs need 1) - check source file.~
 @44    = ~Convert inventory BAMs to EE~
 @45    = ~Fix BAMWorkshop colors~
+@46    = ~The closest color to %Color% was at PaletteEntry %NNval% at a Euclidean distance of %root%.~

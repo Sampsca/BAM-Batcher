@@ -1,6 +1,6 @@
 BACKUP ~bambatch/backup~
 AUTHOR ~http://www.shsforums.net/topic/42359-release-bam-batcher/~
-VERSION ~v2.3.2~
+VERSION ~v2.4.0~
 README ~bambatch/bambatch-readme-%LANGUAGE%.html~ ~bambatch/bambatch-readme-english.html~
 
 LANGUAGE ~English~ ~english~ ~bambatch/translations/english/setup.tra~
@@ -11,7 +11,9 @@ BEGIN @0 /* Convert BAMs to BMPs */
 SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
-COPY - ~bambatch/bam~ ~bambatch/bam~
+ACTION_BASH_FOR ~bambatch/bam~ ~^.+\.bam$~ BEGIN
+ COPY - ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
+//COPY - ~bambatch/bam~ ~bambatch/bam~
   READ_ASCII 0x0 sg (4) //Signature
   PATCH_IF (~%sg%~ STRING_EQUAL_CASE ~BAMC~ = 1) BEGIN
 	READ_LONG 0x8 dl //Uncompressed data length
@@ -144,12 +146,15 @@ COPY - ~bambatch/bam~ ~bambatch/bam~
 	
   END  // FOR
 BUT_ONLY
+END
 
 //! Convert BMPs to inventory BAMs //////////////////////////////////////////
 BEGIN @6 /* Convert BMPs to inventory BAMs */
 SUBCOMPONENT @1 /* BAM Batcher */
 NO_LOG_RECORD
 
+INCLUDE ~bambatch\lib\ps_unify_palette.tpa~
+OUTER_SET UnifyPalette = 1
 ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
   COPY - ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
     rw = 0
@@ -191,7 +196,7 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
         FOR (j1 = rh; j1 > 0; j1 -= 1) BEGIN //Row height loop
           FOR (j2 = 0; j2 < rw; j2 += 1) BEGIN //Row width loop
             READ_ASCII (fd + (j1 - 1) * (rw + df) + j2) fl (1) //Last row first
-            PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
+            PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) AND (UnifyPalette != 1) BEGIN
               tc += 1
               PATCH_IF ((j1 = 1) AND (j2 = (rw - 1))) OR (tc = 255) BEGIN
                 INNER_PATCH z BEGIN
@@ -233,7 +238,12 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
       READ_LONG 0x1e cp //Compression
       PATCH_IF (bc = 8) AND (cp = 0) BEGIN
         READ_LONG 0xa fd //Raster data offset
+        READ_LONG 0xE size //SizeOfHeader
         READ_LONG 0x12 qw //Width
+        READ_LONG 0x2E ColorsUsed //Number of colors in the image
+        PATCH_IF (ColorsUsed = 0) BEGIN
+          ColorsUsed = 256
+        END
         df = (qw / 4) * 4
         PATCH_IF df < qw BEGIN
           lz = df + 4 //Line size
@@ -245,13 +255,14 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
         sw = ((qw - 32) / 2) //Small frame formatted width
         READ_LONG 0x16 qh //Height
         sh = ((qh - 32) / 2) //Small frame formatted height
+        READ_ASCII (size+14) pt2 (ColorsUsed * 4) //Color table
         SPRINT fj ~~
         jl = 0 //Small BMP datasize
         tc = 0 //Transparency count
         FOR (k1 = qh; k1 > 0; k1 -= 1) BEGIN //Row height loop
           FOR (k2 = 0; k2 < qw; k2 += 1) BEGIN //Row width loop
             READ_ASCII (fd + (k1 - 1) * (qw + df) + k2) fl (1) //Last row first
-            PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) BEGIN
+            PATCH_IF (~%fl%~ STRING_EQUAL_CASE ~%nl%~ = 1) AND (UnifyPalette != 1) BEGIN
               tc += 1
               PATCH_IF ((k1 = 1) AND (k2 = (qw - 1))) OR (tc = 255) BEGIN
                 INNER_PATCH z BEGIN
@@ -282,6 +293,12 @@ ACTION_BASH_FOR ~bambatch/invlarge~ ~^.+\.bmp$~ BEGIN
         PATCH_PRINT @11 /* Bitmap %bf%s is not 8-bit or is compressed - check the file. */
       END
     BUT_ONLY
+    
+    ACTION_IF (UnifyPalette = 1) BEGIN
+      LAF ps_unify_palette INT_VAR FixColors = 1 ReorderReserved = 1 STR_VAR Palette1 = EVAL "%pt%" Palette2 = EVAL "%pt2%"  Raster1 = EVAL "%fk%" Raster2 = EVAL "%fj%" RET pt = Palette1 fk = Raster1 fj = Raster2 END
+      OUTER_SET kl = STRING_LENGTH ~%fk%~
+      OUTER_SET jl = STRING_LENGTH ~%fj%~
+	END
 
     COPY ~bambatch/hdr-inv.bam~ ~bambatch/bam/%bf%.bam~
       READ_LONG 0xc fn //Frame entry offset
