@@ -279,7 +279,7 @@
         <p class="about">
           <a href="http://www.shsforums.net/topic/42359-release-bam-batcher/">Forum</a> &#8226;
           <a href="https://github.com/Sampsca/BAM-Batcher/releases">Téléchargement dans GitHub</a> &#8226;
-          Version 2.3
+          Version 2.4
         </p>
         <hr>
         <p class="menu">
@@ -315,7 +315,8 @@
             <li><a href="#suba12">Établir une liste de fichiers GIF et de leur dimension.</a></li>
             <li><a href="#suba13">Changer la palette de fichiers BAM à partir d'un fichier BMP.</a></li>
             <li><a href="#suba14">Convertir des fichiers BMP en fichiers BAM de paperdoll.</a></li>
-            <li><a href="#suba15">Convertir des fichiers BAM d'inventaire au format EE</a></li>
+            <li><a href="#suba15">Convertir des fichiers BAM d'inventaire au format EE.</a></li>
+            <li><a href="#suba16">Corriger les couleurs de BAMWorkshop.</a></li>
           </ol><br>
           <p>De plus, ce mod comprend un composant supplémentaire indépendant, <a href="#moin">la Collection de BAM de Moinesse</a>, perdue depuis longtemps, avec deux options d'installation :<br><br></p>
           <ol>
@@ -364,38 +365,29 @@
             <br>
             Ce sous-composant extrait toutes les images des fichiers BAM présents dans le répertoire /bambatch/bam. Elles seront sauvegardées au format BMP dans le répertoire /bambatch/bmp. Chaque image est renommée avec pour préfixe le nom du fichier BAM d'origine suivi d'un numéro correspondant au rang de l'image dans le fichier BAM.<br>
           <em>Note du traducteur : par exemple, le fichier IMISC50.bam génère les images IMISC500.bmp et IMISC501.bmp.</em><p>
-            Vous pouvez aussi utiliser cette commande pour extraire les images BMP des BAM du jeu. Pour cela, il vous suffit de modifier la première instruction "COPY" du sous-composant (aux alentours de la ligne 14) dans le fichier setup-bambatch.tp2 :
-            <br>
-            COPY - ~bambatch/bam~ ~bambatch/bam~
           </p>
           <p>
-            Pour extraire toutes les images de l'animation d'une femme elfe barde, décommentez (désactivez) la ligne précédente (tapez // en début de ligne) et saisissez ceci juste en dessous :
-            <br>
-            COPY_EXISTING_REGEXP GLOB ~^cefb.+\.bam~ ~bambatch/bam~
-          </p>
-          <p>Il n'est sans doute pas très futé d'utiliser cette astuce pour extraire les images de nombreux fichiers BAM (comme tous les fichiers du jeu). Cependant, elle devrait fonctionner parfaitement pour extraire certains types de BAM (dont les images compressées et au codage RLE - Run-Length Encoding).</p>
-          <p>
-            <a id="suba2"></a>
+		  <a id="suba2"></a>
             <strong>2. Convertir des fichiers BMP en fichiers BAM d'icône d'inventaire d'objet.</strong>
             <br>
             Ce sous-composant assemble les fichiers BMP portant le même nom présents dans les répertoires /bambatch/invlarge et /bambatch/invsmall, puis les sauvegarde en BAM d'inventaire dans le répertoire /bambatch/bam. Les fichiers BMP <strong>doivent</strong> porter le même nom à l'exception de leur dernier caractère, qui doit être impérativement la lettre "l" pour les images des grandes icônes et "s" pour celles des petites. À titre d'exemple, consultez les répertoires adéquats (fichiers iamul01l.bmp et iamul01s.bmp). Les icônes d'inventaire sont composées de deux images : la grande icône (d'une taille maximale de 64 pixels) est centrée (à la moitié de sa largeur et de sa largeur) alors que la petite (limitée à 32 pixels) est dotée d'un pivot décalé dont la position est calculée selon le différentiel entre sa taille et le maximum de 32 pixel (en général un nombre négatif).<br>
           <em>Note du traducteur : Par exemple, une image de 28 x 28 sera positionnée aux coordonnées X = -2 Y = -2.</em></p>
           <p>
-            Les couples d'images (grande et petite) doivent aussi utiliser la même palette de 256 couleurs. Sinon, la petite icône se verra appliquer d'office la palette de la plus grande (puisqu'un fichier BAM ne comprend qu'une seule palette), ce qui peut générer résultats plutôt folkloriques.
+            À partir de la version 2.4, les couples d'images (grande et petite) n'ont plus besoin d'utiliser la même palette de 256 couleurs. Il est cependant recommandé d'utiliser un nombre maximal de couleurs aux alentours de 256, ou au moins de s'assurer que les deux images utilisent les mêmes couleurs. En effet, une fois que les 256 premières couleurs sont utilisées, les couleurs supplémentaires seront simplement réaffectées selon la méthode du "plus proche voisin" ("nearest-neighbor") à l'index d'une couleur déjà présente dans la palette. Si la palette contient les couleurs vert canard et rose bonbon pour la transparence et les ombres (comme celles définies par BAMWorkshop), ces couleurs seront automatiquement corrigées en vert plein et en noir. Après ce contrôle, les deux premières entrées de la palette (qui sont réservées aux couleurs de transparence et d'ombre) seront respectivement attribuées au vert et au noir. Tout pixel utilisant ces deux couleurs sera remappé pour utiliser ces index de la palette. Il est possible de restaurer le comportement original de ce composant en modifiant la ligne "OUTER_SET UnifyPalette = 1" en "OUTER_SET UnifyPalette = 0" dans le fichier setup-bambatch.tp2.
           </p>
           <p>
             <a id="suba3"></a>
             <strong>3. Convertir des fichiers BMP en fichiers BAM d'icône de sort.</strong>
             <br>
-            Ce sous-composant convertit les fichiers BMP contenus dans le répertoire /bambatch/spell en fichiers BAM de sorts dans le répertoire /bambatch/bam. La taille des icônes de sort est limitée à 32 pixels. Leur pivot suit les mêmes règles que celui des petites icônes d'inventaire (il est décalé du montant du différentiel entre sa taille et le maximum de 32 pixels).
+            Ce sous-composant convertit les fichiers BMP contenus dans le répertoire /bambatch/spell en fichiers BAM de sort dans le répertoire /bambatch/bam. La taille des icônes de sort est limitée à 32 pixels. Leur pivot suit les mêmes règles que celui des petites icônes d'inventaire (il est décalé du montant du différentiel entre sa taille et le maximum de 32 pixels).
           </p>
           <p>
             <a id="suba4"></a>
             <strong>4. Convertir des fichiers BMP en fichiers BAM d'icône de description d'objet.</strong>
             <br>
-            Ce sous-composant convertit les fichiers BMP présents dans le répertoire /bambatch/desc en fichiers BAM de description dans le répertoire /bambatch/bam. Les BAM de description ne s'affichent pas correctement si la largeur de leurs images source est supérieure à 166 pixels, bien qu'elle puissent être plus hautes que larges <em>(Note du traducteur : par expérience, leur hauteur maximum est d'un peu moins de 200 pixels)</em>. Elles sont centrées.
+            Ce sous-composant convertit les fichiers BMP présents dans le répertoire /bambatch/desc en fichiers BAM de description d'objet dans le répertoire /bambatch/bam. Les BAM de description d'objet ne s'affichent pas correctement si la largeur de leurs images source est supérieure à 166 pixels, bien qu'elle puissent être plus hautes que larges <em>(Note du traducteur : par expérience, leur hauteur maximum est d'un peu moins de 200 pixels)</em>. Elles sont centrées.
           </p>
-          <p>Note : Puisque les BAM de description ne possèdent qu'une seule image centrée, vous pouvez aussi utiliser cette commande pour créer des icônes d'objets au sol et bien d'autres fichiers BAM "divers. Cependant, n'utilisez pas ce composant, ni aucun autre, pour créer des BAM d'animation de créature, qui nécessitent un réglage spécifique de la position de chaque image : il faut s'assurer que les pieds de la créature soient parfaitement centrés dans le cercle de sélection.</p>
+          <p>Note : Puisque les BAM de description ne possèdent qu'une seule image centrée, vous pouvez aussi utiliser cette commande pour créer des icônes d'objets au sol et bien d'autres fichiers BAM "divers". Cependant, n'utilisez pas ce composant, ni aucun autre, pour créer des BAM d'animation de créature, qui nécessitent un réglage spécifique de la position de chaque image : il faut s'assurer que les pieds de la créature soient parfaitement centrés dans le cercle de sélection.</p>
           <p>
             <a id="suba5"></a>
             <strong>5. Régler la position des fichiers BAM d'icône d'inventaire.</strong>
@@ -412,7 +404,7 @@
             <a id="suba7"></a>
             <strong>7. Régler la position des fichiers BAM d'icône de description d'objet.</strong>
             <br>
-           Ce sous-composant permet de régler la position des images des fichiers BAM de description, d'objet au sol ou divers présents dans le répertoire /bambatch/bam dont les coordonnées de position X et Y ne sont pas correctement définies (comme indiqué plus haut dans le sous-composant 4). Vous n'aurez pas besoin de l'utiliser si vous avez créé vos BAM avec le sous-composant 4 précédent, qui fixe correctement la position des images.
+           Ce sous-composant permet de régler la position des images des fichiers BAM de description d'objet, d'objet au sol, ou divers, présents dans le répertoire /bambatch/bam dont les coordonnées de position X et Y ne sont pas correctement définies (comme indiqué plus haut dans le sous-composant 4). Vous n'aurez pas besoin de l'utiliser si vous avez créé vos BAM avec le sous-composant 4 précédent, qui fixe correctement la position des images.
           </p>
           <p>Note : L'algorithme de formatage ne fonctionnera pas parfaitement si vous utilisez des BAM de description composées de quatre images (comme celles de BG1). Dans ce cas, vous devrez alors saisir manuellement ces coordonnées, comme ceci :</p>
           <div class="indent">
@@ -457,7 +449,7 @@
             <a id="suba13"></a>
             <strong>13. Changer la palette de fichiers BAM à partir d'un fichier BMP.</strong>
             <br>
-            Ce sous-composant change la palette des fichiers BAM présents dans le répertoire /bambatch/bam en utilisant les palettes des fichiers BMP (format 8-bit, 256-color) du répertoire /bambatch/palette. Le nom des fichiers BMP doit correspondre aux six (6) premiers caractères du(des) fichier(s) BAM dont vous voulez modifier la palette. Par exemple, pour les fichiers MBERG1.bam et MBERG1E.bam du répertoire /bambatch/bam, vous devez placer le fichier MBERG1.bmp dans le répertoire /bambatch/palette. Les fichiers BAM d'origine seront remplacés.
+            Ce sous-composant change la palette des fichiers BAM présents dans le répertoire /bambatch/bam en utilisant les palettes des fichiers BMP (format 8-bit, 256 couleurs) du répertoire /bambatch/palette. Le nom des fichiers BMP doit correspondre aux six (6) premiers caractères du(des) fichier(s) BAM dont vous voulez modifier la palette. Par exemple, pour les fichiers MBERG1.bam et MBERG1E.bam du répertoire /bambatch/bam, vous devez placer le fichier MBERG1.bmp dans le répertoire /bambatch/palette. Les fichiers BAM d'origine seront remplacés.
           </p>
           <p>
             <a id="suba14"></a>
@@ -471,7 +463,12 @@
             <br>
             Ce sous-composant permet de modifier les fichiers BAM d'icônes d'inventaire présents dans le répertoire /bambatch/bam afin que les jeux améliorés (EE) affichent à la fois leurs grandes et leurs petites icônes. Ces fichiers doivent impérativement comporter deux séquences, la première représentant la grande icône et la seconde la petite. Les fichiers BAM répondant à ces caractéristiques sont modifiés et sauvegardés dans le répertoire /bambatch/bam, écrasant les originaux. Au besoin, vous pouvez récupérer les fichiers originaux dans le sous-répertoire backup.
           </p>
-		  <br>
+          <p>
+            <a id="suba16"></a>
+            <strong>16. Corriger les couleurs de BAMWorkshop.</strong>
+            <br>
+            Ce sous-composant permet de modifier les couleurs de transparence (vert canard) et d'ombre (rose) utilisées par BAMWorkshop de tous les fichiers BAM présents dans le répertoire /bambatch/bam en vert plein et noir, couleurs utilisées par le moteur du jeu.
+          </p>
           <h3>
             <a id="moin"></a>
             La Collection de BAM de Moinesse
@@ -489,7 +486,7 @@
             Cette option d'installation copie tous les fichiers BAM du répertoire /bambatch/moinbam dans le répertoire /override de votre jeu. De plus, pour vous permettre de juger du rendu visuel de ces icônes dans le jeu, elle crée dans le répertoire /override des clones d'objets du jeu dotés de ces fichiers BAM et les ajoute au stock d'une boutique. Dans Tutu, il s'agit de l'Auverge de Château-Suif (_inn2616.sto). Dans BG2 et BGT, c'est l'échoppe de Mira (shop01.sto), la marchande située à l'est du Chapiteau sur la Promenade de Waukyne.
             <br>
             <br>
-            Bien entendu, il est préférable de ne pas installer ce composant et de créer vos propres objets en utilisant les fichiers BAM de Moinesse que vous saisirez dans le champ "Icône d'inventaire" des fichiers ITM (référence hex 0x3a). Ensuite, vous pourrez installer ces objets à l'aide de votre propre mod. À titre d'exemple, veuillez jeter un coup d'œil au fichier setup-sample.tp2 dans le répertoire /bambatch/tools.
+            Bien entendu, il est préférable de ne pas installer ce composant et de créer vos propres objets en utilisant les fichiers BAM de Moinesse que vous saisirez dans le champ "Icône d'inventaire" des fichiers ITM (référence hex 0x3a). Vous pourrez ensuite installer ces objets à l'aide de votre propre mod. À titre d'exemple, veuillez jeter un coup d'œil au fichier setup-sample.tp2 dans le répertoire /bambatch/tools.
             <br>
             <br>
             Vous pouvez consulter la liste des 179 fichiers BAM et leurs images <a href="#bams">ci-dessous</a>.
@@ -506,9 +503,9 @@
           </p>
           <div class="indent">
             <p>
-            BGDesc1.PspPalette : une palette standard pour les fichiers BAM de description.<br>
+            BGDesc1.PspPalette : une palette standard pour les fichiers BAM de description d'objet.<br>
             BGDesc2.PspPalette : une version quelque peu modifiée de la précédente.<br>
-            BGDesc3.PspPalette : une palette un peu plus subtile et plus sombre pour les BAM de description.<br>
+            BGDesc3.PspPalette : une palette un peu plus subtile et plus sombre pour les BAM de description d'objet.<br>
             BGIcons.PspPalette : une palette standard pour les BAM d'inventaire (utilisée par Moinesse et d'autres).<br>
             BGScrollBlue.PspPalette : une palette pour créer des icônes de parchemin bleues.<br>
             BGScrollRed.PspPalette : une palette pour créer des icônes de parchemin rouges.<br>
@@ -543,7 +540,7 @@
               Brun : proche de la couleur par défaut du fond de l'écran d'inventaire.<br>
               Bronze cuivré : proche de la couleur par défaut du fond de l'écran de description.<br>
               Noir (presque plein) : proche de la couleur de l'ombre des grandes icônes d'inventaire..<br>
-              Rose : la couleur d'ombre bâclée de BAM Workshop BAM Workshop.<br>
+              Rose : la couleur d'ombre bâclée de BAM Workshop.<br>
               Cyan : la couleur du contour des icônes d'objet au sol.<br>
               Bleu canard : la couleur de transparence de BAM Workshop.<br>
               Vert : la couleur de transparence par défaut du jeu.<br>
@@ -589,7 +586,7 @@
             <br>
             <strong>Q : Comment puis-je convertir des images d'un format à un autre ?</strong>
             <br>
-            R : Vous souhaitez convertir vos fichiers GIF en BMP, ou sauvegarder cos fichiers BMP dans un format compatible avec la création de BAM. Ou bien vous souhaitez convertir vos fichiers BMP en GIF pour les afficher dans internet. La plupart des logiciels d'édition graphique gèrent ce type d'opérations en mode de traitement par lots.
+            R : Vous souhaitez convertir vos fichiers GIF en BMP, ou sauvegarder vos fichiers BMP dans un format compatible avec la création de BAM. Ou bien vous souhaitez convertir vos fichiers BMP en GIF pour les afficher sur internet. La plupart des logiciels d'édition graphique gèrent ce type d'opérations en mode de traitement par lots.
             <br>
             <br>
             <em>Note du traducteur : Ne disposant pas de Paint Shop Pro, j'ai conservé les termes anglais des menus. Si vous travaillez sur ce logiciel, n'hésitez pas à me communiquer ces termes afin que je mette à jour cette traduction.</em>
@@ -597,7 +594,7 @@
             <br>
             <em>Avec Paint Shop Pro</em>
             <br>
-            Allez dans le menu File > Batch Process, sélectionner tous les fichiers GIF d'un répertoire. Puis choisissez "New Type" dans l'option Save Mode et BMP comme "Type" dans l'option Save Options, puis indiquez le répertoire dans lequel vous souhaitez sauvegarder les fichiers convertis. Pour les fichiers BMP, assurez-vous que les Options sont paramétrées sur RGB coding (par défaut dans la plupart des logiciels) plutôt que sur Run length encoding.
+            Allez dans le menu File > Batch Process, sélectionnez tous les fichiers GIF d'un répertoire. Puis choisissez "New Type" dans l'option Save Mode et BMP comme "Type" dans l'option Save Options, puis indiquez le répertoire dans lequel vous souhaitez sauvegarder les fichiers convertis. Pour les fichiers BMP, assurez-vous que les Options sont paramétrées sur RGB coding (par défaut dans la plupart des logiciels) plutôt que sur Run length encoding.
             <br>
             <br>
             <em>Avec Photoshop</em><br>
@@ -639,13 +636,13 @@
             <br>
             <strong>Q : Puis-je utiliser un fond d'image qui ressemble à celui du jeu, comme celui des icônes affichées plus bas ?</strong>
             <br>
-            R : Oui. il vous suffit de décommenter une ligne du fichier .tp2 (aux alentours de la ligne 131). Sinon, l'outil attribue par défaut au fond des fichiers BMP exportés la couleur de transparence du jeu (un vert flashy).
+            R : Oui. il vous suffit de décommenter une ligne du fichier .tp2 (aux alentours de la ligne 133). Sinon, l'outil attribue par défaut la couleur de transparence du jeu (un vert flashy) au fond des fichiers BMP exportés.
           </p>
           <p>
             <br>
             <strong>Q : Pourquoi la conversion de certains fichiers est-elle si longue ?</strong>
             <br>
-            R : Cela arrive parfois avec des BAM encodés au format RLE (Run-Length Encoding) ou des images BMP contenant de trop nombreux pixels transparents. C'est pourquoi vous devez rogner vos images BMP aussi près que possible des bords de l'image réelle en éliminant les pixels de fond superflus. Vos fichiers seront plus petits et convertis plus rapidement sans perte de données. Ça ne pose généralement pas de problème pour la plupart des BAM du jeu qui ont été créés de cette manière par défaut.
+            R : Cela arrive parfois avec des BAM encodés au format RLE (Run-Length Encoding) ou des images BMP contenant de trop nombreux pixels transparents. C'est pourquoi vous devez rogner vos images BMP aussi près que possible des bords de l'image réelle en éliminant les pixels de fond superflus. Vos fichiers seront plus petits et convertis plus rapidement sans perte de données. Ça ne pose généralement pas de problème pour la plupart des fichiers BAM du jeu qui ont été créés de cette manière par défaut.
           </p>
           <p>
             <br>
@@ -657,7 +654,7 @@
             <br>
             <strong>Q : Que faire en cas de message d'erreur ?</strong>
             <br>
-            R : Assurez-vous d'avoir bien suivi les instructions relatives à l'opération que vous souhaitez faire. Si le problème persiste, ouvrez le fichier .tp2 avec un éditeur de texte, corrigez le code et envoyez-moi vos corrections ;). Oh, okay &hellip; Si vous ne savez pas comment modifier le code, postez le message d'erreur et le fichier source sur lequel vous travaillez dans le forum shsforums.net.
+            R : Assurez-vous d'avoir bien suivi les instructions relatives à l'opération que vous souhaitez faire. Si le problème persiste, ouvrez le fichier .tp2 avec un éditeur de texte, corrigez le code et envoyez-moi vos corrections ;). Oh, okay &hellip; Si vous ne savez pas comment modifier le code, postez dans le forum shsforums.net le message d'erreur et le fichier source sur lequel vous travaillez.
           </p>
           <p>
             <br>
@@ -1191,6 +1188,14 @@
         <a id="version"></a>
         <div class="content">
           <h2>Historique des versions</h2>
+          <h6>Version 2.4: 22 Octobre 2017</h6>
+          <ul>
+            <li>Modification du composant "Convertir des fichiers BMP en fichiers BAM d'icône d'inventaire d'objet" qui ne nécessite plus des palettes de couleurs identiques pour la petite et la grande image.</li>
+            <li>Modification du composant "Convertir des fichiers BAM en BMP" pour traiter correctement les BAM multiples.</li>
+            <li>Ajout du composant "Corriger les couleurs de BAMWorkshop".</li>
+            <li>Correction du composant "Convertir des fichiers BMP en fichiers BAM d'icône de description d'objet" pour traiter correctement plusieurs images à la fois.</li>
+            <li>Mise à jour du fichier Readme.</li>
+          </ul>
           <h6>Version 2.3 : 30 Juin 2017</h6>
           <ul>
             <li>Traification du setup-bambatch.tp2.</li>
